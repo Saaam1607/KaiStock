@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 
 import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -12,35 +13,33 @@ export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <View
-       style={styles.mainContainer}
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Magazzino</ThemedText>
-      </ThemedView>
-
-      <View
-        style={styles.buttonContainer}
-      >
-        <IconButton
-          text={"Registro Prodotti"}
-          iconName={"book"}
-          onPress={() => router.push('/(tabs)/warehouse/products')}
-        />
-        
-        <IconButton
-          text={"Inventario"}
-          iconName={"clipboard"}
-          onPress={() => router.push('/(tabs)/warehouse/inventory')}
-        />
-      </View>
-
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1, gap: 20, }}>
+        <ThemedView style={styles.mainContainer}>
+          <View style={styles.titleContainer}>
+            <ThemedText type="title">Magazzino</ThemedText>
+          </View>
+          <View
+            style={styles.buttonContainer}
+          >
+            <IconButton
+              text={"Registro Prodotti"}
+              iconName={"book"}
+              onPress={() => router.push('/(tabs)/warehouse/products')}
+            />
+            <IconButton
+              text={"Inventario"}
+              iconName={"clipboard"}
+              onPress={() => router.push('/(tabs)/warehouse/inventory')}
+            />
+          </View>
+        </ThemedView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  
   mainContainer: {
     flex: 1,
     gap: 20,
@@ -56,6 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 20,
     paddingHorizontal: 20,
+    justifyContent: 'center',
   }
-
 });
