@@ -30,7 +30,7 @@ export function ItemModal<T>({ modalVisible, modalTitle, item, okText, notOkText
       onRequestClose={() => onNotOk()}
     >
       <View style={styles.overlay}>
-        <SafeAreaView style={styles.modalView}>
+        <View style={styles.modalView}>
           
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>{modalTitle}</Text>
@@ -42,7 +42,9 @@ export function ItemModal<T>({ modalVisible, modalTitle, item, okText, notOkText
             />
           </View>
 
-          {children}
+          <View style={styles.modalBody}>
+            {children}
+          </View>
 
           <View style={styles.modalButtons}>
             <Pressable style={[styles.button, styles.buttonCancel]} onPress={() => onNotOk()}>
@@ -53,7 +55,7 @@ export function ItemModal<T>({ modalVisible, modalTitle, item, okText, notOkText
             </Pressable>
           </View>
 
-        </SafeAreaView>
+        </View>
       </View>
     </Modal>
   );
@@ -61,6 +63,7 @@ export function ItemModal<T>({ modalVisible, modalTitle, item, okText, notOkText
 
 const styles = StyleSheet.create({
   overlay: {
+    maxHeight: '98%',
     position: 'absolute',
     top: 0,
     left: 0,
@@ -75,14 +78,19 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 20,
     gap: 12,
-    alignItems: 'center',
     elevation: 5,
+    height: '100%',
   },
   modalHeader: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  modalBody: {
+    width: '100%',
+    height: 200,
+    flex: 1, 
   },
   modalTitle: {
     fontSize: 20,
