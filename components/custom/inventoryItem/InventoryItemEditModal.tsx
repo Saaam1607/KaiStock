@@ -8,6 +8,7 @@ import type { InventoryItem } from '@/types/InventoryItem';
 import { inventoryItems } from '@/types/inventoryItems';
 
 import { InventoryItemCardSmall } from './InventoryItemCardSmall';
+// import { DateInput } from '../custom/DateInput';
 
 type InventoryItemEditModalProps = {
   modalVisible: boolean;
@@ -23,6 +24,7 @@ export function InventoryItemEditModal({ modalVisible, setModalVisible, inventor
   const [oldItem] = useState<InventoryItem>(inventoryItem);
 
   const [movementName, setMovementName] = useState<string>("");
+  const [movementDate, setMovementDate] = useState(new Date(1598051730000));
 
   const handleSave = () => {
     onSave(editedItem);
@@ -45,14 +47,6 @@ export function InventoryItemEditModal({ modalVisible, setModalVisible, inventor
       onNotOk={handleDiscard}
     >
       <View style={styles.form}>
-
-        <Text style={styles.label}>Movimento</Text>
-        <TextInput
-          style={styles.input}
-          value={movementName}
-          onChangeText={text => setMovementName(text)}
-        />
-
         <FlatList
           data={inventoryItems}
           keyExtractor={(item) => item.product_id}
@@ -61,14 +55,30 @@ export function InventoryItemEditModal({ modalVisible, setModalVisible, inventor
               inventoryItem={item}
             />
           )}
-          contentContainerStyle={{ padding: 16 }}
+          ListHeaderComponent={
+            <View style={{ marginBottom: 20 }}>
+              <Text style={styles.label}>Movimento</Text>
+              <TextInput
+                style={styles.input}
+                value={movementName}
+                onChangeText={text => setMovementName(text)}
+              />
+              <Text style={styles.label}>Data</Text>
+              {/* <TextInput
+                style={styles.input}
+                value={movementDate}
+                onChangeText={setMovementDate}
+                keyboardType="numeric"
+                placeholder="DD/MM/YYYY"
+                maxLength={10}
+              />
+              <DateInput
+                date={movementDate}
+                setDate={setMovementDate}
+              /> */}
+            </View>
+          }
         />
-
-        {/* <ProductForm
-          product={editedProduct}
-          setProduct={setEditedProduct}
-          oldProduct={oldProduct}
-        /> */}
       </View>
     </ItemModal>
   );
@@ -76,9 +86,10 @@ export function InventoryItemEditModal({ modalVisible, setModalVisible, inventor
 
 const styles = StyleSheet.create({
   form: {
+    flex: 1,
     width: '100%',
-    gap: 10,
-    marginTop: 10,
+    height: '100%',
+    gap: 10
   },
   label: {
     fontWeight: 'bold',

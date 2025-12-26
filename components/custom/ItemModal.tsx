@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
-    width: '80%',
+    width: '90%',
     backgroundColor: 'white',
     borderRadius: 12,
     padding: 20,
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
   modalBody: {
     width: '100%',
     height: 200,
-    flex: 1, 
+    flex: 1,
   },
   modalTitle: {
     fontSize: 20,

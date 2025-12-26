@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { InventoryItem } from '@/types/InventoryItem';
 
@@ -15,17 +15,24 @@ type InventoryItemCardSmallProps = {
 const firstInputDelay = 300;
 const continuousInputDelay = 200;
 
+const defaultIconSize = 60;
+const IconSizeScaleIncrement = 1.25;
+const IconSizeLarge = IconSizeScaleIncrement * defaultIconSize;
+
+const iconAnimationDuration = 100; 
+
 export function InventoryItemCardSmall({ inventoryItem }: InventoryItemCardSmallProps) {
 
   const [deltaQuantity, setDeltaQuantity] = useState(0);
-  const [inputDelay, setInputDelay] = useState(firstInputDelay);
 
-  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const minusScale = useRef(new Animated.Value(1)).current;
+  const plusScale = useRef(new Animated.Value(1)).current;
 
 
   const product = products.find(p => p.id === inventoryItem.product_id);
-
-
 
   function addQuantity(delta = 1) {
     setDeltaQuantity(q => q + delta);
@@ -35,38 +42,74 @@ export function InventoryItemCardSmall({ inventoryItem }: InventoryItemCardSmall
     setDeltaQuantity(q => q - delta);
   }
 
-  function startAdding() {
-    addQuantity(1);
-    intervalRef.current = setTimeout(() => {
-      intervalRef.current = setInterval(() => {
-        addQuantity(1);
-      }, continuousInputDelay);
-    }, firstInputDelay);
-  }
+  function stopAll() {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
 
-  function stopAdding() {
     if (intervalRef.current) {
-      clearTimeout(intervalRef.current);
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
+  }
+
+  function startAdding() {
+    stopAll();
+
+    addQuantity(1);
+    animatePlus();
+
+    timeoutRef.current = setTimeout(() => {
+      intervalRef.current = setInterval(() => {
+        addQuantity(1);
+        animatePlus();
+      }, continuousInputDelay);
+    }, firstInputDelay);
   }
 
   function startRemoving() {
+    stopAll();
+
     removeQuantity(1);
-    intervalRef.current = setTimeout(() => {
+    animateMinus();
+
+    timeoutRef.current = setTimeout(() => {
       intervalRef.current = setInterval(() => {
         removeQuantity(1);
+        animateMinus();
       }, continuousInputDelay);
     }, firstInputDelay);
   }
 
-  function stopRemoving() {
-    if (intervalRef.current) {
-      clearTimeout(intervalRef.current);
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
+  function animateMinus() {
+    Animated.sequence([
+      Animated.timing(minusScale, {
+        toValue: IconSizeScaleIncrement,
+        duration: iconAnimationDuration,
+        useNativeDriver: true,
+      }),
+      Animated.timing(minusScale, {
+        toValue: 1,
+        duration: iconAnimationDuration,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }
+
+    function animatePlus() {
+    Animated.sequence([
+      Animated.timing(plusScale, {
+        toValue: IconSizeScaleIncrement,
+        duration: iconAnimationDuration,
+        useNativeDriver: true,
+      }),
+      Animated.timing(plusScale, {
+        toValue: 1,
+        duration: iconAnimationDuration,
+        useNativeDriver: true,
+      }),
+    ]).start();
   }
 
   return (
@@ -86,30 +129,51 @@ export function InventoryItemCardSmall({ inventoryItem }: InventoryItemCardSmall
       </View>
 
       <View style={containerStyles.quantityButtons}>
+        <View style={containerStyles.iconButtonView}>
+          <Pressable
+            style={containerStyles.iconButtonPressable}
+            onPressIn={startRemoving}
+            onPressOut={stopAll}
+            onTouchCancel={stopAll}
+          >
+            <Animated.View style={{ transform: [{ scale: minusScale }] }}>
+              <Ionicons
+                name="remove-circle-sharp"
+                size={defaultIconSize}
+                color="red"
+              />
+            </Animated.View>
+          </Pressable>
+        </View>
 
-        <Pressable
-          onPressIn={startRemoving}
-          onPressOut={stopRemoving}
-        >
-          <Ionicons
-            name="remove-circle-sharp"
-            size={60}
-            color="red"
-          />
-        </Pressable>
-        <Text style={styles.name}>
-          {deltaQuantity >= 0 ? `+${Math.abs(deltaQuantity)}` : `-${Math.abs(deltaQuantity)}`}
-        </Text>
-        <Pressable
-          onPressIn={startAdding}
-          onPressOut={stopAdding}
-        >
-          <Ionicons
-            name="add-circle-sharp"
-            size={60}
-            color="green"
-          />
-        </Pressable>
+        <View style={containerStyles.quantity}>
+          <Text
+            style={[
+              styles.delta_quantity,
+              deltaQuantity > 0 && styles.green,
+              deltaQuantity < 0 && styles.red,
+            ]}
+          >
+            {deltaQuantity >= 0 ? `+${Math.abs(deltaQuantity)}` : `-${Math.abs(deltaQuantity)}`}
+          </Text>
+        </View>
+
+        <View style={containerStyles.iconButtonView}>
+          <Pressable
+            style={containerStyles.iconButtonPressable}
+            onPressIn={startAdding}
+            onPressOut={stopAll}
+            onTouchCancel={stopAll}
+          >
+            <Animated.View style={{ transform: [{ scale: plusScale }] }}>
+              <Ionicons
+                name="add-circle-sharp"
+                size={defaultIconSize}
+                color="green"
+              />
+            </Animated.View>
+          </Pressable>
+        </View>
 
       </View>
     </View>
@@ -143,11 +207,23 @@ const containerStyles = StyleSheet.create({
     gap: 10,
   },
   quantityButtons: {
-    width: 200,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  iconButtonView: {
+    width: IconSizeLarge,
+    height: IconSizeLarge,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconButtonPressable: {
+  },
+  quantity: {
+    width: 75,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 const styles = StyleSheet.create({
@@ -172,4 +248,16 @@ const styles = StyleSheet.create({
   },
   quantity_small: {
   },
+  delta_quantity: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: 'black',
+  },
+  green: {
+    color: 'green',
+  },
+  red: {
+    color: 'red',
+  }
+
 });
