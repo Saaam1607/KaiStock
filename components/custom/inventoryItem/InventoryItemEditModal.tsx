@@ -8,7 +8,7 @@ import type { InventoryItem } from '@/types/InventoryItem';
 import { inventoryItems } from '@/types/inventoryItems';
 
 import { InventoryItemCardSmall } from './InventoryItemCardSmall';
-// import { DateInput } from '../custom/DateInput';
+import DateInput from '../DateInput';
 
 type InventoryItemEditModalProps = {
   modalVisible: boolean;
@@ -39,9 +39,9 @@ export function InventoryItemEditModal({ modalVisible, setModalVisible, inventor
   return (
     <ItemModal
       modalVisible={modalVisible}
-      modalTitle="Modifica quantità"
+      modalTitle="Aggiorna Inventario"
       item={editedItem}
-      okText="Salva"
+      okText="Crea"
       notOkText="Annulla"
       onOk={handleSave}
       onNotOk={handleDiscard}
@@ -63,7 +63,6 @@ export function InventoryItemEditModal({ modalVisible, setModalVisible, inventor
                 value={movementName}
                 onChangeText={text => setMovementName(text)}
               />
-              <Text style={styles.label}>Data</Text>
               {/* <TextInput
                 style={styles.input}
                 value={movementDate}
@@ -71,11 +70,11 @@ export function InventoryItemEditModal({ modalVisible, setModalVisible, inventor
                 keyboardType="numeric"
                 placeholder="DD/MM/YYYY"
                 maxLength={10}
-              />
+              /> */}
               <DateInput
                 date={movementDate}
                 setDate={setMovementDate}
-              /> */}
+              />
             </View>
           }
         />

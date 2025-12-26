@@ -14,11 +14,17 @@ export default function IconTextButton({
 }: IconTextButtonProps) {
 
   return (
-    <TouchableHighlight onPress={onPress}>
+    <TouchableHighlight
+      onPress={onPress}
+      underlayColor="transparent"
+      style={{
+        width: '45%',
+      }}
+    >
       <View
         style={styles.button}
       >
-        <Ionicons name={iconName as any} size={32} color="white" />
+        <Ionicons name={iconName as any} size={60} color="white" />
         <Text style={styles.text}>{text}</Text>
       </View>
     </TouchableHighlight>
@@ -27,14 +33,16 @@ export default function IconTextButton({
 
 const styles = StyleSheet.create({
   button: {
-    flexDirection: 'row', 
+    // flexDirection: 'row', 
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#841584',
-    gap: 10,
+    // gap: 10,
     paddingVertical: 10,
     paddingHorizontal: 16,
-    borderRadius: 8,
+    borderRadius: 10,
+    width: '100%',
+    height: 200,
   },
   text: {
     color: 'white',

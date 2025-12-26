@@ -19,19 +19,26 @@ export default function HomeScreen() {
           <View style={styles.titleContainer}>
             <ThemedText type="title">Magazzino</ThemedText>
           </View>
-          <View
-            style={styles.buttonContainer}
-          >
-            <IconButton
-              text={"Registro Prodotti"}
-              iconName={"book"}
-              onPress={() => router.push('/(tabs)/warehouse/products')}
-            />
-            <IconButton
-              text={"Inventario"}
-              iconName={"clipboard"}
-              onPress={() => router.push('/(tabs)/warehouse/inventory')}
-            />
+          <View>
+            <View style={styles.buttonContainer}>
+              <IconButton
+                text={"Registro Prodotti"}
+                iconName={"book"}
+                onPress={() => router.push('/(tabs)/warehouse/products')}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <IconButton
+                text={"Inventario"}
+                iconName={"clipboard"}
+                onPress={() => router.push('/(tabs)/warehouse/inventory')}
+              />
+              <IconButton
+                text={"Storico Inventario"}
+                iconName={"time"}
+                onPress={() => router.push('/(tabs)/warehouse/inventory')}
+              />
+            </View>
           </View>
         </ThemedView>
       </SafeAreaView>
@@ -52,9 +59,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   buttonContainer: {
-    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 20,
-    paddingHorizontal: 20,
+    marginBottom: 20,
     justifyContent: 'center',
-  }
+  },
 });

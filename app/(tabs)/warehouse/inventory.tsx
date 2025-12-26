@@ -41,15 +41,6 @@ export default function Inventory() {
     setQuantityEditModalVisible(true);
   }
 
-  // function stopEditing() {
-  //   setEditingItemId(null);
-  // }
-
-  // function startCreatingNewItem() {
-  //   setProduct(initProduct);
-  //   setItemCreateModalVisible(true);
-  // }
-
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1, gap: 20, }}>
@@ -79,25 +70,6 @@ export default function Inventory() {
             </>
           )}
         
-          {/*
-          {itemEditModalVisible && product && (
-            <>
-              <View style={styles.overlay} />
-
-              <ProductEditModal
-                modalVisible={itemEditModalVisible}
-                setModalVisible={setItemEditModalVisible}
-                product={product}
-                onSave={(updatedProduct: Product) => {
-                  setSnackbarVisible(true);
-                }}
-                onDiscard={() => {
-                  stopEditing();
-                }}
-              />
-            </>
-          )} */}
-
           <ThemedView
             style={styles.titleContainer}
           >
@@ -149,7 +121,7 @@ export default function Inventory() {
             duration={5000}
             style={{ zIndex: 600 }}
           >
-            Prodotto salvato con successo
+            Inventario aggiornato con successo
           </Snackbar>
 
         </ThemedView>
