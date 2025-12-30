@@ -1,11 +1,11 @@
 import { useRouter } from 'expo-router';
 
 import { StyleSheet, View } from 'react-native';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
+import { Header } from '@/components/custom/Header';
 import IconButton from '@/components/custom/IconTextButton';
 
 export default function HomeScreen() {
@@ -16,15 +16,34 @@ export default function HomeScreen() {
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1, gap: 20, }}>
         <ThemedView style={styles.mainContainer}>
-          <View style={styles.titleContainer}>
-            <ThemedText type="title">Magazzino</ThemedText>
-          </View>
+
+          <Header text="Magazzino" />
+
           <View>
             <View style={styles.buttonContainer}>
               <IconButton
                 text={"Registro Prodotti"}
                 iconName={"book"}
                 onPress={() => router.push('/(tabs)/warehouse/products')}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <IconButton
+                text={"Produci"}
+                iconName={"construct-sharp"}
+                onPress={() => router.push('/(tabs)/warehouse/produce')}
+              />
+            </View>
+            <View style={styles.buttonContainer}>
+              <IconButton
+                text={"Riserva"}
+                iconName={"bag-sharp"}
+                onPress={() => router.push('/(tabs)/warehouse/orders')}
+              />
+              <IconButton
+                text={"Vendi"}
+                iconName={"bag-check-sharp"}
+                onPress={() => router.push('/(tabs)/warehouse/orders')}
               />
             </View>
             <View style={styles.buttonContainer}>
@@ -50,13 +69,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     gap: 20,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 10,
   },
   buttonContainer: {
     width: '100%',

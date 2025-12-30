@@ -14,6 +14,8 @@ import IconButton from '@/components/custom/IconButton';
 
 import type { Product } from '@/types/Product';
 import { initProduct } from '@/types/Product';
+import type { Production } from '@/types/Production';
+import { initProduction } from '@/types/Production';
 
 
 import { EditModal } from '@/components/custom/EditModal';
@@ -23,21 +25,22 @@ import { ProductEditModal } from '@/components/custom/product/ProductEditModal';
 import { SearchBar } from '@/components/custom/SearchBar';
 import { Header } from '@/components/custom/Header';
 
+import ProduceForm from '@/components/custom/produce/ProduceForm';
+
 import { products } from '@/types/products';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function Products() {
+export default function Produce() {
   
   const router = useRouter();
 
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
-  const [editModalVisible, setEditModalVisible] = useState(false);
-  const [itemEditModalVisible, setItemEditModalVisible] = useState(false);
-  const [itemCreateModalVisible, setItemCreateModalVisible] = useState(false);
 
   const [snackbarVisible, setSnackbarVisible] = useState(false);
 
   const [product, setProduct] = useState<Product>(products.find(item => item.id === editingItemId) ?? initProduct);
+
+  const [newProduction, setNewProduction] = useState<Production>(initProduction);
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>(products);
   const [searchText, setSearchText] = useState('');
@@ -48,74 +51,18 @@ export default function Products() {
       setProductsToDisplay(products.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())));
     }, 250);
   }, [searchText]);
-  
-  function startEditingItem(itemId: string) {
-    setProduct(productsToDisplay.find(item => item.id === itemId) ?? initProduct);
-    setEditingItemId(itemId);
-    setItemEditModalVisible(true);
-  }
-
-  function stopEditing() {
-    setEditingItemId(null);
-  }
-
-  function startCreatingNewItem() {
-    setProduct(initProduct);
-    setItemCreateModalVisible(true);
-  }
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1, gap: 20, }}>
         <ThemedView style={{ flex: 1 }}>
 
-          {editModalVisible && (
-            <View style={styles.overlay} />
-          )}
-          <EditModal
-            modalVisible={editModalVisible}
-            setModalVisible={setEditModalVisible}
-          />
-
-          {itemCreateModalVisible && (
-            <>
-              <View style={styles.overlay} />
-
-              <ProductCreateModal
-                modalVisible={itemCreateModalVisible}
-                setModalVisible={setItemCreateModalVisible}
-                product={product}
-                onSave={(updatedProduct: Product) => {
-                  setSnackbarVisible(true);
-                }}
-              />
-            </>
-          )}
-
-          {itemEditModalVisible && product && (
-            <>
-              <View style={styles.overlay} />
-
-              <ProductEditModal
-                modalVisible={itemEditModalVisible}
-                setModalVisible={setItemEditModalVisible}
-                product={product}
-                onSave={(updatedProduct: Product) => {
-                  setSnackbarVisible(true);
-                }}
-                onDiscard={() => {
-                  stopEditing();
-                }}
-              />
-            </>
-          )}
-
           <Header
-            text="Prodotti"
+            text="Produci"
             leftIconName="chevron-back-circle-outline"
             leftIconPress={() => router.back()}
             rightIconName="add-circle-outline"
-            rightIconPress={() => startCreatingNewItem()}
+            rightIconPress={() => router.back()}
           />
 
           <View
@@ -160,17 +107,7 @@ export default function Products() {
           <View
             style={styles.bodyContainer}
           >
-            <FlatList
-              data={productsToDisplay}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <ProductCard
-                  product={item}
-                  startEditingItem={startEditingItem}
-                />
-              )}
-              contentContainerStyle={{ padding: 16 }}
-            />
+            <ProduceForm production={newProduction} setProduction={setNewProduction} />
           </View>
 
           <Snackbar

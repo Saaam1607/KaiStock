@@ -38,9 +38,7 @@ export function InventoryItemCard({ inventoryItem, startEditingItem }: Inventory
       </View>
 
       <View style={containerStyles.cardButtons}>
-
         <Text style={styles.quantity}>{inventoryItem.quantity}</Text>
-
       </View>
     </View>
   );
