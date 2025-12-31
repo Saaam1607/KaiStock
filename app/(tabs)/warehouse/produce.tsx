@@ -161,5 +161,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 20,
     paddingHorizontal: 20,
+    paddingVertical: 10,
   }
 });

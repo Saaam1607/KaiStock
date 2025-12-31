@@ -1,10 +1,14 @@
-import { Product } from "./Product";
+
+export type ProductionBodyItem = {
+  product_id: string;
+  quantity: number;
+}
 
 export type Production = {
   id: string;
   title: string;
   notes: string;
-  body: { product: Product, quantity: number }[],
+  body: ProductionBodyItem[],
   date: Date;
 };
 
