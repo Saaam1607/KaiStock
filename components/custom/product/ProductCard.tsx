@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     minHeight: 130,
     backgroundColor: '#f0f0f0',
     borderRadius: 20,
-    marginBottom: 12,
     overflow: 'hidden',
     position: 'relative',
     flexDirection: 'column',

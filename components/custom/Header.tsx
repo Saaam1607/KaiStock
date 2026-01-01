@@ -48,8 +48,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: 8,
-    paddingHorizontal: 20,
-    height: 70,
   },
   title: {
     fontWeight: 'bold',

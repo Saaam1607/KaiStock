@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 10,
     width: '100%',
-    height: 200,
+    height: 150,
   },
   text: {
     color: 'white',

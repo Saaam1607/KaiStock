@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedView } from '@/components/themed-view';
@@ -19,7 +19,16 @@ export default function HomeScreen() {
 
           <Header text="Magazzino" />
 
-          <View>
+          <ScrollView
+            style={{
+              borderColor: 'pink',
+              borderWidth: 5,
+            }}
+            contentContainerStyle={{
+              gap: 20,
+              padding: 20
+            }}
+          >
             <View style={styles.buttonContainer}>
               <IconButton
                 text={"Registro Prodotti"}
@@ -58,7 +67,7 @@ export default function HomeScreen() {
                 onPress={() => router.push('/(tabs)/warehouse/inventory')}
               />
             </View>
-          </View>
+          </ScrollView>
         </ThemedView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -69,13 +78,16 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     gap: 20,
+    borderColor: 'red',
+    borderWidth: 3
   },
   buttonContainer: {
     width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 20,
-    marginBottom: 20,
     justifyContent: 'center',
+    borderColor: 'red',
+    borderWidth: 3
   },
 });

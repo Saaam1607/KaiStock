@@ -11,7 +11,7 @@ type SearchBarProps = {
 export function SearchBar({ placeholder, text, setText }: SearchBarProps) {
   return (
     <View style={styles.container}>
-      <Ionicons name="search" size={25} color="#888" style={styles.icon} />
+      <Ionicons name="search" size={25} color="#888" />
       <TextInput
         style={styles.input}
         placeholder={placeholder}
@@ -23,7 +23,6 @@ export function SearchBar({ placeholder, text, setText }: SearchBarProps) {
           name="close"
           size={25}
           color="#888"
-          style={styles.icon}
           onPress={() => setText('')}
         />
       )}
@@ -39,9 +38,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 50,
     flex: 1,
-  },
-  icon: {
-    marginRight: 8,
+    paddingHorizontal: 10,
+    gap: 10
   },
   input: {
     flex: 1,

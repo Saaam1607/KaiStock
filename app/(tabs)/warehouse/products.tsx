@@ -4,19 +4,14 @@ import { useRouter } from 'expo-router';
 
 import { FlatList, StyleSheet, TouchableHighlight, View } from 'react-native';
 import { Snackbar } from 'react-native-paper';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-
-import IconButton from '@/components/custom/IconButton';
-
 
 import type { Product } from '@/types/Product';
 import { initProduct } from '@/types/Product';
 
+import { PageContainer } from '@/components/custom/containers/PageContainer';
+import { HeaderContainer } from '@/components/custom/containers/HeaderContainer';
+import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 
-import { EditModal } from '@/components/custom/EditModal';
 import { ProductCard } from '@/components/custom/product/ProductCard';
 import { ProductCreateModal } from '@/components/custom/product/ProductCreateModal';
 import { ProductEditModal } from '@/components/custom/product/ProductEditModal';
@@ -31,7 +26,6 @@ export default function Products() {
   const router = useRouter();
 
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
-  const [editModalVisible, setEditModalVisible] = useState(false);
   const [itemEditModalVisible, setItemEditModalVisible] = useState(false);
   const [itemCreateModalVisible, setItemCreateModalVisible] = useState(false);
 
@@ -65,142 +59,130 @@ export default function Products() {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, gap: 20, }}>
-        <ThemedView style={{ flex: 1 }}>
+    <PageContainer>
 
-          {editModalVisible && (
-            <View style={styles.overlay} />
-          )}
-          <EditModal
-            modalVisible={editModalVisible}
-            setModalVisible={setEditModalVisible}
+      {/* Creation Modal */}
+      {itemCreateModalVisible && (
+        <>
+          <View style={styles.overlay} />
+
+          <ProductCreateModal
+            modalVisible={itemCreateModalVisible}
+            setModalVisible={setItemCreateModalVisible}
+            product={product}
+            onSave={(updatedProduct: Product) => {
+              setSnackbarVisible(true);
+            }}
           />
+        </>
+      )}
 
-          {itemCreateModalVisible && (
-            <>
-              <View style={styles.overlay} />
+      {/* Editing Modal */}
+      {itemEditModalVisible && product && (
+        <>
+          <View style={styles.overlay} />
 
-              <ProductCreateModal
-                modalVisible={itemCreateModalVisible}
-                setModalVisible={setItemCreateModalVisible}
-                product={product}
-                onSave={(updatedProduct: Product) => {
-                  setSnackbarVisible(true);
-                }}
-              />
-            </>
-          )}
-
-          {itemEditModalVisible && product && (
-            <>
-              <View style={styles.overlay} />
-
-              <ProductEditModal
-                modalVisible={itemEditModalVisible}
-                setModalVisible={setItemEditModalVisible}
-                product={product}
-                onSave={(updatedProduct: Product) => {
-                  setSnackbarVisible(true);
-                }}
-                onDiscard={() => {
-                  stopEditing();
-                }}
-              />
-            </>
-          )}
-
-          <Header
-            text="Prodotti"
-            leftIconName="chevron-back-circle-outline"
-            leftIconPress={() => router.back()}
-            rightIconName="add-circle-outline"
-            rightIconPress={() => startCreatingNewItem()}
+          <ProductEditModal
+            modalVisible={itemEditModalVisible}
+            setModalVisible={setItemEditModalVisible}
+            product={product}
+            onSave={(updatedProduct: Product) => {
+              setSnackbarVisible(true);
+            }}
+            onDiscard={() => {
+              stopEditing();
+            }}
           />
+        </>
+      )}
 
-          <View
+      {/* Header */}
+      <HeaderContainer>
+        <Header
+          text="Prodotti"
+          leftIconName="chevron-back-circle-outline"
+          leftIconPress={() => router.back()}
+          rightIconName="add-circle-outline"
+          rightIconPress={() => startCreatingNewItem()}
+        />
+      </HeaderContainer>
+
+      {/* Body */}
+      <BodyContainer>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
+          <SearchBar
+            placeholder="Cerca prodotto..."
+            text={searchText}
+            setText={setSearchText}
+          />
+          <TouchableHighlight
+            onPress={() => setShowFilter(!showFilter)}
+            underlayColor="transparent"
             style={{
-              flexDirection: 'row',
+              backgroundColor: '#f0f0f0',
+              width: 50,
+              height: 50,
+              borderRadius: 12,
+              justifyContent: 'center',
               alignItems: 'center',
-              gap: 8,
-              marginHorizontal: 40,
-              marginVertical: 15,
             }}
           >
-            <SearchBar
-              placeholder="Cerca prodotto..."
-              text={searchText}
-              setText={setSearchText}
-            />
-            <TouchableHighlight
-              onPress={() => setShowFilter(!showFilter)}
-              underlayColor="transparent"
-              style={{
-                backgroundColor: '#f0f0f0',
-                width: 50,
-                height: 50,
-                borderRadius: 12,
-                justifyContent: 'center',
-                alignItems: 'center',
+            <View>
+              <Ionicons
+                name="filter"
+                size={30}
+                color="#888"
+              />
+            </View>
+          </TouchableHighlight>
+        </View>
 
-              }}
-            >
-              <View>
-                <Ionicons
-                  name="filter"
-                  size={30}
-                  color="#888"
-                />
-              </View>
-            </TouchableHighlight>
-
-          </View>
-          
-
-          <View
-            style={styles.bodyContainer}
-          >
-            <FlatList
-              data={productsToDisplay}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <ProductCard
-                  product={item}
-                  startEditingItem={startEditingItem}
-                />
-              )}
-              contentContainerStyle={{ padding: 16 }}
-            />
-          </View>
-
-          <Snackbar
-            visible={snackbarVisible}
-            onDismiss={() => setSnackbarVisible(false)}
-            action={{
-              label: 'Ok',
-              onPress: () => {
-                setSnackbarVisible(false);
-              },
+        <View
+          style={styles.bodyContainer}
+        >
+          <FlatList
+            data={productsToDisplay}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <ProductCard
+                product={item}
+                startEditingItem={startEditingItem}
+              />
+            )}
+            contentContainerStyle={{
+              gap: 10
             }}
-            duration={5000}
-            style={{ zIndex: 600 }}
-          >
-            Prodotto salvato con successo
-          </Snackbar>
+          />
+        </View>
+      </BodyContainer>
 
-        </ThemedView>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      {/* Notifications */}
+      <Snackbar
+        visible={snackbarVisible}
+        onDismiss={() => setSnackbarVisible(false)}
+        action={{
+          label: 'Ok',
+          onPress: () => {
+            setSnackbarVisible(false);
+          },
+        }}
+        duration={5000}
+        style={{ zIndex: 600 }}
+      >
+        Prodotto salvato con successo
+      </Snackbar>
+
+    </PageContainer>
   );
 }
 
-
 const styles = StyleSheet.create({
-  
-  mainContainer: {
-    flex: 1,
-    gap: 20,
-  },
   overlay: {
     position: 'absolute',
     top: 0,
@@ -212,17 +194,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 100,
   },
-  titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
   bodyContainer: {
     flex: 1,
     gap: 20,
-    paddingHorizontal: 20,
   }
 });
