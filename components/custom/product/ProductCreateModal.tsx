@@ -26,7 +26,6 @@ export function ProductCreateModal({ modalVisible, setModalVisible, product, onS
     <ItemModal
       modalVisible={modalVisible}
       modalTitle="Crea articolo"
-      item={editedProduct}
       okText="Crea"
       notOkText="Annulla"
       onOk={handleSave}

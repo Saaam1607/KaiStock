@@ -2,34 +2,25 @@ import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'expo-router';
 
-import { FlatList, StyleSheet, TouchableHighlight, View } from 'react-native';
+import { FlatList, StyleSheet, TouchableHighlight, View, Pressable, Text } from 'react-native';
 import { Snackbar } from 'react-native-paper';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { PageContainer } from '@/components/custom/containers/PageContainer';
+import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { HeaderContainer } from '@/components/custom/containers/HeaderContainer';
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
-
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-
-import IconButton from '@/components/custom/IconButton';
-
 
 import type { Product } from '@/types/Product';
 import { initProduct } from '@/types/Product';
 import type { Production } from '@/types/Production';
 import { initProduction } from '@/types/Production';
 
-
-import { EditModal } from '@/components/custom/EditModal';
-import { ProductCard } from '@/components/custom/product/ProductCard';
-import { ProductCreateModal } from '@/components/custom/product/ProductCreateModal';
-import { ProductEditModal } from '@/components/custom/product/ProductEditModal';
 import { SearchBar } from '@/components/custom/SearchBar';
+import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
 import { Header } from '@/components/custom/Header';
 
-import ProduceForm from '@/components/custom/produce/ProduceForm';
+import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
+import { ProductionForm } from '@/components/custom/produce/ProductionForm';
 
 import { products } from '@/types/products';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -50,6 +41,8 @@ export default function Produce() {
   const [searchText, setSearchText] = useState('');
   const [showFilter, setShowFilter] = useState(false);
 
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
+
   useEffect(() => {
     setTimeout(() => {
       setProductsToDisplay(products.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())));
@@ -60,8 +53,17 @@ export default function Produce() {
     <PageContainer>
     
       {/* Modal */}
-      {/* ... */}
-    
+      <ModalContainer visible={showAddProductModal}>
+        <ProductionAddProductModal
+          modalVisible={showAddProductModal}
+          setModalVisible={setShowAddProductModal}
+          selectedIds={[]}
+          onSave={(selectedIds) => {
+            setSnackbarVisible(true);
+          }}
+        />
+      </ModalContainer>
+
       {/* Header */}
       <HeaderContainer>
         <Header
@@ -75,46 +77,39 @@ export default function Produce() {
     
       {/* Body */}
       <BodyContainer>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 8,
-          }}
-        >
-          <SearchBar
-            placeholder="Cerca prodotto..."
-            text={searchText}
-            setText={setSearchText}
-          />
-          <TouchableHighlight
-            onPress={() => setShowFilter(!showFilter)}
-            underlayColor="transparent"
-            style={{
-              backgroundColor: '#f0f0f0',
-              width: 50,
-              height: 50,
-              borderRadius: 12,
-              justifyContent: 'center',
-              alignItems: 'center',
 
-            }}
-          >
-            <View>
-              <Ionicons
-                name="filter"
-                size={30}
-                color="#888"
-              />
-            </View>
-          </TouchableHighlight>
-
-        </View>
+        <SearchBarWithFilters
+          placeholder="Cerca prodotto..."
+          text={searchText}
+          setText={setSearchText}
+          showFilter={showFilter}
+          setShowFilter={setShowFilter}
+        />
 
         <View
           style={styles.bodyContainer}
         >
-          <ProduceForm production={newProduction} setProduction={setNewProduction} />
+          <ProductionForm production={newProduction} setProduction={setNewProduction} />
+          <Pressable
+            onPress={() => setShowAddProductModal(true)}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 10,
+              borderColor: 'rgb(46, 126, 90)',
+              backgroundColor: 'rgba(190, 229, 190, 1)',
+              borderWidth: 1,
+              borderRadius: 8,
+              paddingHorizontal: 10,
+              paddingVertical: 6,
+              marginTop: 10,
+              width: 300,
+              justifyContent: 'center',
+            }}
+          >
+            <Ionicons name="add" size={25} color="rgb(46, 126, 90)" />
+            <Text>Aggiungi Prodotto</Text>
+          </Pressable>
         </View>
 
       </BodyContainer>

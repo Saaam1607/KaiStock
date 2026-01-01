@@ -1,10 +1,7 @@
 import React from 'react';
 
-
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
-
 import { PageContainer } from '@/components/custom/containers/PageContainer';
+import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { HeaderContainer } from '@/components/custom/containers/HeaderContainer';
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 
@@ -14,7 +11,9 @@ export default function Products() {
     <PageContainer>
 
       {/* Modal */}
-      {/* ... */}
+      <ModalContainer visible={true}>
+        <></>
+      </ModalContainer>
 
       {/* Header */}
       <HeaderContainer>

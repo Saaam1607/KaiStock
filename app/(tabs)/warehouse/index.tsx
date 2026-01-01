@@ -21,8 +21,6 @@ export default function HomeScreen() {
 
           <ScrollView
             style={{
-              borderColor: 'pink',
-              borderWidth: 5,
             }}
             contentContainerStyle={{
               gap: 20,
@@ -78,8 +76,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     gap: 20,
-    borderColor: 'red',
-    borderWidth: 3
   },
   buttonContainer: {
     width: '100%',
@@ -87,7 +83,5 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 20,
     justifyContent: 'center',
-    borderColor: 'red',
-    borderWidth: 3
   },
 });

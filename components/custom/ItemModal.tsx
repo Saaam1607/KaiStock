@@ -4,22 +4,20 @@ import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-type ItemModalProps<T> = {
+type ItemModalProps = {
   modalVisible: boolean;
   modalTitle: string;
-
-  item: T;
 
   okText: string;
   notOkText: string;
 
-  onOk: (updatedItem: T) => void;
+  onOk: () => void;
   onNotOk: () => void;
 
   children?: React.ReactNode;
 };
 
-export function ItemModal<T>({ modalVisible, modalTitle, item, okText, notOkText, onOk, onNotOk, children }: ItemModalProps<T>) {
+export function ItemModal({ modalVisible, modalTitle, okText, notOkText, onOk, onNotOk, children }: ItemModalProps) {
 
   return (
     <Modal
@@ -49,7 +47,7 @@ export function ItemModal<T>({ modalVisible, modalTitle, item, okText, notOkText
             <Pressable style={[styles.button, styles.buttonCancel]} onPress={() => onNotOk()}>
               <Text style={styles.buttonText}>{notOkText}</Text>
             </Pressable>
-            <Pressable style={[styles.button, styles.buttonSave]} onPress={() => onOk(item)}>
+            <Pressable style={[styles.button, styles.buttonSave]} onPress={() => onOk()}>
               <Text style={styles.buttonText}>{okText}</Text>
             </Pressable>
           </View>
@@ -79,6 +77,7 @@ const styles = StyleSheet.create({
     gap: 12,
     elevation: 5,
     height: '100%',
+    maxHeight: '100%',
   },
   modalHeader: {
     width: '100%',
@@ -88,28 +87,12 @@ const styles = StyleSheet.create({
   },
   modalBody: {
     width: '100%',
-    height: 200,
     flex: 1,
+    height: '100%',
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  form: {
-    width: '100%',
-    gap: 10,
-    marginTop: 10,
-  },
-  label: {
-    fontWeight: 'bold',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    fontSize: 16,
   },
   modalButtons: {
     width: '100%',
@@ -127,8 +110,4 @@ const styles = StyleSheet.create({
   buttonCancel: { backgroundColor: '#d9534f' },
   buttonSave: { backgroundColor: '#5cb85c' },
   buttonText: { color: 'white', fontWeight: 'bold' },
-  inputChanged: {
-    borderColor: 'orange',
-    borderWidth: 2,
-  }
 });

@@ -2,24 +2,24 @@ import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'expo-router';
 
-import { FlatList, StyleSheet, TouchableHighlight, View } from 'react-native';
-import { Snackbar } from 'react-native-paper';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 import type { Product } from '@/types/Product';
 import { initProduct } from '@/types/Product';
 
 import { PageContainer } from '@/components/custom/containers/PageContainer';
+import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { HeaderContainer } from '@/components/custom/containers/HeaderContainer';
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
+import { MySnackBar } from '@/components/custom/MySnackBar';
 
 import { ProductCard } from '@/components/custom/product/ProductCard';
 import { ProductCreateModal } from '@/components/custom/product/ProductCreateModal';
 import { ProductEditModal } from '@/components/custom/product/ProductEditModal';
-import { SearchBar } from '@/components/custom/SearchBar';
+import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
 import { Header } from '@/components/custom/Header';
 
 import { products } from '@/types/products';
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function Products() {
   
@@ -62,39 +62,31 @@ export default function Products() {
     <PageContainer>
 
       {/* Creation Modal */}
-      {itemCreateModalVisible && (
-        <>
-          <View style={styles.overlay} />
-
-          <ProductCreateModal
-            modalVisible={itemCreateModalVisible}
-            setModalVisible={setItemCreateModalVisible}
-            product={product}
-            onSave={(updatedProduct: Product) => {
-              setSnackbarVisible(true);
-            }}
-          />
-        </>
-      )}
+      <ModalContainer visible={itemCreateModalVisible}>
+        <ProductCreateModal
+          modalVisible={itemCreateModalVisible}
+          setModalVisible={setItemCreateModalVisible}
+          product={product}
+          onSave={(updatedProduct: Product) => {
+            setSnackbarVisible(true);
+          }}
+        />
+      </ModalContainer>
 
       {/* Editing Modal */}
-      {itemEditModalVisible && product && (
-        <>
-          <View style={styles.overlay} />
-
-          <ProductEditModal
-            modalVisible={itemEditModalVisible}
-            setModalVisible={setItemEditModalVisible}
-            product={product}
-            onSave={(updatedProduct: Product) => {
-              setSnackbarVisible(true);
-            }}
-            onDiscard={() => {
-              stopEditing();
-            }}
-          />
-        </>
-      )}
+      <ModalContainer visible={itemEditModalVisible && product !== null}>
+        <ProductEditModal
+          modalVisible={itemEditModalVisible}
+          setModalVisible={setItemEditModalVisible}
+          product={product}
+          onSave={(updatedProduct: Product) => {
+            setSnackbarVisible(true);
+          }}
+          onDiscard={() => {
+            stopEditing();
+          }}
+        />
+      </ModalContainer>
 
       {/* Header */}
       <HeaderContainer>
@@ -109,39 +101,14 @@ export default function Products() {
 
       {/* Body */}
       <BodyContainer>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10,
-          }}
-        >
-          <SearchBar
-            placeholder="Cerca prodotto..."
-            text={searchText}
-            setText={setSearchText}
-          />
-          <TouchableHighlight
-            onPress={() => setShowFilter(!showFilter)}
-            underlayColor="transparent"
-            style={{
-              backgroundColor: '#f0f0f0',
-              width: 50,
-              height: 50,
-              borderRadius: 12,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <View>
-              <Ionicons
-                name="filter"
-                size={30}
-                color="#888"
-              />
-            </View>
-          </TouchableHighlight>
-        </View>
+
+        <SearchBarWithFilters
+          placeholder="Cerca prodotto..."
+          text={searchText}
+          setText={setSearchText}
+          showFilter={showFilter}
+          setShowFilter={setShowFilter}
+        />
 
         <View
           style={styles.bodyContainer}
@@ -163,37 +130,17 @@ export default function Products() {
       </BodyContainer>
 
       {/* Notifications */}
-      <Snackbar
+      <MySnackBar
         visible={snackbarVisible}
-        onDismiss={() => setSnackbarVisible(false)}
-        action={{
-          label: 'Ok',
-          onPress: () => {
-            setSnackbarVisible(false);
-          },
-        }}
-        duration={5000}
-        style={{ zIndex: 600 }}
-      >
-        Prodotto salvato con successo
-      </Snackbar>
+        setVisible={setSnackbarVisible}
+        message="Prodotto salvato con successo"
+      />
 
     </PageContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 100,
-  },
   bodyContainer: {
     flex: 1,
     gap: 20,

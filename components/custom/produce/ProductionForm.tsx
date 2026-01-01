@@ -1,24 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, StyleSheet, Text, Pressable, View, TextInput, FlatList, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import DateInput from '../DateInput';
 import { QuantityEditor } from '../QuantityEditor';
-import { ItemModal } from '../ItemModal';
 
-import type { Production } from '@/types/Production';
-import type { ProductionBodyItem } from '@/types/Production';
+import type { Production, ProductionBodyItem } from '@/types/Production';
+
 import type { Product } from '@/types/Product';
 
 import { products } from '@/types/products';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-type ProduceFormProps = {
+type ProductionFormProps = {
   production: Production;
   setProduction: (product: Production) => void;
 };
 
-export default function ProduceForm({ production, setProduction }: ProduceFormProps) {
+export function ProductionForm({ production, setProduction }: ProductionFormProps) {
   
   const [selectedProductionItems, setSelectedProductionItems] = useState<ProductionBodyItem[]>([]);
 
@@ -39,36 +37,6 @@ export default function ProduceForm({ production, setProduction }: ProduceFormPr
 
   return (
     <View style={styles.container}>
-      
-                {/* {addProductModalVisible && (
-                  <>
-                    <View style={styles.overlay} />
-      
-                    <ItemModal
-
-                      modalVisible={addProductModalVisible}
-                      modalTitle="Aggiungi Prodotto"
-
-                      item: T;
-
-                      okText: string;
-                      notOkText: string;
-
-                      onOk: (updatedItem: T) => void;
-                      onNotOk: () => void;
-
-                      children?: React.ReactNode;
-
-                      modalVisible={itemCreateModalVisible}
-                      setModalVisible={setItemCreateModalVisible}
-                      product={product}
-                      onSave={(updatedProduct: Product) => {
-                        setSnackbarVisible(true);
-                      }}
-                    />
-                  </>
-                )}
-       */}
       <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
         <Text style={styles.label}>Titolo</Text>
         <TextInput
@@ -155,7 +123,7 @@ export default function ProduceForm({ production, setProduction }: ProduceFormPr
           })}
         </View>
 
-        <Pressable
+        {/* <Pressable
           onPress={() => addSelectedProductionItem('')}
           style={{
             flexDirection: 'row',
@@ -174,7 +142,7 @@ export default function ProduceForm({ production, setProduction }: ProduceFormPr
         >
           <Ionicons name="add" size={25} color="rgb(46, 126, 90)" />
           <Text>Aggiungi Prodotto</Text>
-        </Pressable>
+        </Pressable> */}
 
 
         {/* <Text style={styles.label}>Prodotti disponibili</Text>

@@ -40,7 +40,6 @@ export function InventoryItemEditModal({ modalVisible, setModalVisible, inventor
     <ItemModal
       modalVisible={modalVisible}
       modalTitle="Aggiorna Inventario"
-      item={editedItem}
       okText="Crea"
       notOkText="Annulla"
       onOk={handleSave}

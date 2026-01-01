@@ -33,7 +33,6 @@ export function ProductEditModal({ modalVisible, setModalVisible, product, onSav
     <ItemModal
       modalVisible={modalVisible}
       modalTitle="Modifica articolo"
-      item={editedProduct}
       okText="Salva"
       notOkText="Annulla"
       onOk={handleSave}
