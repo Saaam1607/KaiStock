@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import DateInput from '../DateInput';
@@ -14,21 +14,16 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 type ProductionFormProps = {
   production: Production;
   setProduction: (product: Production) => void;
+  productionItems: ProductionBodyItem[];
+  setProductionItems: (items: ProductionBodyItem[]) => void;
+  setShowAddProductModal: (show: boolean) => void;
 };
 
-export function ProductionForm({ production, setProduction }: ProductionFormProps) {
+export function ProductionForm({ production, setProduction, productionItems, setProductionItems, setShowAddProductModal }: ProductionFormProps) {
   
-  const [selectedProductionItems, setSelectedProductionItems] = useState<ProductionBodyItem[]>([]);
-
-  const [addProductModalVisible, setAddProductModalVisible] = useState(false);
-
-
-  function addSelectedProductionItem(product_id: string) {
-    setSelectedProductionItems([...selectedProductionItems, { product_id, quantity: 1 }]);
-  }
-
   function removeSelectedProductionItem(product_id: string) {
-    setSelectedProductionItems(selectedProductionItems.filter(item => item.product_id !== product_id));
+    // setSelectedProductsIds(selectedProductsIds.filter(item => item !== product_id));
+    setProductionItems(productionItems.filter(item => item.product_id !== product_id));
   }
 
   function getProduct(product_id: string): Product | undefined {
@@ -60,7 +55,7 @@ export function ProductionForm({ production, setProduction }: ProductionFormProp
 
         <Text style={styles.label}>Prodotti</Text>
         <View style={styles.list}>
-          {selectedProductionItems.map(item => {
+          {productionItems.map(item => {
             
             const product = getProduct(item.product_id);
             
@@ -71,7 +66,6 @@ export function ProductionForm({ production, setProduction }: ProductionFormProp
             return (
               <View
                 key={product.id}
-                // onPress={() => removeSelectedProductionItem(product.id)}
                 style={styles.input}
               >
                 <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -80,12 +74,12 @@ export function ProductionForm({ production, setProduction }: ProductionFormProp
                       <QuantityEditor
                           quantity={item.quantity}
                           setQuantity={quantity => {
-                            setSelectedProductionItems(selectedProductionItems.map(i => {
-                              if (i.product_id === product.id) {
-                                return { ...i, quantity };
-                              }
-                              return i;
-                            }));
+                            // setSelectedProductionItems(selectedProductionItems.map(i => {
+                            //   if (i.product_id === product.id) {
+                            //     return { ...i, quantity };
+                            //   }
+                            //   return i;
+                            // }));
                           }}
                         />
                     </View>
@@ -95,8 +89,6 @@ export function ProductionForm({ production, setProduction }: ProductionFormProp
                     <Text>{ product.description}</Text>
                     <Text>{ product.price} €/{  product.uom}</Text>
                   </View>
-
-
                 </View>
 
                 <View >
@@ -115,7 +107,6 @@ export function ProductionForm({ production, setProduction }: ProductionFormProp
                     />
                   </Pressable>
                 </View>
-                
 
               </View>
             )
@@ -123,8 +114,8 @@ export function ProductionForm({ production, setProduction }: ProductionFormProp
           })}
         </View>
 
-        {/* <Pressable
-          onPress={() => addSelectedProductionItem('')}
+        <Pressable
+          onPress={() => setShowAddProductModal(true)}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -142,24 +133,7 @@ export function ProductionForm({ production, setProduction }: ProductionFormProp
         >
           <Ionicons name="add" size={25} color="rgb(46, 126, 90)" />
           <Text>Aggiungi Prodotto</Text>
-        </Pressable> */}
-
-
-        {/* <Text style={styles.label}>Prodotti disponibili</Text>
-        <View style={styles.list}>
-          {products.filter(item => !selectedProductionItems.find(i => i.product_id === item.id)).map(item => (
-            <Pressable
-              key={item.id}
-              onPress={() => addSelectedProductionItem(item.id)}
-              style={styles.input}
-            >
-              <Text>{item.name}</Text>
-              <Text>{item.description}</Text>
-              <Text>{item.price} €/{item.uom}</Text>
-            </Pressable>
-          ))}
-        </View> */}
-
+        </Pressable>
       </ScrollView>
     </View>
 
@@ -167,31 +141,23 @@ export function ProductionForm({ production, setProduction }: ProductionFormProp
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 100,
-  },
   container: {
-    flex: 1,
+    // flex: 1,
     // padding: 10, // padding interno se vuoi
     overflow: 'hidden',
   },
   form: {
     // backgroundColor: 'rgba(185, 117, 117, 1)',
     // padding: 10,
-    flex: 1,
+    // flex: 1,
+    // borderColor: 'red',
+    // borderWidth: 1,
   },
   formContent: {
     // backgroundColor: 'rgba(117, 133, 185, 1)',
   },
-  list: {},
+  list: {
+  },
   label: {
     fontWeight: 'bold',
   },

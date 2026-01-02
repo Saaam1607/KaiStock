@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, FlatList, Pressable, TouchableHighlight } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { ItemModal } from '../ItemModal';
 
 import { SearchBar } from '../SearchBar';
-import { SearchBarWithFilters } from '../SearchBarWithFilters';
 
 import type { Product } from '@/types/Product';
 
@@ -51,7 +50,7 @@ export function ProductionAddProductModal({ modalVisible, setModalVisible, selec
   }
 
   const handleSave = () => {
-    onSave(selectedIds);
+    onSave(tmpSelectedIds);
     setModalVisible(false);
   };
 
@@ -84,23 +83,14 @@ export function ProductionAddProductModal({ modalVisible, setModalVisible, selec
                   padding: 10,
                   borderRadius: 5,
                   borderWidth: 1,
-                  borderColor: isIdSelected(item.id) ? 'red' : '#ccc',
+                  borderColor: isIdSelected(item.id) ? 'green' : '#ccc',
                 }}
                 onPress={() => managePress(item.id)}
               >
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
+                <Text style={{ fontWeight: 'bold' }}>
                   {item.name}
                 </Text>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: '#666',
-                  }}
-                >
+                <Text style={{ fontSize: 12, color: '#666' }}>
                   {item.description}
                 </Text>
               </Pressable>

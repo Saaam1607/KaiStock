@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useRouter } from 'expo-router';
 
-import { FlatList, StyleSheet, TouchableHighlight, View, Pressable, Text } from 'react-native';
-import { Snackbar } from 'react-native-paper';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { PageContainer } from '@/components/custom/containers/PageContainer';
-import { ModalContainer } from '@/components/custom/containers/ModalContainer';
-import { HeaderContainer } from '@/components/custom/containers/HeaderContainer';
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
+import { HeaderContainer } from '@/components/custom/containers/HeaderContainer';
+import { ModalContainer } from '@/components/custom/containers/ModalContainer';
+import { PageContainer } from '@/components/custom/containers/PageContainer';
+import { MySnackBar } from '@/components/custom/MySnackBar';
 
-import type { Product } from '@/types/Product';
-import { initProduct } from '@/types/Product';
-import type { Production } from '@/types/Production';
+import type { Production, ProductionBodyItem } from '@/types/Production';
 import { initProduction } from '@/types/Production';
 
-import { SearchBar } from '@/components/custom/SearchBar';
-import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
 import { Header } from '@/components/custom/Header';
 
 import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
 import { ProductionForm } from '@/components/custom/produce/ProductionForm';
 
-import { products } from '@/types/products';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function Produce() {
   
   const router = useRouter();
 
-  const [editingItemId, setEditingItemId] = useState<string | null>(null);
-
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
-
-  const [product, setProduct] = useState<Product>(products.find(item => item.id === editingItemId) ?? initProduct);
-
   const [newProduction, setNewProduction] = useState<Production>(initProduction);
-
-  const [productsToDisplay, setProductsToDisplay] = useState<Product[]>(products);
-  const [searchText, setSearchText] = useState('');
-  const [showFilter, setShowFilter] = useState(false);
+  // const [selectedProductsIds, setSelectedProductsIds] = useState<string[]>([]);
+  const [productionItems, setProductionItems] = useState<ProductionBodyItem[]>([]);
+  
 
   const [showAddProductModal, setShowAddProductModal] = useState(false);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setProductsToDisplay(products.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())));
-    }, 250);
-  }, [searchText]);
+  function handleSave(selectedIds: string[]) {
+    setSnackbarVisible(true);
+    
+    selectedIds.map(id => {
+      if (!productionItems.find(item => item.product_id === id)) {
+        setProductionItems(prev => [...prev, { product_id: id, quantity: 0 }]);
+      }
+    });
+
+    productionItems.map(item => {
+      if (!selectedIds.includes(item.product_id)) {
+        setProductionItems(prev => prev.filter(i => i.product_id !== item.product_id));
+      }
+    });
+
+  }
 
   return (
     <PageContainer>
@@ -57,10 +57,8 @@ export default function Produce() {
         <ProductionAddProductModal
           modalVisible={showAddProductModal}
           setModalVisible={setShowAddProductModal}
-          selectedIds={[]}
-          onSave={(selectedIds) => {
-            setSnackbarVisible(true);
-          }}
+          selectedIds={productionItems.map(item => item.product_id)}
+          onSave={handleSave}
         />
       </ModalContainer>
 
@@ -78,57 +76,27 @@ export default function Produce() {
       {/* Body */}
       <BodyContainer>
 
-        <SearchBarWithFilters
-          placeholder="Cerca prodotto..."
-          text={searchText}
-          setText={setSearchText}
-          showFilter={showFilter}
-          setShowFilter={setShowFilter}
-        />
-
         <View
           style={styles.bodyContainer}
         >
-          <ProductionForm production={newProduction} setProduction={setNewProduction} />
-          <Pressable
-            onPress={() => setShowAddProductModal(true)}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 10,
-              borderColor: 'rgb(46, 126, 90)',
-              backgroundColor: 'rgba(190, 229, 190, 1)',
-              borderWidth: 1,
-              borderRadius: 8,
-              paddingHorizontal: 10,
-              paddingVertical: 6,
-              marginTop: 10,
-              width: 300,
-              justifyContent: 'center',
-            }}
-          >
-            <Ionicons name="add" size={25} color="rgb(46, 126, 90)" />
-            <Text>Aggiungi Prodotto</Text>
-          </Pressable>
+          <ProductionForm
+            production={newProduction}
+            setProduction={setNewProduction}
+            productionItems={productionItems}
+            setProductionItems={setProductionItems}
+            setShowAddProductModal={setShowAddProductModal}
+          />
+          
         </View>
 
       </BodyContainer>
     
       {/* Notifications */}
-      <Snackbar
+      <MySnackBar
         visible={snackbarVisible}
-        onDismiss={() => setSnackbarVisible(false)}
-        action={{
-          label: 'Ok',
-          onPress: () => {
-            setSnackbarVisible(false);
-          },
-        }}
-        duration={5000}
-        style={{ zIndex: 600 }}
-      >
-        Prodotto salvato con successo
-      </Snackbar>
+        setVisible={setSnackbarVisible}
+        message={'Prodotto aggiornati'}
+      />
     
     </PageContainer>
   )

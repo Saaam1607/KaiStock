@@ -5,8 +5,8 @@ import { Animated, Pressable, StyleSheet, TextInput, View } from 'react-native';
 const firstInputDelay = 300;
 const continuousInputDelay = 200;
 
-const defaultIconSize = 50;
-const IconSizeScaleIncrement = 1.25;
+const defaultIconSize = 40;
+const IconSizeScaleIncrement = 1.15;
 const IconSizeLarge = IconSizeScaleIncrement * defaultIconSize;
 
 const iconAnimationDuration = 100; 
@@ -179,7 +179,7 @@ const containerStyles = StyleSheet.create({
   quantityButtons: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   iconButtonView: {
     width: IconSizeLarge,
@@ -190,32 +190,23 @@ const containerStyles = StyleSheet.create({
   iconButtonPressable: {
   },
   quantity: {
-    width: 60,
+    // width: 60,
     justifyContent: 'center',
     alignItems: 'center',
   }
 });
 
 const styles = StyleSheet.create({
-  delta_quantity: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: 'black',
-  },
-  green: {
-    color: 'green',
-  },
-  red: {
-    color: 'red',
-  },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
     flexDirection: 'row',
-    fontSize: 20,
-    width: 70,
+    fontSize: 15,
+    width: 50,
+    height: 40,
+    textAlign: 'center',
   },
 });
