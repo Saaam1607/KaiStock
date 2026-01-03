@@ -25,7 +25,7 @@ export default function IconTextButton({
         style={styles.button}
       >
         <Ionicons name={iconName as any} size={60} color="white" />
-        <Text style={styles.text}>{text}</Text>
+          <Text style={styles.text}>{text}</Text>
       </View>
     </TouchableHighlight>
   );
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     // flexDirection: 'row', 
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#841584',
+    backgroundColor: '#699c9fff',
     // gap: 10,
     paddingVertical: 10,
     paddingHorizontal: 16,
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: 18
+    fontSize: 18,
+    textAlign: 'center',
   },
 });

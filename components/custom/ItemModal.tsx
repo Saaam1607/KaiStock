@@ -60,7 +60,7 @@ export function ItemModal({ modalVisible, modalTitle, okText, notOkText, onOk, o
 
 const styles = StyleSheet.create({
   overlay: {
-    maxHeight: '98%',
+    maxHeight: '96%',
     position: 'absolute',
     top: 0,
     left: 0,
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: 'white',
     borderRadius: 12,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
     gap: 12,
     elevation: 5,
     height: '100%',
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 5,
     paddingVertical: 10,
-    borderRadius: 8,
+    borderRadius: 30,
     alignItems: 'center',
   },
   buttonCancel: { backgroundColor: '#d9534f' },

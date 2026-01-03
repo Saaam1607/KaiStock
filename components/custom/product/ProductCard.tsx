@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   cardImage: {
     width: 100,
     height: 100,
-    borderRadius: 10,
+    borderRadius: 100,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',

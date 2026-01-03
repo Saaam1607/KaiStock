@@ -5,11 +5,11 @@ import { Animated, Pressable, StyleSheet, TextInput, View } from 'react-native';
 const firstInputDelay = 300;
 const continuousInputDelay = 200;
 
-const defaultIconSize = 40;
+const defaultIconSize = 30;
 const IconSizeScaleIncrement = 1.15;
 const IconSizeLarge = IconSizeScaleIncrement * defaultIconSize;
 
-const iconAnimationDuration = 100; 
+const iconAnimationDuration = 125; 
 
 type QuantityEditorProps = {
   quantity: number;
@@ -105,7 +105,7 @@ function addQuantity(delta = 1) {
     ]).start();
   }
 
-    function animatePlus() {
+  function animatePlus() {
     Animated.sequence([
       Animated.timing(plusScale, {
         toValue: IconSizeScaleIncrement,
@@ -131,7 +131,7 @@ function addQuantity(delta = 1) {
         >
           <Animated.View style={{ transform: [{ scale: minusScale }] }}>
             <Ionicons
-              name="remove-circle-sharp"
+              name="remove-sharp"
               size={defaultIconSize}
               color="red"
             />
@@ -140,18 +140,18 @@ function addQuantity(delta = 1) {
       </View>
 
       <View style={containerStyles.quantity}>
-      <TextInput
-        style={[
-          styles.input,
-        ]}
-        maxLength={3}
-        value={tmpQuantityText}
-        onChangeText={(text) => {
-          if (/^\d*$/.test(text)) { // solo numeri interi
-            setTmpQuantityText(text);
-          }
-        }}
-        keyboardType="decimal-pad"
+        <TextInput
+          style={[
+            styles.input,
+          ]}
+          maxLength={3}
+          value={tmpQuantityText}
+          onChangeText={(text) => {
+            if (/^\d*$/.test(text)) { // solo numeri interi
+              setTmpQuantityText(text);
+            }
+          }}
+          keyboardType="decimal-pad"
       />
       </View>
 
@@ -164,7 +164,7 @@ function addQuantity(delta = 1) {
         >
           <Animated.View style={{ transform: [{ scale: plusScale }] }}>
             <Ionicons
-              name="add-circle-sharp"
+              name="add-sharp"
               size={defaultIconSize}
               color="green"
             />
@@ -182,10 +182,13 @@ const containerStyles = StyleSheet.create({
     // justifyContent: 'space-between',
   },
   iconButtonView: {
-    width: IconSizeLarge,
-    height: IconSizeLarge,
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: '#ccc',
+    borderRadius: 8,
+    borderWidth: 1,
   },
   iconButtonPressable: {
   },
@@ -198,7 +201,7 @@ const containerStyles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   input: {
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
     paddingHorizontal: 5,

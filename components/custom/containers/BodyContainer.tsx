@@ -9,7 +9,7 @@ export function BodyContainer({ children }: BodyContainerProps) {
   return (
     <View
       style={{
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         flex: 1,
         gap: 10,
       }}

@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 
 import DateInput from '../DateInput';
 import { QuantityEditor } from '../QuantityEditor';
+import { ProductionItemCard } from './ProductionItemCard';
 
 import type { Production, ProductionBodyItem } from '@/types/Production';
 
@@ -33,107 +34,85 @@ export function ProductionForm({ production, setProduction, productionItems, set
   return (
     <View style={styles.container}>
       <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
-        <Text style={styles.label}>Titolo</Text>
-        <TextInput
-          style={styles.input}
-          value={production.title}
-          onChangeText={text => setProduction({ ...production, title: text })}
-        />
+        
+        <View>
+          <Text style={styles.label}>Titolo</Text>
+          <TextInput
+            style={styles.input}
+            value={production.title}
+            onChangeText={text => setProduction({ ...production, title: text })}
+          />
+        </View>
 
-        <Text style={styles.label}>Note</Text>
-        <TextInput
-          style={[styles.input, { height: 60 }]}
-          value={production.notes}
-          onChangeText={text => setProduction({ ...production, notes: text })}
-          multiline
-        />
+        <View>
+          <Text style={styles.label}>Note</Text>
+          <TextInput
+            style={[styles.input, { height: 60 }]}
+            value={production.notes}
+            onChangeText={text => setProduction({ ...production, notes: text })}
+            multiline
+          />
+        </View>
 
         <DateInput
           date={production.date}
           setDate={date => setProduction({ ...production, date })}
         />
 
-        <Text style={styles.label}>Prodotti</Text>
-        <View style={styles.list}>
-          {productionItems.map(item => {
-            
-            const product = getProduct(item.product_id);
-            
-            if (!product) {
-              return null;
-            }
+        <View>
+          <Text style={styles.label}>Prodotti</Text>
+          <View style={styles.list}>
+            {productionItems.map(item => {
+              
+              const product = getProduct(item.product_id);
+              
+              if (!product) {
+                return null;
+              }
 
-            return (
-              <View
-                key={product.id}
-                style={styles.input}
-              >
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <View style={{ alignItems: 'center'}}>
-                    <View style={{ alignItems: 'center' }}>
-                      <QuantityEditor
-                          quantity={item.quantity}
-                          setQuantity={quantity => {
-                            // setSelectedProductionItems(selectedProductionItems.map(i => {
-                            //   if (i.product_id === product.id) {
-                            //     return { ...i, quantity };
-                            //   }
-                            //   return i;
-                            // }));
-                          }}
-                        />
-                    </View>
-                  </View>
-                  <View>
-                    <Text>{ product.name}</Text>
-                    <Text>{ product.description}</Text>
-                    <Text>{ product.price} €/{  product.uom}</Text>
-                  </View>
-                </View>
-
-                <View >
-                  <Pressable
-                    onPress={() => removeSelectedProductionItem(product.id)}
-                    style={{
-                      position: 'absolute',
-                      top: -15,
-                      right: -10,
-                    }}
-                  >
-                    <Ionicons
-                      name="close-circle"
-                      size={40}
-                      color="rgba(126, 46, 46, 1)"
-                    />
-                  </Pressable>
-                </View>
-
-              </View>
-            )
-            
-          })}
+              return (
+                <ProductionItemCard
+                  key={product.id}
+                  product={product}
+                  removeProduct={removeSelectedProductionItem}
+                  quantity={item.quantity}
+                  setQuantity={quantity => {
+                    setProductionItems(productionItems.map(i => {
+                      if (i.product_id === product.id) {
+                        return { ...i, quantity };
+                      }
+                      return i;
+                    }));
+                  }}
+                />
+              )
+              
+            })}
+          </View>
         </View>
+        
 
-        <Pressable
-          onPress={() => setShowAddProductModal(true)}
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10,
-            borderColor: 'rgb(46, 126, 90)',
-            backgroundColor: 'rgba(190, 229, 190, 1)',
-            borderWidth: 1,
-            borderRadius: 8,
-            paddingHorizontal: 10,
-            paddingVertical: 6,
-            marginTop: 10,
-            width: 300,
-            justifyContent: 'center',
-          }}
-        >
-          <Ionicons name="add" size={25} color="rgb(46, 126, 90)" />
-          <Text>Aggiungi Prodotto</Text>
-        </Pressable>
+        <View style={{ alignItems: 'center' }}>
+          <Pressable
+            onPress={() => setShowAddProductModal(true)}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8,
+              backgroundColor: 'rgb(46, 126, 90)',
+              borderWidth: 1,
+              borderRadius: 50,
+              paddingHorizontal: 10,
+              paddingVertical: 6,
+              width: 225,
+              height: 50,
+              justifyContent: 'center',
+            }}
+          >
+            <Ionicons name="add-circle" size={25} />
+            <Text>Aggiungi Prodotto</Text>
+          </Pressable>
+        </View>
       </ScrollView>
     </View>
 
@@ -155,8 +134,10 @@ const styles = StyleSheet.create({
   },
   formContent: {
     // backgroundColor: 'rgba(117, 133, 185, 1)',
+    gap: 10,
   },
   list: {
+    gap: 10,
   },
   label: {
     fontWeight: 'bold',

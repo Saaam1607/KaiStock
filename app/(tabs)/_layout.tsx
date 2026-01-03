@@ -10,7 +10,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-  const iconSize = 32;
+  const iconSize = 20;
 
   return (
     <Tabs

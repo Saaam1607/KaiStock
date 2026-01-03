@@ -4,12 +4,14 @@ import { StyleSheet, Text, Pressable, View } from 'react-native';
 type IconButtonProps = {
   iconName: string;
   size?: number;
+  color?: string;
   onPress: () => void;
 };
 
 export default function IconButton({
   iconName,
   size = 32,
+  color = 'black',
   onPress,
 }: IconButtonProps) {
 
@@ -18,7 +20,7 @@ export default function IconButton({
       <View
         style={styles.button}
       >
-        <Ionicons name={iconName as any} size={size} color="black" />
+        <Ionicons name={iconName as any} size={size} color={color} />
       </View>
     </Pressable>
   );

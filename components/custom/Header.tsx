@@ -26,7 +26,8 @@ export function Header({ text, leftIconName, leftIconPress, rightIconName, right
       {leftIconName && (
         <IconButton
           iconName={leftIconName}
-          size={50}
+          size={30}
+          color='rgba(106, 106, 106, 1)'
           onPress={leftIconPress || (() => {})}
         />
       )}
@@ -34,7 +35,8 @@ export function Header({ text, leftIconName, leftIconPress, rightIconName, right
       {rightIconName && (
         <IconButton
           iconName={rightIconName}
-          size={50}
+          size={30}
+          color='rgba(106, 106, 106, 1)'
           onPress={rightIconPress || (() => {})}
         />
       )}

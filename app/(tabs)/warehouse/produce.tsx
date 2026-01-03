@@ -32,7 +32,7 @@ export default function Produce() {
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
 
-  function handleSave(selectedIds: string[]) {
+  function handleItemAdd(selectedIds: string[]) {
     setSnackbarVisible(true);
     
     selectedIds.map(id => {
@@ -46,7 +46,12 @@ export default function Produce() {
         setProductionItems(prev => prev.filter(i => i.product_id !== item.product_id));
       }
     });
+  }
 
+  function handleSave() {
+    setNewProduction(initProduction);
+    setProductionItems([]);
+    setSnackbarVisible(true);
   }
 
   return (
@@ -58,7 +63,7 @@ export default function Produce() {
           modalVisible={showAddProductModal}
           setModalVisible={setShowAddProductModal}
           selectedIds={productionItems.map(item => item.product_id)}
-          onSave={handleSave}
+          onSave={handleItemAdd}
         />
       </ModalContainer>
 
@@ -66,10 +71,10 @@ export default function Produce() {
       <HeaderContainer>
         <Header
           text="Produci"
-          leftIconName="chevron-back-circle-outline"
+          leftIconName="chevron-back"
           leftIconPress={() => router.back()}
-          rightIconName="add-circle-outline"
-          rightIconPress={() => router.back()}
+          rightIconName="save-outline"
+          rightIconPress={() => handleSave()}
         />
       </HeaderContainer>
     
@@ -106,5 +111,6 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
     gap: 20,
+    paddingVertical: 10,
   }
 });

@@ -8,6 +8,7 @@ import { SearchBar } from '../SearchBar';
 import type { Product } from '@/types/Product';
 
 import { products } from '@/types/products';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type ProductionAddProductModalProps = {
   modalVisible: boolean;
@@ -81,22 +82,42 @@ export function ProductionAddProductModal({ modalVisible, setModalVisible, selec
               <Pressable
                 style={{
                   padding: 10,
-                  borderRadius: 5,
+                  borderRadius: 50,
                   borderWidth: 1,
                   borderColor: isIdSelected(item.id) ? 'green' : '#ccc',
+                  minHeight: 80,
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
                 onPress={() => managePress(item.id)}
               >
-                <Text style={{ fontWeight: 'bold' }}>
-                  {item.name}
-                </Text>
-                <Text style={{ fontSize: 12, color: '#666' }}>
-                  {item.description}
-                </Text>
+                <View style={{ flexDirection: 'row', gap: 10, }}>
+                  <View style={{ justifyContent: 'center'}}>
+                    <View style={{
+                      backgroundColor: 'grey',
+                      width: 60,
+                      height: 60,
+                      borderRadius: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                      <Ionicons name={"images"} size={20} color="silver" />
+                    </View>
+                  </View>
+                  <View style={{ flex: 1, }}>
+                    <Text style={{ fontWeight: 'bold' }}>
+                      {item.name}
+                    </Text>
+                    <Text style={{ fontSize: 12, color: '#666' }}>
+                      {item.description}
+                    </Text>  
+                  </View>
+                </View>
+
               </Pressable>
             )}
             contentContainerStyle={{
-              gap: 10
+              gap: 5
             }}
           />
         </View>

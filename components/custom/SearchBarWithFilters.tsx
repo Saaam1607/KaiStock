@@ -35,7 +35,7 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
           backgroundColor: '#f0f0f0',
           width: 50,
           height: 50,
-          borderRadius: 12,
+          borderRadius: 50,
           justifyContent: 'center',
           alignItems: 'center',
         }}
