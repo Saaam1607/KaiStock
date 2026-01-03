@@ -1,8 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { QuantityField } from '../QuantityField';
+
+import { Card } from '../containers/Card';
+
 import { Product } from '@/types/Product';
+
+import { useColor } from '@/hooks/use-color';
+
+
+import { QuantityField } from '../QuantityField';
 
 const bgCeladon     = 'rgb(172, 225, 175)';
 const bgPeach        = 'rgb(255, 218, 185)';
@@ -14,12 +22,14 @@ type ProductCardProps = {
 
 export function ProductCard({ product, startEditingItem }: ProductCardProps) {
 
+  const color = useColor();
+
   function changeEditState() {
     startEditingItem(product.id);
   }
 
   return (
-    <View style={styles.card}>
+    <Card>
       <View
         style={[
           styles.cardStripe,
@@ -28,23 +38,24 @@ export function ProductCard({ product, startEditingItem }: ProductCardProps) {
       />
 
       <View style={styles.cardContent}>
-        <View style={styles.cardImage}>
-          <Ionicons name="images" size={50} color="silver" />
+
+        <View style={[styles.cardImage, { backgroundColor: color.cardImageBackground }]}>
+          <Ionicons name="images" size={40} color={color.cardImage } />
         </View>
 
         <View style={styles.cardData}>
           <View>
-            <Text style={styles.name}>{product.name}</Text>
-            <Text style={styles.description}>{product.description}</Text>
+            <Text style={[styles.name, { color: color.text }]}>{product.name}</Text>
+            <Text style={[styles.description, { color: color.textLighter }]}>{product.description}</Text>
           </View>
 
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-            <Text style={styles.price}>{product.price.toFixed(2)}</Text>
-            <Text style={[styles.price, { fontSize: 15 }]}>€/{product.uom}</Text>
+            <Text style={[styles.price, { color: color.purple }]}>{product.price.toFixed(2)}</Text>
+            <Text style={[styles.price, { color: color.purple, fontSize: 15 }]}>€/{product.uom}</Text>
           </View>
 
           <View>
-            <Text style={styles.name}>Quantità</Text>
+            <Text style={[styles.name, { color: color.textLighter }]}>Quantità</Text>
             <View style={{ flexDirection: 'column', gap: 5, paddingHorizontal: 20 }}>
               <QuantityField
                 label="In Magazzino"
@@ -66,25 +77,17 @@ export function ProductCard({ product, startEditingItem }: ProductCardProps) {
 
         <View style={styles.cardButtons}>
           <TouchableHighlight onPress={changeEditState} underlayColor="transparent">
-            <View style={[styles.buttonContainer, { backgroundColor: 'orange' }]}>
-              <Ionicons name="pencil" size={25} color="white" />
+            <View style={[styles.buttonContainer, { backgroundColor: color.orange }]}>
+              <Ionicons name="brush" size={20} />
             </View>
           </TouchableHighlight>
         </View>
       </View>
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    minHeight: 130,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 20,
-    overflow: 'hidden',
-    position: 'relative',
-    flexDirection: 'column',
-  },
   cardStripe: {
     position: 'absolute',
     top: 0,
@@ -95,14 +98,13 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flexDirection: 'row',
-    padding: 10,
     zIndex: 1,
     gap: 10,
   },
   cardImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
+    width: 90,
+    height: 90,
+    borderRadius: 90,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -117,11 +119,12 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   buttonContainer: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   name: {
     fontSize: 18,

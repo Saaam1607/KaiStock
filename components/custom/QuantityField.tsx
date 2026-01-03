@@ -1,3 +1,4 @@
+import { useColor } from '@/hooks/use-color';
 import { StyleSheet, Text, View } from 'react-native';
 
 type QuantityFieldProps = {
@@ -12,6 +13,8 @@ export function QuantityField({
   colored = false,
 }: QuantityFieldProps) {
 
+  const color = useColor();
+
   return (
     <View
       style={{
@@ -24,6 +27,7 @@ export function QuantityField({
       <Text
         style={{
           width: 125,
+          color: color.textLighter,
         }}
       >
         {label}
@@ -32,7 +36,7 @@ export function QuantityField({
         style={{
           fontSize: 16,
           fontWeight: '600',
-          color: colored && ( quantity > 0 ? 'green' : 'red' ),
+          color: colored ? ( quantity > 0 ? 'green' : 'red' ) : color.text,
           borderRadius: 10,
           width: 75,
         }}

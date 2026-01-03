@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { useColor } from '@/hooks/use-color';
+
 import ProductForm from '@/components/custom/product/ProductForm';
 import { ItemModal } from '../ItemModal';
 
@@ -15,6 +17,8 @@ type ProductCreateModalProps = {
 
 export function ProductCreateModal({ modalVisible, setModalVisible, product, onSave }: ProductCreateModalProps) {
   
+  const color = useColor();
+
   const [editedProduct, setEditedProduct] = useState<Product>(product);
 
   const handleSave = () => {

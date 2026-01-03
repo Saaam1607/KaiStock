@@ -10,6 +10,7 @@ export function HeaderContainer({ children }: HeaderContainerProps) {
     <View
       style={{
         marginHorizontal: 20,
+        marginVertical: 10,
       }}
     >
       {children}

@@ -2,6 +2,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
 import { TouchableHighlight, View } from 'react-native';
 
+import { useColor } from '@/hooks/use-color';
+
 import { SearchBar } from './SearchBar';
 
 type SearchBarWithFiltersProps = {
@@ -13,6 +15,9 @@ type SearchBarWithFiltersProps = {
 };
 
 export function SearchBarWithFilters({ placeholder, text, setText, showFilter, setShowFilter }: SearchBarWithFiltersProps) {
+  
+  const color = useColor();
+
   return (
     <View
       style={{
@@ -32,7 +37,7 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
         onPress={() => setShowFilter(!showFilter)}
         underlayColor="transparent"
         style={{
-          backgroundColor: '#f0f0f0',
+          backgroundColor: color.searchBackground,
           width: 50,
           height: 50,
           borderRadius: 50,
@@ -44,7 +49,7 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
           <Ionicons
             name="filter"
             size={30}
-            color="#888"
+            color={color.icon}
           />
         </View>
       </TouchableHighlight>

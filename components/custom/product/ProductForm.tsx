@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, StyleSheet, Text, Pressable, View, TextInput } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import type { Product } from '@/types/Product';
+
+import { FormItem } from '../form/FormItem';
 
 type ProductFormProps = {
   product: Product;
@@ -14,41 +15,31 @@ export default function ProductForm({ product, setProduct, oldProduct }: Product
   
   const [priceText, setPriceText] = useState(product.price.toString());
 
-
   return (
     <View style={styles.form}>
-      <Text style={styles.label}>Nome</Text>
-      <TextInput
-        style={[
-          styles.input,
-          oldProduct && oldProduct.name !== product.name && styles.inputChanged,
-        ]}
-        value={product.name}
-        onChangeText={text => setProduct({ ...product, name: text })}
+      
+      <FormItem
+        label="Nome"
+        input={product.name}
+        oldInput={oldProduct?.name}
+        onInputChange={text => setProduct({ ...product, name: text })}
       />
 
-      <Text style={styles.label}>Descrizione</Text>
-      <TextInput
-        style={[
-          styles.input, 
-          { height: 60 },
-          oldProduct && oldProduct.description !== product.description && styles.inputChanged,
-        ]}
-        value={product.description}
-        onChangeText={text => setProduct({ ...product, description: text })}
-        multiline
+      <FormItem
+        label="Descrizione"
+        input={product.description}
+        oldInput={oldProduct?.description}
+        onInputChange={text => setProduct({ ...product, description: text })}
+        inputStyle={{ height: 60 }}
+        multiLine
       />
 
-      <Text style={styles.label}>Prezzo</Text>
-      <TextInput
-        style={[
-          styles.input,
-          oldProduct && oldProduct.price !== Number(priceText) && styles.inputChanged,
-        ]}
-        value={priceText}
-        onChangeText={(text) => {
-          // consenti solo numeri e punto
-          if (/^[0-9]*\.?[0-9]*$/.test(text)) {
+      <FormItem
+        label="Prezzo"
+        input={priceText}
+        oldInput={oldProduct?.price?.toString()}
+        onInputChange={text => {
+          if (/^[0-9]*\.?[0-9]*$/.test(text)) { // consenti solo numeri e punto
             setPriceText(text);
             setProduct({
               ...product,
@@ -59,15 +50,13 @@ export default function ProductForm({ product, setProduct, oldProduct }: Product
         keyboardType="decimal-pad"
       />
 
-      <Text style={styles.label}>Unità di misura</Text>
-      <TextInput
-        style={[
-          styles.input,
-          oldProduct && oldProduct.uom !== product.uom && styles.inputChanged,
-        ]}
-        value={product.uom}
-        onChangeText={text => setProduct({ ...product, uom: text })}
+      <FormItem
+        label="Unità di misura"
+        input={product.uom}
+        oldInput={oldProduct?.uom}
+        onInputChange={text => setProduct({ ...product, uom: text })}
       />
+      
     </View>
   );
 }
@@ -78,19 +67,4 @@ const styles = StyleSheet.create({
     gap: 10,
     marginTop: 10,
   },
-  label: {
-    fontWeight: 'bold',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    fontSize: 16,
-  },
-  inputChanged: {
-    borderColor: 'orange',
-    borderWidth: 2,
-  }
 });

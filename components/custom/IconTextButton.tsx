@@ -1,5 +1,9 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
+
+import { useColor } from '@/hooks/use-color';
 
 type IconTextButtonProps = {
   text: string;
@@ -13,6 +17,12 @@ export default function IconTextButton({
   onPress,
 }: IconTextButtonProps) {
 
+  const color = useColor();
+
+  const gradientColors: [string, string, ...string[]] = color.menuButtonGradient.length >= 2
+    ? (color.menuButtonGradient as [string, string, ...string[]])
+    : ['#fff', '#000'];
+
   return (
     <TouchableHighlight
       onPress={onPress}
@@ -21,12 +31,14 @@ export default function IconTextButton({
         width: '45%',
       }}
     >
-      <View
-        style={styles.button}
-      >
-        <Ionicons name={iconName as any} size={60} color="white" />
+      <LinearGradient
+        colors={gradientColors}
+        style={[
+          styles.button,
+        ]}>
+          <Ionicons name={iconName as any} size={60} color="white" />
           <Text style={styles.text}>{text}</Text>
-      </View>
+      </LinearGradient>
     </TouchableHighlight>
   );
 }

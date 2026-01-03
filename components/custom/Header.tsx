@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
+
+import { useColor } from '@/hooks/use-color';
 
 import IconButton from './IconButton';
 
@@ -15,37 +16,39 @@ type HeaderProps = {
 };
 
 export function Header({ text, leftIconName, leftIconPress, rightIconName, rightIconPress }: HeaderProps) {
+  
+  const color = useColor();
+  
   return (
-    <ThemedView
+    <View
       style={[
         styles.titleContainer,
         leftIconName && rightIconName ? { justifyContent: 'space-between' } : { justifyContent: 'center',},
-        
       ]}
     >
       {leftIconName && (
         <IconButton
           iconName={leftIconName}
           size={30}
-          color='rgba(106, 106, 106, 1)'
+          color={color.icon}
           onPress={leftIconPress || (() => {})}
         />
       )}
-      <ThemedText type="title" style={styles.title}>{text}</ThemedText>
+      <ThemedText type="title" style={[styles.title, { color: color.text }]}>{text}</ThemedText>
       {rightIconName && (
         <IconButton
           iconName={rightIconName}
           size={30}
-          color='rgba(106, 106, 106, 1)'
+          color={color.icon}
           onPress={rightIconPress || (() => {})}
         />
       )}
-    </ThemedView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-   titleContainer: {
+  titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -53,5 +56,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
+    fontSize: 22,
   },
 });

@@ -92,9 +92,9 @@ export default function Products() {
       <HeaderContainer>
         <Header
           text="Prodotti"
-          leftIconName="chevron-back-circle-outline"
+          leftIconName="chevron-back"
           leftIconPress={() => router.back()}
-          rightIconName="add-circle-outline"
+          rightIconName="add"
           rightIconPress={() => startCreatingNewItem()}
         />
       </HeaderContainer>
