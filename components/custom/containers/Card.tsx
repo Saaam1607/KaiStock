@@ -1,13 +1,18 @@
 import React from 'react';
 import { View, StyleSheet} from 'react-native';
 
+import { useColor } from '@/hooks/use-color';
+
 type CardProps = {
   children: React.ReactNode;
 };
 
 export function Card({ children }: CardProps) {
+
+  const color = useColor();
+
   return (
-    <View style={styles.shadowWrapper}>
+    <View style={[styles.shadowWrapper, { backgroundColor: color.cardBackground }]}>
       <View style={styles.card}>
         {children}
       </View>
@@ -31,7 +36,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
     gap: 12,
-    backgroundColor: '#3b3b3bff',
     overflow: 'hidden',
   }
 });

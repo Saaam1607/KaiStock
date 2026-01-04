@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { useColor } from '@/hooks/use-color';
+
 import { ItemModal } from '../ItemModal';
 
 import { SearchBar } from '../SearchBar';
@@ -19,6 +21,8 @@ type ProductionAddProductModalProps = {
 
 export function ProductionAddProductModal({ modalVisible, setModalVisible, selectedIds, onSave }: ProductionAddProductModalProps) {
   
+  const color = useColor();
+
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>(products);
   const [tmpSelectedIds, setTmpSelectedIds] = useState<string[]>(selectedIds);
 
@@ -84,31 +88,32 @@ export function ProductionAddProductModal({ modalVisible, setModalVisible, selec
                   padding: 10,
                   borderRadius: 50,
                   borderWidth: 1,
-                  borderColor: isIdSelected(item.id) ? 'green' : '#ccc',
+                  backgroundColor: color.cardBackground,
+                  borderColor: isIdSelected(item.id) ? color.orange : color.cardBackground,
                   minHeight: 80,
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
                 onPress={() => managePress(item.id)}
               >
-                <View style={{ flexDirection: 'row', gap: 10, }}>
+                <View style={{ flexDirection: 'row', gap: 10 }}>
                   <View style={{ justifyContent: 'center'}}>
                     <View style={{
-                      backgroundColor: 'grey',
+                      backgroundColor: color.cardImageBackground,
                       width: 60,
                       height: 60,
                       borderRadius: 40,
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                      <Ionicons name={"images"} size={20} color="silver" />
+                      <Ionicons name={"images"} size={20} color={color.cardImage} />
                     </View>
                   </View>
-                  <View style={{ flex: 1, }}>
-                    <Text style={{ fontWeight: 'bold' }}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ fontWeight: 'bold', color: color.text }}>
                       {item.name}
                     </Text>
-                    <Text style={{ fontSize: 12, color: '#666' }}>
+                    <Text style={{ fontSize: 12, color: color.textLighter }}>
                       {item.description}
                     </Text>  
                   </View>

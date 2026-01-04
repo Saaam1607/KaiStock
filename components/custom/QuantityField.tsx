@@ -36,7 +36,7 @@ export function QuantityField({
         style={{
           fontSize: 16,
           fontWeight: '600',
-          color: colored ? ( quantity > 0 ? 'green' : 'red' ) : color.text,
+          color: colored ? ( quantity > 0 ? color.green : color.red ) : color.text,
           borderRadius: 10,
           width: 75,
         }}
@@ -46,15 +46,3 @@ export function QuantityField({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    flexDirection: 'row', 
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: 'white',
-    fontSize: 18
-  },
-});

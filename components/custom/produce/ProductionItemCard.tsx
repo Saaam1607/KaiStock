@@ -90,7 +90,6 @@ export function ProductionItemCard({ product, removeProduct, quantity, setQuanti
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 10,

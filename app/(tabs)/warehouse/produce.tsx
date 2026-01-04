@@ -17,19 +17,14 @@ import { Header } from '@/components/custom/Header';
 import { MyAlert } from '@/components/custom/MyAlert';
 
 import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
-import { ProduceDiscardChangesModal } from '@/components/custom/produce/ProduceDiscardChangesModal';
 import { ProductionForm } from '@/components/custom/produce/ProductionForm';
-
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function Produce() {
   
   const router = useRouter();
 
   const [newProduction, setNewProduction] = useState<Production>(initProduction);
-  // const [selectedProductsIds, setSelectedProductsIds] = useState<string[]>([]);
   const [productionItems, setProductionItems] = useState<ProductionBodyItem[]>([]);
-  
 
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
@@ -51,41 +46,30 @@ export default function Produce() {
     });
   }
 
-  function handleSave() {
-    if (newProduction === initProduction && productionItems.length === 0) {
+  function handleBack() {
+    if (newProduction !== initProduction || productionItems.length > 0) {
       setShowDiscardChangesModal(true);
-      // Alert.alert(
-      //   'Modifiche non salvate',
-      //   'Vuoi uscire senza salvare le modifiche?',
-      //   [
-      // {
-      //   text: 'Esci',
-      //   style: 'destructive',
-      //   onPress: () => {
-      //     // Logica per uscire / chiudere modal
-      //     // router.goBack(); // ad esempio
-      //   },
-      // },
-      // {
-      //   text: 'Continua',
-      //   style: 'cancel',
-      //   onPress: () => {
-      //     // Rimani sulla pagina, niente da fare
-      //   },
-      // },
-      //   ],
-      //   {cancelable: false},
-      // );
       return;
     }
-    
+    router.push('/(tabs)/warehouse/productions')
+  }
 
+  function backAndReset() {
+    setNewProduction(initProduction);
+    setProductionItems([]);
+    setShowDiscardChangesModal(false);
+    router.push('/(tabs)/warehouse/productions')
+  }
+
+  function handleSave() {
     setNewProduction(initProduction);
     setProductionItems([]);
     setSnackbarVisible(true);
+    router.push('/(tabs)/warehouse/productions')
   }
 
   return (
+    
     <PageContainer>
     
       {/* Modal */}
@@ -105,7 +89,7 @@ export default function Produce() {
           alertMessage="Vuoi uscire senza salvare le modifiche?"
           okText="Esci"
           notOkText="Continua"
-          onOk={() => router.push('/(tabs)/warehouse/productions')}
+          onOk={() => backAndReset()}
           onNotOk={() => setShowDiscardChangesModal(false)}
         />
       </ModalContainer>
@@ -116,7 +100,7 @@ export default function Produce() {
         <Header
           text="Nuova Produzione"
           leftIconName="chevron-back"
-          leftIconPress={() => router.push('/(tabs)/warehouse/productions')}
+          leftIconPress={() => handleBack()}
           rightIconName="save-outline"
           rightIconPress={() => handleSave()}
         />
@@ -135,7 +119,6 @@ export default function Produce() {
             setProductionItems={setProductionItems}
             setShowAddProductModal={setShowAddProductModal}
           />
-          
         </View>
 
       </BodyContainer>

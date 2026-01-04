@@ -11,6 +11,8 @@ import { products } from '@/types/products';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import { useColor } from '@/hooks/use-color';
+
 import { FormItem } from '../form/FormItem';
 import { FormItemDate } from '../form/FromItemDate'; 
 import { FormItemGeneric } from '../form/FormItemGeneric';
@@ -25,6 +27,8 @@ type ProductionFormProps = {
 
 export function ProductionForm({ production, setProduction, productionItems, setProductionItems, setShowAddProductModal }: ProductionFormProps) {
   
+  const color = useColor();
+
   function removeSelectedProductionItem(product_id: string) {
     // setSelectedProductsIds(selectedProductsIds.filter(item => item !== product_id));
     setProductionItems(productionItems.filter(item => item.product_id !== product_id));
@@ -103,8 +107,8 @@ export function ProductionForm({ production, setProduction, productionItems, set
               justifyContent: 'center',
             }}
           >
-            <Ionicons name="add-circle" size={25} />
-            <Text>Aggiungi Prodotto</Text>
+            <Ionicons name="add-circle" size={25} color={color.text} />
+            <Text style={{ color: color.text }}>Aggiungi Prodotto</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -130,7 +134,6 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 6,

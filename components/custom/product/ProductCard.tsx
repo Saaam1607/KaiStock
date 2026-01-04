@@ -33,14 +33,14 @@ export function ProductCard({ product, startEditingItem }: ProductCardProps) {
       <View
         style={[
           styles.cardStripe,
-          { backgroundColor: product.total_quantity > product.reserved_quantity ? bgCeladon : bgPeach },
+          { backgroundColor: product.total_quantity > product.reserved_quantity ? color.green : color.peach },
         ]}
       />
 
       <View style={styles.cardContent}>
 
         <View style={[styles.cardImage, { backgroundColor: color.cardImageBackground }]}>
-          <Ionicons name="images" size={40} color={color.cardImage } />
+          <Ionicons name="images" size={40} color={color.cardImage} />
         </View>
 
         <View style={styles.cardData}>
@@ -132,11 +132,9 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    color: '#555',
   },
   price: {
     fontSize: 20,
     fontWeight: '900',
-    color: '#841584',
   },
 });
