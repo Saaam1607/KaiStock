@@ -51,7 +51,7 @@ export default function Productions() {
         </ModalContainer>
 
         {/* Header */}
-        <HeaderContainer>
+        {/* <HeaderContainer>
           <Header
             text="Produzioni"
             leftIconName="chevron-back"
@@ -59,7 +59,7 @@ export default function Productions() {
             rightIconName="add-outline"
             rightIconPress={() => router.push('/(tabs)/warehouse/productions/produce')}
           />
-        </HeaderContainer>
+        </HeaderContainer> */}
 
         {/* Body */}
         <BodyContainer>

@@ -1,20 +1,17 @@
 import { useRouter } from 'expo-router';
 
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { ThemedView } from '@/components/themed-view';
 
-import { PageContainer } from '@/components/custom/containers/PageContainer';
 import { HeaderContainer } from '@/components/custom/containers/HeaderContainer';
+import { PageContainer } from '@/components/custom/containers/PageContainer';
 
 import { Header } from '@/components/custom/Header';
 import IconButton from '@/components/custom/IconTextButton';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
-
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: any) {
   
   const router = useRouter();
 
@@ -27,9 +24,9 @@ export default function HomeScreen() {
     >
       <PageContainer>
 
-        <HeaderContainer>
+        {/* <HeaderContainer>
           <Header text="Magazzino" />
-        </HeaderContainer>
+        </HeaderContainer> */}
 
         <ScrollView
           style={{
@@ -43,7 +40,7 @@ export default function HomeScreen() {
             <IconButton
               text={"Prodotti"}
               iconName={"book"}
-              onPress={() => router.push('/(tabs)/warehouse/products')}
+              onPress={() => navigation.navigate('products')}
             />
             <IconButton
               text={"Produzione"}

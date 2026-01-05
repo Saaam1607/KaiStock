@@ -95,7 +95,7 @@ export default function Products() {
         </ModalContainer>
 
         {/* Header */}
-        <HeaderContainer>
+        {/* <HeaderContainer>
           <Header
             text="Prodotti"
             leftIconName="chevron-back"
@@ -103,7 +103,7 @@ export default function Products() {
             rightIconName="add"
             rightIconPress={() => startCreatingNewItem()}
           />
-        </HeaderContainer>
+        </HeaderContainer> */}
 
         {/* Body */}
         <BodyContainer>

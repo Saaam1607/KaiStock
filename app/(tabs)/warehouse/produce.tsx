@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { useRouter } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -20,9 +20,11 @@ import { ProductionAddProductModal } from '@/components/custom/produce/Productio
 import { ProductionForm } from '@/components/custom/produce/ProductionForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
+import { HeaderBtnOpt } from './_layout';
 
 export default function Produce() {
   
+  const navigation = useNavigation();
   const router = useRouter();
 
   const [newProduction, setNewProduction] = useState<Production>(initProduction);
@@ -31,6 +33,8 @@ export default function Produce() {
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
+
+  useEffect(() => { console.log(newProduction)}, [newProduction])
 
   function handleItemAdd(selectedIds: string[]) {
     setSnackbarVisible(true);
@@ -53,31 +57,40 @@ export default function Produce() {
       setShowDiscardChangesModal(true);
       return;
     }
-    router.push({
-      pathname: '/(tabs)/warehouse/productions',
-      params: { direction: 'back' },
-    })
+    navigation.goBack()
   }
 
   function backAndReset() {
     setNewProduction(initProduction);
     setProductionItems([]);
     setShowDiscardChangesModal(false);
-    router.push({
-      pathname: '/(tabs)/warehouse/productions',
-      params: { direction: 'back' },
-    })
+    navigation.goBack()
   }
 
   function handleSave() {
     setNewProduction(initProduction);
     setProductionItems([]);
     setSnackbarVisible(true);
-    router.push({
-      pathname: '/(tabs)/warehouse/productions',
-      params: { direction: 'back' },
-    })
+    navigation.goBack()
   }
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <HeaderBtnOpt
+          navigation={navigation}
+          action={handleBack}
+        />
+      ),
+      headerRight: () => (
+        <HeaderBtnOpt
+          navigation={navigation}
+          action={handleSave}
+          iconName="save"
+        />
+      ),
+    });
+  }, [navigation, handleBack, handleSave]);
 
   return (
     <GestureContainer
@@ -109,7 +122,7 @@ export default function Produce() {
 
 
         {/* Header */}
-        <HeaderContainer>
+        {/* <HeaderContainer>
           <Header
             text="Nuova Produzione"
             leftIconName="chevron-back"
@@ -117,7 +130,7 @@ export default function Produce() {
             rightIconName="save-outline"
             rightIconPress={() => handleSave()}
           />
-        </HeaderContainer>
+        </HeaderContainer> */}
       
         {/* Body */}
         <BodyContainer>

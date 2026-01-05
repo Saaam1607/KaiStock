@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { useColor } from '@/hooks/use-color';
+import { memo } from 'react';
 
 type IconTextButtonProps = {
   text: string;
@@ -11,7 +12,7 @@ type IconTextButtonProps = {
   onPress: () => void;
 };
 
-export default function IconTextButton({
+function IconTextButton({
   text,
   iconName,
   onPress,
@@ -42,6 +43,8 @@ export default function IconTextButton({
     </TouchableHighlight>
   );
 }
+
+export default memo(IconTextButton);
 
 const styles = StyleSheet.create({
   button: {
