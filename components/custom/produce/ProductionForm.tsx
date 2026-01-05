@@ -4,7 +4,8 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import DateInput from '../DateInput';
 import { ProductionItemCard } from './ProductionItemCard';
 
-import type { Production, ProductionBodyItem } from '@/types/Production';
+import type { Production } from '@/types/Production';
+import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
 
 import type { Product } from '@/types/Product';
 import { products } from '@/types/products';
@@ -20,8 +21,8 @@ import { FormItemGeneric } from '../form/FormItemGeneric';
 type ProductionFormProps = {
   production: Production;
   setProduction: (product: Production) => void;
-  productionItems: ProductionBodyItem[];
-  setProductionItems: (items: ProductionBodyItem[]) => void;
+  productionItems: ProductQuantityItem[];
+  setProductionItems: (items: ProductQuantityItem[]) => void;
   setShowAddProductModal: (show: boolean) => void;
 };
 

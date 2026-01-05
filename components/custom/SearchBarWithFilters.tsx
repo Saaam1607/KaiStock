@@ -33,7 +33,7 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
         setText={setText}
         style={{ flex: 1 }}
       />
-      <TouchableHighlight
+      {/* <TouchableHighlight
         onPress={() => setShowFilter(!showFilter)}
         underlayColor="transparent"
         style={{
@@ -52,7 +52,7 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
             color={color.icon}
           />
         </View>
-      </TouchableHighlight>
+      </TouchableHighlight> */}
     </View>
   );
 }

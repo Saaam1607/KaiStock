@@ -132,11 +132,6 @@ export default function Inventory() {
 
 
 const styles = StyleSheet.create({
-  
-  mainContainer: {
-    flex: 1,
-    gap: 20,
-  },
   overlay: {
     position: 'absolute',
     top: 0,

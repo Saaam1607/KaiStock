@@ -4,9 +4,14 @@ import { useRouter } from 'expo-router';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 
 import WarehouseIndex from './index';
+
 import Products from './products';
+import NewProduct from './newProduct';
+
 import Productions from './productions';
 import Produce from './produce';
+
+import Reservations from './reservations';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -15,8 +20,10 @@ import { useColor } from '@/hooks/use-color';
 type WarehouseStackParamList = {
   warehouse: undefined;
   products: undefined;
+  newProduct: undefined;
   productions: undefined;
   produce: undefined;
+  reservations: undefined;
 };
 
 type HeaderBtnProps = {
@@ -69,8 +76,18 @@ export default function WarehouseLayout() {
         name="products"
         component={Products}
         options={({ navigation }) => ({
-          title: 'Prodotti',
+          title: 'Articoli',
           headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
+          headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('newProduct')} iconName="create" />,
+
+        })}
+      />
+
+      <Stack.Screen
+        name="newProduct"
+        component={NewProduct}
+        options={({ navigation }) => ({
+          title: 'Nuovo Articolo',
         })}
       />
 
@@ -91,6 +108,17 @@ export default function WarehouseLayout() {
           title: 'Nuova Produzione',
         })}
       />
+
+      <Stack.Screen
+        name="reservations"
+        component={Reservations}
+        options={({ navigation }) => ({
+          title: 'Prenotazioni',
+          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
+          // headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('produce')} iconName="create" />,
+        })}
+      />
+
     </Stack.Navigator>
   );
 }

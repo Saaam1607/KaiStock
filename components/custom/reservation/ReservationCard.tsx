@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
-import type { Production } from '@/types/Production';
+import type { Reservation } from '@/types/Reservation';
 import type { Product } from '@/types/Product';
 import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
 
@@ -11,11 +11,11 @@ import { Card, CardTitle, CardDescription, CardDate, CardList } from '@/componen
 
 import { products } from '@/types/products';
 
-type ProductionCardProps = {
-  production: Production;
+type ReservationCardProps = {
+  reservation: Reservation;
 };
 
-export default function ProductionCard({ production }: ProductionCardProps) {
+export default function ReservationCard({ reservation }: ReservationCardProps) {
   
   const color = useColor();
   
@@ -25,12 +25,13 @@ export default function ProductionCard({ production }: ProductionCardProps) {
 
   return (
     <Card>
-      <CardTitle value={production.title} />
-      <CardDescription value={production.notes} />
-      <CardDate value={production.date} />
+      <CardTitle value={reservation.title} />
+      <CardTitle value={reservation.to} />
+      <CardDescription value={reservation.notes} />
+      <CardDate value={reservation.date} />
       <CardList
         label="Prodotti"
-        data={production.body as ProductQuantityItem[]}
+        data={reservation.body as ProductQuantityItem[]}
         keyField="product_id"
         renderItem={({ item }) => {
           const product = getProduct(item.product_id);

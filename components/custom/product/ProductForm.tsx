@@ -1,28 +1,34 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import type { Product } from '@/types/Product';
 
 import { FormItem } from '../form/FormItem';
 
+import { useColor } from '@/hooks/use-color';
+
 type ProductFormProps = {
   product: Product;
   setProduct: (product: Product) => void;
+  showMandatoryBorders?: boolean;
   oldProduct?: Product | null;
 };
 
-export default function ProductForm({ product, setProduct, oldProduct }: ProductFormProps) {
+export default function ProductForm({ product, setProduct, showMandatoryBorders = false, oldProduct }: ProductFormProps) {
   
+  const color = useColor();
+
   const [priceText, setPriceText] = useState(product.price.toString());
 
   return (
     <View style={styles.form}>
       
       <FormItem
-        label="Nome"
+        label={"Nome *"}
         input={product.name}
         oldInput={oldProduct?.name}
         onInputChange={text => setProduct({ ...product, name: text })}
+        showMandatoryBorders={showMandatoryBorders && product.name === ''}
       />
 
       <FormItem
@@ -56,6 +62,8 @@ export default function ProductForm({ product, setProduct, oldProduct }: Product
         oldInput={oldProduct?.uom}
         onInputChange={text => setProduct({ ...product, uom: text })}
       />
+
+      <Text style={{ color: color.textLighter, marginTop: 20, fontSize: 12 }}>* Campo Obbligatorio </Text>
       
     </View>
   );

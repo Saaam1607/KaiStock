@@ -7,14 +7,14 @@ import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
 
 import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
-import { productions } from '@/types/productions';
+import { reservations } from '@/types/reservations';
 import { FlatList } from 'react-native';
 
-import ProductionCard from '@/components/custom/production/ProductionCard';
+import ReservationCard from '@/components/custom/reservation/ReservationCard';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
-export default function Productions() {
+export default function Reservations() {
   
   const router = useRouter();
   const navigation = useNavigation();
@@ -22,17 +22,17 @@ export default function Productions() {
   const [searchText, setSearchText] = useState('');
   const [showFilter, setShowFilter] = useState(false);
 
-  const [productionsToDisplay, setProductionsToDisplay] = useState(productions);
+  const [reservationsToDisplay, setReservationsToDisplay] = useState(reservations);
 
   useEffect(() => {
     setTimeout(() => {
-      setProductionsToDisplay(productions.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase())));
+      setReservationsToDisplay(reservations.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase())));
     }, 250);
   }, [searchText]);
 
   return (
     <GestureContainer
-      leftAction={() => router.push('/(tabs)/warehouse/produce')}
+      // leftAction={() => router.push('/(tabs)/warehouse/produce')}
       rightAction={() => navigation.goBack()}
     >
       <PageContainer>
@@ -45,18 +45,18 @@ export default function Productions() {
         {/* Body */}
         <BodyContainer>
           <SearchBarWithFilters
-            placeholder="Cerca produzione..."
+            placeholder="Cerca prenotazione..."
             text={searchText}
             setText={setSearchText}
             showFilter={showFilter}
             setShowFilter={setShowFilter}
           />
           <FlatList
-            data={productionsToDisplay}
+            data={reservationsToDisplay}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <ProductionCard
-                production={item}
+              <ReservationCard
+                reservation={item}
               />
             )}
             contentContainerStyle={{

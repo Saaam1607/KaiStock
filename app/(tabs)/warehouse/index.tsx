@@ -2,11 +2,8 @@ import { useRouter } from 'expo-router';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-
-import { HeaderContainer } from '@/components/custom/containers/HeaderContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
 
-import { Header } from '@/components/custom/Header';
 import IconButton from '@/components/custom/IconTextButton';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
@@ -24,10 +21,6 @@ export default function HomeScreen({ navigation }: any) {
     >
       <PageContainer>
 
-        {/* <HeaderContainer>
-          <Header text="Magazzino" />
-        </HeaderContainer> */}
-
         <ScrollView
           style={{
           }}
@@ -38,7 +31,7 @@ export default function HomeScreen({ navigation }: any) {
         >
           <View style={styles.buttonContainer}>
             <IconButton
-              text={"Prodotti"}
+              text={"Articoli"}
               iconName={"book"}
               onPress={() => navigation.navigate('products')}
             />
@@ -57,7 +50,7 @@ export default function HomeScreen({ navigation }: any) {
             <IconButton
               text={"Riserva"}
               iconName={"bag-sharp"}
-              onPress={() => router.push('/(tabs)/warehouse/orders')}
+              onPress={() => navigation.navigate('reservations')}
             />
             <IconButton
               text={"Vendi"}
@@ -84,10 +77,6 @@ export default function HomeScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    gap: 20,
-  },
   buttonContainer: {
     width: '100%',
     flexDirection: 'row',

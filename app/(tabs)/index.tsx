@@ -9,7 +9,6 @@ import { Link } from 'expo-router';
 
 import { useRouter } from 'expo-router';
 
-
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
 export default function HomeScreen() {
