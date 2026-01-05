@@ -21,6 +21,8 @@ import { Header } from '@/components/custom/Header';
 
 import { products } from '@/types/products';
 
+import { GestureContainer } from '@/components/custom/GestureContainer';
+
 export default function Products() {
   
   const router = useRouter();
@@ -59,84 +61,89 @@ export default function Products() {
   }
 
   return (
-    <PageContainer>
+    <GestureContainer
+      // leftAction={() => setItemCreateModalVisible(true)}
+      // rightAction={() => router.push('/(tabs)/warehouse')}
+    >
+      <PageContainer>
 
-      {/* Creation Modal */}
-      <ModalContainer visible={itemCreateModalVisible}>
-        <ProductCreateModal
-          modalVisible={itemCreateModalVisible}
-          setModalVisible={setItemCreateModalVisible}
-          product={product}
-          onSave={(updatedProduct: Product) => {
-            setSnackbarVisible(true);
-          }}
-        />
-      </ModalContainer>
-
-      {/* Editing Modal */}
-      <ModalContainer visible={itemEditModalVisible && product !== null}>
-        <ProductEditModal
-          modalVisible={itemEditModalVisible}
-          setModalVisible={setItemEditModalVisible}
-          product={product}
-          onSave={(updatedProduct: Product) => {
-            setSnackbarVisible(true);
-          }}
-          onDiscard={() => {
-            stopEditing();
-          }}
-        />
-      </ModalContainer>
-
-      {/* Header */}
-      <HeaderContainer>
-        <Header
-          text="Prodotti"
-          leftIconName="chevron-back"
-          leftIconPress={() => router.back()}
-          rightIconName="add"
-          rightIconPress={() => startCreatingNewItem()}
-        />
-      </HeaderContainer>
-
-      {/* Body */}
-      <BodyContainer>
-
-        <SearchBarWithFilters
-          placeholder="Cerca prodotto..."
-          text={searchText}
-          setText={setSearchText}
-          showFilter={showFilter}
-          setShowFilter={setShowFilter}
-        />
-
-        <View
-          style={styles.bodyContainer}
-        >
-          <FlatList
-            data={productsToDisplay}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <ProductCard
-                product={item}
-                startEditingItem={startEditingItem}
-              />
-            )}
-            contentContainerStyle={{
-              gap: 10
+        {/* Creation Modal */}
+        <ModalContainer visible={itemCreateModalVisible}>
+          <ProductCreateModal
+            modalVisible={itemCreateModalVisible}
+            setModalVisible={setItemCreateModalVisible}
+            product={product}
+            onSave={(updatedProduct: Product) => {
+              setSnackbarVisible(true);
             }}
           />
-        </View>
-      </BodyContainer>
+        </ModalContainer>
 
-      {/* Notifications */}
-      <MySnackBar
-        visible={snackbarVisible}
-        setVisible={setSnackbarVisible}
-        message="Prodotto salvato con successo"
-      />
+        {/* Editing Modal */}
+        <ModalContainer visible={itemEditModalVisible && product !== null}>
+          <ProductEditModal
+            modalVisible={itemEditModalVisible}
+            setModalVisible={setItemEditModalVisible}
+            product={product}
+            onSave={(updatedProduct: Product) => {
+              setSnackbarVisible(true);
+            }}
+            onDiscard={() => {
+              stopEditing();
+            }}
+          />
+        </ModalContainer>
 
-    </PageContainer>
+        {/* Header */}
+        <HeaderContainer>
+          <Header
+            text="Prodotti"
+            leftIconName="chevron-back"
+            leftIconPress={() => router.back()}
+            rightIconName="add"
+            rightIconPress={() => startCreatingNewItem()}
+          />
+        </HeaderContainer>
+
+        {/* Body */}
+        <BodyContainer>
+
+          <SearchBarWithFilters
+            placeholder="Cerca prodotto..."
+            text={searchText}
+            setText={setSearchText}
+            showFilter={showFilter}
+            setShowFilter={setShowFilter}
+          />
+
+          <View
+            style={styles.bodyContainer}
+          >
+            <FlatList
+              data={productsToDisplay}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <ProductCard
+                  product={item}
+                  startEditingItem={startEditingItem}
+                />
+              )}
+              contentContainerStyle={{
+                gap: 10
+              }}
+            />
+          </View>
+        </BodyContainer>
+
+        {/* Notifications */}
+        <MySnackBar
+          visible={snackbarVisible}
+          setVisible={setSnackbarVisible}
+          message="Prodotto salvato con successo"
+        />
+
+      </PageContainer>
+    </GestureContainer>
   );
 }
 

@@ -19,6 +19,8 @@ import { MyAlert } from '@/components/custom/MyAlert';
 import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
 import { ProductionForm } from '@/components/custom/produce/ProductionForm';
 
+import { GestureContainer } from '@/components/custom/GestureContainer';
+
 export default function Produce() {
   
   const router = useRouter();
@@ -51,86 +53,98 @@ export default function Produce() {
       setShowDiscardChangesModal(true);
       return;
     }
-    router.push('/(tabs)/warehouse/productions')
+    router.push({
+      pathname: '/(tabs)/warehouse/productions',
+      params: { direction: 'back' },
+    })
   }
 
   function backAndReset() {
     setNewProduction(initProduction);
     setProductionItems([]);
     setShowDiscardChangesModal(false);
-    router.push('/(tabs)/warehouse/productions')
+    router.push({
+      pathname: '/(tabs)/warehouse/productions',
+      params: { direction: 'back' },
+    })
   }
 
   function handleSave() {
     setNewProduction(initProduction);
     setProductionItems([]);
     setSnackbarVisible(true);
-    router.push('/(tabs)/warehouse/productions')
+    router.push({
+      pathname: '/(tabs)/warehouse/productions',
+      params: { direction: 'back' },
+    })
   }
 
   return (
-    
-    <PageContainer>
-    
-      {/* Modal */}
-      <ModalContainer visible={showAddProductModal}>
-        <ProductionAddProductModal
-          modalVisible={showAddProductModal}
-          setModalVisible={setShowAddProductModal}
-          selectedIds={productionItems.map(item => item.product_id)}
-          onSave={handleItemAdd}
-        />
-      </ModalContainer>
-
-      <ModalContainer visible={showDiscardChangesModal}>
-        <MyAlert
-          alertVisible={showDiscardChangesModal}
-          alertTitle="Modifiche non salvate"
-          alertMessage="Vuoi uscire senza salvare le modifiche?"
-          okText="Esci"
-          notOkText="Continua"
-          onOk={() => backAndReset()}
-          onNotOk={() => setShowDiscardChangesModal(false)}
-        />
-      </ModalContainer>
-
-
-      {/* Header */}
-      <HeaderContainer>
-        <Header
-          text="Nuova Produzione"
-          leftIconName="chevron-back"
-          leftIconPress={() => handleBack()}
-          rightIconName="save-outline"
-          rightIconPress={() => handleSave()}
-        />
-      </HeaderContainer>
-    
-      {/* Body */}
-      <BodyContainer>
-
-        <View
-          style={styles.bodyContainer}
-        >
-          <ProductionForm
-            production={newProduction}
-            setProduction={setNewProduction}
-            productionItems={productionItems}
-            setProductionItems={setProductionItems}
-            setShowAddProductModal={setShowAddProductModal}
+    <GestureContainer
+      // rightAction={() => router.push('/(tabs)/warehouse/productions')}
+    >
+      <PageContainer>
+      
+        {/* Modal */}
+        <ModalContainer visible={showAddProductModal}>
+          <ProductionAddProductModal
+            modalVisible={showAddProductModal}
+            setModalVisible={setShowAddProductModal}
+            selectedIds={productionItems.map(item => item.product_id)}
+            onSave={handleItemAdd}
           />
-        </View>
+        </ModalContainer>
 
-      </BodyContainer>
-    
-      {/* Notifications */}
-      <MySnackBar
-        visible={snackbarVisible}
-        setVisible={setSnackbarVisible}
-        message={'Prodotto aggiornati'}
-      />
-    
-    </PageContainer>
+        <ModalContainer visible={showDiscardChangesModal}>
+          <MyAlert
+            alertVisible={showDiscardChangesModal}
+            alertTitle="Modifiche non salvate"
+            alertMessage="Vuoi uscire senza salvare le modifiche?"
+            okText="Esci"
+            notOkText="Continua"
+            onOk={() => backAndReset()}
+            onNotOk={() => setShowDiscardChangesModal(false)}
+          />
+        </ModalContainer>
+
+
+        {/* Header */}
+        <HeaderContainer>
+          <Header
+            text="Nuova Produzione"
+            leftIconName="chevron-back"
+            leftIconPress={() => handleBack()}
+            rightIconName="save-outline"
+            rightIconPress={() => handleSave()}
+          />
+        </HeaderContainer>
+      
+        {/* Body */}
+        <BodyContainer>
+
+          <View
+            style={styles.bodyContainer}
+          >
+            <ProductionForm
+              production={newProduction}
+              setProduction={setNewProduction}
+              productionItems={productionItems}
+              setProductionItems={setProductionItems}
+              setShowAddProductModal={setShowAddProductModal}
+            />
+          </View>
+
+        </BodyContainer>
+      
+        {/* Notifications */}
+        <MySnackBar
+          visible={snackbarVisible}
+          setVisible={setSnackbarVisible}
+          message={'Prodotto aggiornati'}
+        />
+      
+      </PageContainer>
+    </GestureContainer>
   )
 }
 

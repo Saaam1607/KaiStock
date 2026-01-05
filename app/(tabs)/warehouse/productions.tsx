@@ -16,6 +16,8 @@ import type { Production } from '@/types/Production';
 import ProductionCard from '@/components/custom/production/ProductionCard';
 import { Header } from '@/components/custom/Header';
 
+import { GestureContainer } from '@/components/custom/GestureContainer';
+
 export default function Productions() {
   
   const router = useRouter();
@@ -37,59 +39,64 @@ export default function Productions() {
   }
 
   return (
-    <PageContainer>
+    <GestureContainer
+      // leftAction={() => router.push('/(tabs)/warehouse/produce')}
+      // rightAction={() => router.push('/(tabs)/warehouse')}
+    >
+      <PageContainer>
 
-      {/* Modal */}
-      <ModalContainer visible={false}>
-        <></>
-      </ModalContainer>
+        {/* Modal */}
+        <ModalContainer visible={false}>
+          <></>
+        </ModalContainer>
 
-      {/* Header */}
-      <HeaderContainer>
-        <Header
-          text="Produzioni"
-          leftIconName="chevron-back"
-          leftIconPress={() => router.back()}
-          rightIconName="add-outline"
-          rightIconPress={() => router.push('/(tabs)/warehouse/produce')}
-        />
-      </HeaderContainer>
-
-      {/* Body */}
-      <BodyContainer>
-        <SearchBarWithFilters
-          placeholder="Cerca prodotto..."
-          text={searchText}
-          setText={setSearchText}
-          showFilter={showFilter}
-          setShowFilter={setShowFilter}
-        />
-        <View
-          style={styles.bodyContainer}
-        >
-          <FlatList
-            data={productionsToDisplay}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <ProductionCard
-                production={item}
-              />
-            )}
-            contentContainerStyle={{
-              gap: 10,
-            }}
+        {/* Header */}
+        <HeaderContainer>
+          <Header
+            text="Produzioni"
+            leftIconName="chevron-back"
+            leftIconPress={() => router.back()}
+            rightIconName="add-outline"
+            rightIconPress={() => router.push('/(tabs)/warehouse/productions/produce')}
           />
-        </View>
-      </BodyContainer>
+        </HeaderContainer>
 
-      {/* Notifications */}
-      <MySnackBar
-        visible={snackbarVisible}
-        setVisible={setSnackbarVisible}
-        message="Prodotto salvato con successo"
-      />
+        {/* Body */}
+        <BodyContainer>
+          <SearchBarWithFilters
+            placeholder="Cerca prodotto..."
+            text={searchText}
+            setText={setSearchText}
+            showFilter={showFilter}
+            setShowFilter={setShowFilter}
+          />
+          <View
+            style={styles.bodyContainer}
+          >
+            <FlatList
+              data={productionsToDisplay}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <ProductionCard
+                  production={item}
+                />
+              )}
+              contentContainerStyle={{
+                gap: 10,
+              }}
+            />
+          </View>
+        </BodyContainer>
 
-    </PageContainer>
+        {/* Notifications */}
+        <MySnackBar
+          visible={snackbarVisible}
+          setVisible={setSnackbarVisible}
+          message="Prodotto salvato con successo"
+        />
+
+      </PageContainer>
+    </GestureContainer>
   );
 }
 

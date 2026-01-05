@@ -23,7 +23,7 @@ export default function TabLayout() {
         },
       }}>
       <Tabs.Screen
-        name="warehouse/index"
+        name="warehouse"
         options={{
           title: 'Magazzino',
           tabBarIcon: ({ color, focused }) => (
@@ -31,22 +31,22 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="warehouse/products"
         options={{ href: null }}  
-      />
-      <Tabs.Screen
+      /> */}
+      {/* <Tabs.Screen
         name="warehouse/produce"
         options={{ href: null }}  
-      />
-      <Tabs.Screen
+      /> */}
+      {/* <Tabs.Screen
         name="warehouse/productions"
         options={{ href: null }}  
-      />
-      <Tabs.Screen
+      /> */}
+      {/* <Tabs.Screen
         name="warehouse/inventory"
         options={{ href: null }}  
-      />
+      /> */}
       <Tabs.Screen
         name="index"
         options={{
