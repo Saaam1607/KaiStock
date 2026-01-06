@@ -7,14 +7,14 @@ import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
 
 import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
-import { reservations } from '@/types/reservations';
+import { sales } from '@/types/sales';
 import { FlatList } from 'react-native';
 
-import ReservationCard from '@/components/custom/reservation/ReservationCard';
+import SaleCard from '@/components/custom/sale/SaleCard';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
-export default function Reservations() {
+export default function Sales() {
   
   const router = useRouter();
   const navigation = useNavigation();
@@ -22,18 +22,18 @@ export default function Reservations() {
   const [searchText, setSearchText] = useState('');
   const [showFilter, setShowFilter] = useState(false);
 
-  const [reservationsToDisplay, setReservationsToDisplay] = useState(reservations);
+  const [reservationsToDisplay, setSalesToDisplay] = useState(sales);
 
   useEffect(() => {
     setTimeout(() => {
-      setReservationsToDisplay(reservations.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase())));
+      setSalesToDisplay(sales.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase())));
     }, 250);
   }, [searchText]);
 
   return (
     <GestureContainer
-      leftAction={() => router.push('/(tabs)/warehouse/newReservation')}
-      rightAction={() => navigation.goBack()}
+      // leftAction={() => router.push('/(tabs)/warehouse/produce')}
+      // rightAction={() => navigation.goBack()}
     >
       <PageContainer>
 
@@ -45,7 +45,7 @@ export default function Reservations() {
         {/* Body */}
         <BodyContainer>
           <SearchBarWithFilters
-            placeholder="Cerca prenotazione..."
+            placeholder="Cerca vendita..."
             text={searchText}
             setText={setSearchText}
             showFilter={showFilter}
@@ -55,8 +55,8 @@ export default function Reservations() {
             data={reservationsToDisplay}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <ReservationCard
-                reservation={item}
+              <SaleCard
+                sale={item}
               />
             )}
             contentContainerStyle={{

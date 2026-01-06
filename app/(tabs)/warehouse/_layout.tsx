@@ -12,6 +12,9 @@ import Productions from './productions';
 import Produce from './produce';
 
 import Reservations from './reservations';
+import NewReservation from './newReservation';
+
+import Sales from './sales';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -24,6 +27,8 @@ type WarehouseStackParamList = {
   productions: undefined;
   produce: undefined;
   reservations: undefined;
+  newReservation: undefined;
+  sales: undefined;
 };
 
 type HeaderBtnProps = {
@@ -114,6 +119,24 @@ export default function WarehouseLayout() {
         component={Reservations}
         options={({ navigation }) => ({
           title: 'Prenotazioni',
+          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
+          headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('newReservation')} iconName="create" />,
+        })}
+      />
+
+      <Stack.Screen
+        name="newReservation"
+        component={NewReservation}
+        options={({ navigation }) => ({
+          title: 'Nuova Prenotazione',
+        })}
+      />
+
+      <Stack.Screen
+        name="sales"
+        component={Sales}
+        options={({ navigation }) => ({
+          title: 'Vendite',
           headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
           // headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('produce')} iconName="create" />,
         })}

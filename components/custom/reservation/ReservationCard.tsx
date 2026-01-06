@@ -43,6 +43,10 @@ export default function ReservationCard({ reservation }: ReservationCardProps) {
               <Text style={[styles.productName, { color: color.text }]} numberOfLines={1}>
                 {product?.name}
               </Text>
+              <Text style={[{ color: color.text }]} numberOfLines={1}>
+                {product ? item.quantity * product.price : 0}
+
+              </Text>
             </>
           );
         }}

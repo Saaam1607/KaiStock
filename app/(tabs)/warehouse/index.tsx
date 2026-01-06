@@ -55,7 +55,7 @@ export default function HomeScreen({ navigation }: any) {
             <IconButton
               text={"Vendi"}
               iconName={"bag-check-sharp"}
-              onPress={() => router.push('/(tabs)/warehouse/orders')}
+              onPress={() => navigation.navigate('sales')}
             />
           </View>
           <View style={styles.buttonContainer}>
