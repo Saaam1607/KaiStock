@@ -10,6 +10,7 @@ import { initProduct } from '@/types/Product';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
+import { LazyContainer } from '@/components/custom/containers/LazyContainer';
 
 import { ProductCard } from '@/components/custom/product/ProductCard';
 import { ProductEditModal } from '@/components/custom/product/ProductEditModal';
@@ -83,19 +84,22 @@ export default function Products() {
             showFilter={showFilter}
             setShowFilter={setShowFilter}
           />
-          <FlatList
-            data={productsToDisplay}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <ProductCard
-                product={item}
-                startEditingItem={startEditingItem}
-              />
-            )}
-            contentContainerStyle={{
-              gap: 10
-            }}
-          />
+          <LazyContainer>
+            <FlatList
+              data={productsToDisplay}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <ProductCard
+                  product={item}
+                  startEditingItem={startEditingItem}
+                />
+              )}
+              contentContainerStyle={{
+                gap: 10
+              }}
+            />
+          </LazyContainer>
+
         </BodyContainer>
 
       </PageContainer>

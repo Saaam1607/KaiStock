@@ -8,7 +8,7 @@ import type { Production } from '@/types/Production';
 import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
 
 import type { Product } from '@/types/Product';
-import { products } from '@/types/products';
+import { getProduct } from '@/components/utils/getProduct';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -33,10 +33,6 @@ export function ProductionForm({ production, setProduction, productionItems, set
   function removeSelectedProductionItem(product_id: string) {
     // setSelectedProductsIds(selectedProductsIds.filter(item => item !== product_id));
     setProductionItems(productionItems.filter(item => item.product_id !== product_id));
-  }
-
-  function getProduct(product_id: string): Product | undefined {
-    return products.find(item => item.id === product_id);
   }
 
   return (

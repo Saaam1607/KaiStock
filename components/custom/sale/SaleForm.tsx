@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import DateInput from '../DateInput';
 // import { ProductionItemCard } from './ProductionItemCard';
 
-import type { Reservation } from '@/types/Reservation';
+import type { Sale } from '@/types/Sale';
 import type { SoldProduct } from '@/types/SoldProduct';
-import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
 
 import { ProductionItemCard } from '../produce/ProductionItemCard';
+import { SoldItemCard } from './SoldItemCard';
 
 import type { Product } from '@/types/Product';
 import { getProduct } from '@/components/utils/getProduct';
@@ -18,18 +18,20 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useColor } from '@/hooks/use-color';
 
 import { FormItem } from '../form/FormItem';
-import { FormItemDate } from '../form/FromItemDate'; 
+import { FormItemDate } from '../form/FromItemDate';
+import { FormCheck } from '../form/FormCheck';
 import { FormItemGeneric } from '../form/FormItemGeneric';
 
-type ReservationFormProps = {
-  reservation: Reservation;
-  setReservation: (product: Reservation) => void;
+type SaleFormProps = {
+  sale: Sale;
+  setSale: (sale: Sale) => void;
   soldProductItems: SoldProduct[];
   setSoldProductItems: (items: SoldProduct[]) => void;
   setShowAddProductModal: (show: boolean) => void;
+  showMandatoryBorders?: boolean;
 };
 
-export function ReservationForm({ reservation, setReservation, soldProductItems, setSoldProductItems, setShowAddProductModal }: ReservationFormProps) {
+export function SaleForm({ sale, setSale, soldProductItems, setSoldProductItems, setShowAddProductModal, showMandatoryBorders = false }: SaleFormProps) {
   
   const color = useColor();
 
@@ -41,33 +43,34 @@ export function ReservationForm({ reservation, setReservation, soldProductItems,
   return (
     <View style={styles.container}>
       <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
-        
         <FormItem
           label="Titolo"
-          input={reservation.title}
-          onInputChange={text => setReservation({ ...reservation, title: text })}
+          input={sale.title}
+          onInputChange={text => setSale({ ...sale, title: text })}
         />
-
         <FormItem
           label="Note"
-          input={reservation.notes}
-          onInputChange={text => setReservation({ ...reservation, notes: text })}
+          input={sale.notes}
+          onInputChange={text => setSale({ ...sale, notes: text })}
           inputStyle={{ height: 60 }}
           multiLine
         />
-
         <FormItem
           label="Riservato a"
-          input={reservation.to}
-          onInputChange={text => setReservation({ ...reservation, notes: text })}
+          input={sale.to}
+          onInputChange={text => setSale({ ...sale, notes: text })}
+          showMandatoryBorders={showMandatoryBorders && sale.to === ''}
         />
-
+        <FormCheck
+          label="Consegnato"
+          input={sale.delivered}
+          onInputChange={text => setSale({ ...sale, delivered: text })}
+        />
         <FormItemDate
           label="Data"
-          input={reservation.date}
-          onInputChange={text => setReservation({ ...reservation, date: text })}
-        />
-
+          input={sale.date}
+          onInputChange={text => setSale({ ...sale, date: text })}
+        />        
         <FormItemGeneric label="Articoli">
           <View style={styles.list}>
             {soldProductItems.map(item => {
@@ -76,22 +79,12 @@ export function ReservationForm({ reservation, setReservation, soldProductItems,
               if (!product) return null;
 
               return (
-                <ProductionItemCard
+                <SoldItemCard
                   key={product.id}
-                  product={product}
-                  removeProduct={removeSelectedProductionItem}
-                  quantity={item.quantity}
-                  setQuantity={(quantity: number) => {
-                    setSoldProductItems(soldProductItems.map(i => {
-                      if (i.product_id === product.id) {
-                        return { ...i, quantity };
-                      }
-                      return i;
-                    }));
-                  }}
+                  sale={item}
+                  removeItem={removeSelectedProductionItem}
                 />
               )
-
             })}
           </View>
         </FormItemGeneric>
@@ -117,6 +110,8 @@ export function ReservationForm({ reservation, setReservation, soldProductItems,
             <Text style={{ color: color.text }}>Aggiungi Prodotto</Text>
           </Pressable>
         </View>
+        <Text style={{ color: color.textLighter, marginTop: 20, fontSize: 12 }}>* Campo Obbligatorio </Text>
+
       </ScrollView>
     </View>
 

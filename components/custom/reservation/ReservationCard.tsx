@@ -7,9 +7,9 @@ import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
 
 import { useColor } from '@/hooks/use-color';
 
-import { Card, CardTitle, CardDescription, CardDate, CardList } from '@/components/custom/containers/Card';
+import { Card, CardTitle, CardDescription, CardToPerson, CardDate, CardList } from '@/components/custom/containers/Card';
 
-import { products } from '@/types/products';
+import { getProduct } from '@/components/utils/getProduct';
 
 type ReservationCardProps = {
   reservation: Reservation;
@@ -18,16 +18,12 @@ type ReservationCardProps = {
 export default function ReservationCard({ reservation }: ReservationCardProps) {
   
   const color = useColor();
-  
-  function getProduct(product_id: string): Product | undefined {
-    return products.find(item => item.id === product_id);
-  }
 
   return (
     <Card>
       <CardTitle value={reservation.title} />
-      <CardTitle value={reservation.to} />
       <CardDescription value={reservation.notes} />
+      <CardTitle value={reservation.to} />
       <CardDate value={reservation.date} />
       <CardList
         label="Prodotti"

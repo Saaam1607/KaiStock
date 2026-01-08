@@ -9,11 +9,11 @@ type ItemModalProps = {
   modalVisible: boolean;
   modalTitle: string;
 
-  okText: string;
-  notOkText: string;
+  okText?: string;
+  notOkText?: string;
 
-  onOk: () => void;
-  onNotOk: () => void;
+  onOk?: () => void;
+  onNotOk?: () => void;
 
   children?: React.ReactNode;
 };
@@ -27,7 +27,7 @@ export function ItemModal({ modalVisible, modalTitle, okText, notOkText, onOk, o
       animationType="slide"
       transparent={true}
       visible={modalVisible}
-      onRequestClose={() => onNotOk()}
+      onRequestClose={() =>  {onNotOk && onNotOk()}}
     >
       <View style={styles.overlay}>
         <View style={[styles.modalView, { backgroundColor: color.modalBackground }]}>
@@ -38,7 +38,7 @@ export function ItemModal({ modalVisible, modalTitle, okText, notOkText, onOk, o
               name="close"
               size={32}
               color={color.icon}
-              onPress={() => onNotOk()}
+              onPress={() => {onNotOk && onNotOk()}}
             />
           </View>
 
@@ -46,14 +46,17 @@ export function ItemModal({ modalVisible, modalTitle, okText, notOkText, onOk, o
             {children}
           </View>
 
-          <View style={styles.modalButtons}>
-            <Pressable style={[styles.button, {backgroundColor: color.red}]} onPress={() => onNotOk()}>
-              <Text style={[styles.buttonText, { color: color.text }]}>{notOkText}</Text>
-            </Pressable>
-            <Pressable style={[styles.button, {backgroundColor: color.green}]} onPress={() => onOk()}>
-              <Text style={[styles.buttonText, { color: color.text }]}>{okText}</Text>
-            </Pressable>
-          </View>
+          { (okText !== undefined || notOkText !== undefined) && (
+            <View style={styles.modalButtons}>
+              <Pressable style={[styles.button, {backgroundColor: color.red}]} onPress={() => {onNotOk && onNotOk()}}>
+                <Text style={[styles.buttonText, { color: color.text }]}>{notOkText}</Text>
+              </Pressable>
+              <Pressable style={[styles.button, {backgroundColor: color.green}]} onPress={() => {onOk && onOk()}}>
+                <Text style={[styles.buttonText, { color: color.text }]}>{okText}</Text>
+              </Pressable>
+            </View>
+          )}
+
 
         </View>
       </View>

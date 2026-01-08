@@ -19,6 +19,16 @@ export function CardDescription({ value }: { value: string }) {
   );
 }
 
+export function CardToPerson({ value }: { value: string }) {
+  const color = useColor();
+  return (
+    <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
+      <Ionicons name="person" size={20} color={color.text} />
+      <Text style={[{ fontWeight: 'bold' }, { color: color.text }]}>{value}</Text>
+    </View>
+  );
+}
+
 export function CardDate({ value }: { value: Date }) {
   const color = useColor();
   

@@ -15,6 +15,7 @@ import Reservations from './reservations';
 import NewReservation from './newReservation';
 
 import Sales from './sales';
+import NewSale from './newSale';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -29,6 +30,7 @@ type WarehouseStackParamList = {
   reservations: undefined;
   newReservation: undefined;
   sales: undefined;
+  newSale: undefined;
 };
 
 type HeaderBtnProps = {
@@ -61,13 +63,14 @@ export default function WarehouseLayout() {
 
   return (
     <Stack.Navigator
-      screenOptions={({ route }) => {
-        return {
-          gestureEnabled: true,
-          headerShown: true,
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        };
-      }}
+      screenOptions={{ animation: 'none' }}
+      // screenOptions={({ route }) => {
+      //   return {
+      //     gestureEnabled: true,
+      //     headerShown: true,
+      //     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      //   };
+      // }}
     >
       <Stack.Screen
         name="warehouse"
@@ -138,7 +141,15 @@ export default function WarehouseLayout() {
         options={({ navigation }) => ({
           title: 'Vendite',
           headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          // headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('produce')} iconName="create" />,
+          headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('newSale')} iconName="create" />,
+        })}
+      />
+
+      <Stack.Screen
+        name="newSale"
+        component={NewSale}
+        options={({ navigation }) => ({
+          title: 'Nuova Vendita',
         })}
       />
 

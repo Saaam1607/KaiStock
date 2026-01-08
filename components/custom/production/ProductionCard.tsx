@@ -9,7 +9,7 @@ import { useColor } from '@/hooks/use-color';
 
 import { Card, CardTitle, CardDescription, CardDate, CardList } from '@/components/custom/containers/Card';
 
-import { products } from '@/types/products';
+import { getProduct } from '@/components/utils/getProduct';
 
 type ProductionCardProps = {
   production: Production;
@@ -18,10 +18,6 @@ type ProductionCardProps = {
 export default function ProductionCard({ production }: ProductionCardProps) {
   
   const color = useColor();
-  
-  function getProduct(product_id: string): Product | undefined {
-    return products.find(item => item.id === product_id);
-  }
 
   return (
     <Card>

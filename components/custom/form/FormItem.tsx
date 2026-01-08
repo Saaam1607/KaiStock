@@ -8,7 +8,7 @@ type FormItemProps = {
   label: string;
   input: string;
   oldInput?: string;
-  onInputChange: (value: string) => void;
+  onInputChange?: (value: string) => void;
   inputStyle?: StyleProp<TextStyle>;
   multiLine?: boolean;
   keyboardType?: KeyboardTypeOptions;
@@ -18,20 +18,24 @@ type FormItemProps = {
 export function FormItem({ label, input, oldInput, onInputChange, inputStyle, multiLine = false, keyboardType='default', showMandatoryBorders }: FormItemProps) {
 
   const color = useColor();
+  const readonly = onInputChange === undefined;
 
   return (
     <View>
       <Text style={[styles.label, { color: color.textLighter }]}>{label}</Text>
       <TextInput
+        editable={!readonly}
+        selectTextOnFocus={!readonly}
         style={[
           styles.input, 
           inputStyle,
-          { color: color.text, borderColor: color.inputBorderColor },
+          { color: readonly ? color.textLighter : color.text  },
+          { borderColor: color.inputBorderColor },
           oldInput && oldInput !== input && { borderColor: color.inputChangedBorderColor, borderWidth: 2 },
           showMandatoryBorders && { borderColor: color.red, borderWidth: 2 },
         ]}
         value={input}
-        onChangeText={text => onInputChange(text)}
+        onChangeText={text => onInputChange && onInputChange(text)}
         multiline = {multiLine}
         keyboardType={keyboardType}
       />

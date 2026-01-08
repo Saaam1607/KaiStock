@@ -2,6 +2,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, TextInput, View } from 'react-native';
 
+import { useColor } from '@/hooks/use-color';
+
 const firstInputDelay = 300;
 const continuousInputDelay = 200;
 
@@ -20,6 +22,8 @@ export function QuantityEditor({
   quantity,
   setQuantity,
 }: QuantityEditorProps) {
+
+  const color = useColor();
 
   const [tmpQuantityText, setTmpQuantityText] = useState(quantity.toString());
 
@@ -122,7 +126,7 @@ function addQuantity(delta = 1) {
 
   return (
     <View style={containerStyles.quantityButtons}>
-      <View style={containerStyles.iconButtonView}>
+      <View style={[containerStyles.iconButtonView, { borderColor: color.inputBorderColor }]}>
         <Pressable
           style={containerStyles.iconButtonPressable}
           onPressIn={startRemoving}
@@ -133,7 +137,7 @@ function addQuantity(delta = 1) {
             <Ionicons
               name="remove-sharp"
               size={defaultIconSize}
-              color="red"
+              color={color.red}
             />
           </Animated.View>
         </Pressable>
@@ -143,6 +147,7 @@ function addQuantity(delta = 1) {
         <TextInput
           style={[
             styles.input,
+            { color: color.text }
           ]}
           maxLength={3}
           value={tmpQuantityText}
@@ -155,7 +160,7 @@ function addQuantity(delta = 1) {
       />
       </View>
 
-      <View style={containerStyles.iconButtonView}>
+      <View style={[containerStyles.iconButtonView, { borderColor: color.inputBorderColor }]}>
         <Pressable
           style={containerStyles.iconButtonPressable}
           onPressIn={startAdding}
@@ -166,7 +171,7 @@ function addQuantity(delta = 1) {
             <Ionicons
               name="add-sharp"
               size={defaultIconSize}
-              color="green"
+              color={color.green}
             />
           </Animated.View>
         </Pressable>
@@ -186,7 +191,6 @@ const containerStyles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#ccc',
     borderRadius: 8,
     borderWidth: 1,
   },
@@ -202,7 +206,6 @@ const containerStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   input: {
     // borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 8,
     paddingHorizontal: 5,
     paddingVertical: 5,

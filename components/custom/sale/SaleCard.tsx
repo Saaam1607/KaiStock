@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
+import { LazyContainer } from '../containers/LazyContainer';
+
 import type { Sale } from '@/types/Sale';
 import type { Product } from '@/types/Product';
 import type { SoldProduct } from '@/types/SoldProduct';
@@ -11,7 +13,7 @@ import { Card, CardTitle, CardDescription, CardDate, CardList } from '@/componen
 
 import SaleTable from '@/components/custom/sale/SaleTable';
 
-import { products } from '@/types/products';
+import { getProduct } from '@/components/utils/getProduct';
 
 type SaleTableRow = SoldProduct & {
   name: string;
@@ -31,7 +33,7 @@ export default function SaleCard({ sale }: SaleCardProps) {
   useEffect(() => {
     const newTableData = sale.body.map((item: SoldProduct) => ({
       ...item,
-      name: products.find((product) => product.id === item.product_id)?.name || 'N/A',
+      name: getProduct(item.product_id)?.name || 'N/A',
       totalPrice: item.quantity * item.unit_price * item.weight,
     }));
     setTableData(newTableData);
@@ -42,12 +44,6 @@ export default function SaleCard({ sale }: SaleCardProps) {
     setTotalPrice(newTotalPrice);
   }, [tableData]);
 
-
-
-  function getProduct(product_id: string): Product | undefined {
-    return products.find(item => item.id === product_id);
-  }
-
   return (
     <Card>
       <CardTitle value={sale.title} />
@@ -55,7 +51,9 @@ export default function SaleCard({ sale }: SaleCardProps) {
       <CardDescription value={sale.notes} />
       <CardDate value={sale.date} />
       <View style={{ width: '100%' }}>
-        <SaleTable data={tableData as SaleTableRow[]} />
+        <LazyContainer>
+          <SaleTable data={tableData as SaleTableRow[]} />
+        </LazyContainer>
       </View>
       <CardTitle value={'Totale: ' + totalPrice + ' €'} />
       {/* <CardList

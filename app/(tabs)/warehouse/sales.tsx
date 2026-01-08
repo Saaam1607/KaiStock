@@ -5,6 +5,7 @@ import { useNavigation, useRouter } from 'expo-router';
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
+import { LazyContainer } from '@/components/custom/containers/LazyContainer';
 
 import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
 import { sales } from '@/types/sales';
@@ -51,18 +52,20 @@ export default function Sales() {
             showFilter={showFilter}
             setShowFilter={setShowFilter}
           />
-          <FlatList
-            data={reservationsToDisplay}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <SaleCard
-                sale={item}
-              />
-            )}
-            contentContainerStyle={{
-              gap: 10,
-            }}
-          />
+          <LazyContainer>
+            <FlatList
+              data={reservationsToDisplay}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <SaleCard
+                  sale={item}
+                />
+              )}
+              contentContainerStyle={{
+                gap: 10,
+              }}
+            />
+          </LazyContainer>
         </BodyContainer>
 
       </PageContainer>

@@ -3,26 +3,28 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 
 import { QuantityEditor } from '../QuantityEditor';
 
-import type { Product } from '@/types/Product';
+import type { Sale } from '@/types/Sale';
+import type { SoldProduct } from '@/types/SoldProduct';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import { getProduct } from '@/components/utils/getProduct';
+
 import { useColor } from '@/hooks/use-color';
 
-type ProductionItemCardProps = {
-  product: Product;
-	removeProduct: (id: string) => void;
-	quantity: number;
-	setQuantity: (quantity: number) => void;
+type SoldItemCardProps = {
+  sale: SoldProduct;
+	removeItem: (id: string) => void;
 };
 
-export function ProductionItemCard({ product, removeProduct, quantity, setQuantity }: ProductionItemCardProps) {
+export function SoldItemCard({ sale, removeItem }: SoldItemCardProps) {
 
   const color = useColor();
+  const product = getProduct(sale.product_id);
 
   return (
 		<View
-			key={product.id}
+			key={sale.product_id}
 			style={[styles.input, { backgroundColor: color.cardBackground }]}
 		>
 			<View style={{ flexDirection: 'row', flexGrow: 1, gap: 10 }}>
@@ -40,23 +42,26 @@ export function ProductionItemCard({ product, removeProduct, quantity, setQuanti
 
 				<View style={{ flexDirection: 'column', gap: 10, flex: 1 }}>
 
+
+            {/* id: string;
+            title: string;
+            notes: string;
+            to: string;
+            body: SoldProduct[],
+            date: Date;
+            deltaDiscount: number;
+            delivered: boolean; */}
+
+
 					<View style={{ gap: 10 }}>
-						<Text style={{ color: color.text }}>{product.name}</Text>
-						<Text style={{ color: color.textLighter }}>{product.description}</Text>
-						<Text style={{ color: color.textLighter }}>{product.price} €/{product.uom}</Text>
-					</View>
-					<View style={{ }}>
-						<QuantityEditor
-								quantity={quantity}
-								setQuantity={quantity => {
-									// setSelectedProductionItems(selectedProductionItems.map(i => {
-									//   if (i.product_id === product.id) {
-									//     return { ...i, quantity };
-									//   }
-									//   return i;
-									// }));
-								}}
-							/>
+						<Text style={{ color: color.text }}>{product?.name}</Text>
+            <Text style={{ color: color.text }}>{product?.description}</Text>
+						<Text style={{ color: color.textLighter }}>{sale.unit_price} €/{sale.uom}</Text>
+
+						<Text style={{ color: color.textLighter }}>{sale.quantity + " Articoli"}</Text>
+            <Text style={{ color: color.textLighter }}>{sale.weight + " " + sale.uom}</Text>
+            <Text style={{ color: color.textLighter }}>{"Prezzo per articolo: " + sale.weight * sale.unit_price + " €"}</Text>
+            <Text style={{ color: color.textLighter }}>{"Prezzo totale: " + sale.weight * sale.unit_price * sale.quantity + " €"}</Text>
 					</View>
 				</View>
 
@@ -64,7 +69,7 @@ export function ProductionItemCard({ product, removeProduct, quantity, setQuanti
 
 			<View >
 				<Pressable
-					onPress={() => removeProduct(product.id)}
+					onPress={() => removeItem(sale.product_id)}
 					style={{
 						position: 'absolute',
 						top: -15,
