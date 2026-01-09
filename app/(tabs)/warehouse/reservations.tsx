@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation, useRouter } from 'expo-router';
 
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
+import { LazyContainer } from '@/components/custom/containers/LazyContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
-import { LazyContainer } from '@/components/custom/containers/LazyContainer';
 
 import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
-import { reservations } from '@/types/reservations';
 import { FlatList } from 'react-native';
+
+import { getAllReservations } from '@/components/api/reservationsApi';
 
 import ReservationCard from '@/components/custom/reservation/ReservationCard';
 
@@ -19,6 +20,8 @@ export default function Reservations() {
   
   const router = useRouter();
   const navigation = useNavigation();
+
+  const reservations = getAllReservations();
 
   const [searchText, setSearchText] = useState('');
   const [showFilter, setShowFilter] = useState(false);

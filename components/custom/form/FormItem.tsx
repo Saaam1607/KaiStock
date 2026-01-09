@@ -31,6 +31,7 @@ export function FormItem({ label, input, oldInput, onInputChange, inputStyle, mu
           inputStyle,
           { color: readonly ? color.textLighter : color.text  },
           { borderColor: color.inputBorderColor },
+          { borderWidth: onInputChange ? 1 : 0 },
           oldInput && oldInput !== input && { borderColor: color.inputChangedBorderColor, borderWidth: 2 },
           showMandatoryBorders && { borderColor: color.red, borderWidth: 2 },
         ]}
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 6,

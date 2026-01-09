@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 
 import { useColor } from '@/hooks/use-color';
 

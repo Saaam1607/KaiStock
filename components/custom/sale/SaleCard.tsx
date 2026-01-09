@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import { LazyContainer } from '../containers/LazyContainer';
 
 import type { Sale } from '@/types/Sale';
-import type { Product } from '@/types/Product';
 import type { SoldProduct } from '@/types/SoldProduct';
 
 import { useColor } from '@/hooks/use-color';
 
-import { Card, CardTitle, CardDescription, CardDate, CardList } from '@/components/custom/containers/Card';
+import { Card, CardDate, CardDescription, CardTitle } from '@/components/custom/containers/Card';
 
 import SaleTable from '@/components/custom/sale/SaleTable';
 
-import { getProduct } from '@/components/utils/getProduct';
+import { getProductFromId } from '@/components/api/productsApi';
+
 
 type SaleTableRow = SoldProduct & {
   name: string;
@@ -33,7 +33,7 @@ export default function SaleCard({ sale }: SaleCardProps) {
   useEffect(() => {
     const newTableData = sale.body.map((item: SoldProduct) => ({
       ...item,
-      name: getProduct(item.product_id)?.name || 'N/A',
+      name: getProductFromId(item.product_id)?.name || 'N/A',
       totalPrice: item.quantity * item.unit_price * item.weight,
     }));
     setTableData(newTableData);

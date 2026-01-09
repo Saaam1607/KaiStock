@@ -1,20 +1,20 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 
 import { useColor } from '@/hooks/use-color';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { Stepper } from '../Stepper';
-import { SearchBar } from '../SearchBar';
 import { Button } from '../Button';
+import { SearchBar } from '../SearchBar';
+import { Stepper } from '../Stepper';
 
 import type { Product } from '@/types/Product';
 
-import { products } from '@/types/products';
+import { getAllProducts } from '@/components/api/productsApi';
 
-import { CardTitle, CardDescription } from '../containers/Card';
+import { CardDescription, CardTitle } from '../containers/Card';
 import { FormItem } from '../form/FormItem';
 
 type AddSoldItemStepperProps = {
@@ -24,6 +24,7 @@ type AddSoldItemStepperProps = {
 export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
 
   const color = useColor();
+  const products = getAllProducts();
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>(products);
   
   const [step, setStep] = useState<number>(0);
@@ -138,11 +139,10 @@ export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
     </>,
     <>
       <View style={{ gap: 10, flexDirection: 'column', flex: 1 }}>
-        <View style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }}>
           {selectedProduct && (
             <View style={{ gap: 10 }}>
               <CardTitle value={selectedProduct.name}/>
-              <CardDescription value={selectedProduct.description}/>
               <CardDescription value={selectedProduct.price.toString() + " €/" + selectedProduct.uom}/>
               <FormItem
                 label={`Peso (${selectedProduct.uom})`}
@@ -174,7 +174,7 @@ export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
               />
             </View>
           )}
-        </View>
+        </ScrollView>
         <View style={{ width: '100%', alignItems: 'center', }}>
           <Button
             text="Completa"

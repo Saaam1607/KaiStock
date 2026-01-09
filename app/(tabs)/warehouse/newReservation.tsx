@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from 'expo-router';
 
-import { Text } from 'react-native';
 
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
 
-import type { Product } from '@/types/Product';
-import type { Production } from '@/types/Production';
 import type { SoldProduct } from '@/types/SoldProduct';
 
-import { getProduct } from '@/components/utils/getProduct';
+import { getProductFromId } from '@/components/api/productsApi';
 
 import { initReservation, Reservation } from '@/types/Reservation';
 
@@ -22,8 +19,8 @@ import { ProductionAddProductModal } from '@/components/custom/produce/Productio
 import { ReservationForm } from '@/components/custom/reservation/ReservationForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
-import { HeaderBtnOpt } from './_layout';
 import { useSnackbar } from '@/components/SnackbarProvider';
+import { HeaderBtnOpt } from './_layout';
 
 export default function NewReservation() {
   
@@ -42,7 +39,7 @@ export default function NewReservation() {
     
     selectedIds.map(id => {
       if (!soldProductItems.find(item => item.product_id === id)) {
-        const product = getProduct(id);
+        const product = getProductFromId(id);
         if (product) {
           setSoldProductItems(prev => [...prev, { product_id: id, quantity: 0, unit_price: product.price, uom: product.uom, weight: 0 }]);
         }

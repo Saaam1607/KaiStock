@@ -9,7 +9,8 @@ import { SearchBar } from '../SearchBar';
 
 import type { Product } from '@/types/Product';
 
-import { products } from '@/types/products';
+import { getAllProducts } from '@/components/api/productsApi';
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 type ProductionAddProductModalProps = {
@@ -22,6 +23,8 @@ type ProductionAddProductModalProps = {
 export function ProductionAddProductModal({ modalVisible, setModalVisible, selectedIds, onSave }: ProductionAddProductModalProps) {
   
   const color = useColor();
+  
+  const products = getAllProducts();
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>(products);
   const [tmpSelectedIds, setTmpSelectedIds] = useState<string[]>(selectedIds);

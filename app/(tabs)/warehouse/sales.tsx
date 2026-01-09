@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation, useRouter } from 'expo-router';
 
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
+import { LazyContainer } from '@/components/custom/containers/LazyContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
-import { LazyContainer } from '@/components/custom/containers/LazyContainer';
 
 import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
-import { sales } from '@/types/sales';
 import { FlatList } from 'react-native';
+
+import { getAllSales } from '@/components/api/salesApi';
 
 import SaleCard from '@/components/custom/sale/SaleCard';
 
@@ -19,6 +20,8 @@ export default function Sales() {
   
   const router = useRouter();
   const navigation = useNavigation();
+
+  const sales = getAllSales();
 
   const [searchText, setSearchText] = useState('');
   const [showFilter, setShowFilter] = useState(false);

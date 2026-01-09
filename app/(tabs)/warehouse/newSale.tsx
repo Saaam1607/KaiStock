@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from 'expo-router';
 
-import { Keyboard, Text } from 'react-native';
+import { Keyboard } from 'react-native';
 
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
@@ -20,10 +20,11 @@ import { AddSoldItemModal } from '@/components/custom/sale/AddSoldItemModal';
 import { SaleForm } from '@/components/custom/sale/SaleForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
-import { HeaderBtnOpt } from './_layout';
 import { useSnackbar } from '@/components/SnackbarProvider';
+import { HeaderBtnOpt } from './_layout';
 
-import { getProduct } from '@/components/utils/getProduct';
+import { getProductFromId } from '@/components/api/productsApi';
+
 
 export default function NewSale() {
   
@@ -44,8 +45,11 @@ export default function NewSale() {
     
     selectedIds.map(id => {
       if (!soldProductItems.find(item => item.product_id === id)) {
-        const product = getProduct(id);
+        const product = getProductFromId(id);
         if (product) {
+          if (soldProductItems.find(item => item.product_id === id && item.weight === )) {
+            
+          }
           setSoldProductItems(prev => [...prev, { product_id: id, quantity: 0, unit_price: product.price, uom: product.uom, weight: 0 }]);
         }
       }
@@ -111,7 +115,6 @@ export default function NewSale() {
   }, [navigation]);
 
   function handleBodyItemSubmit(product: Product, weight: number, quantity: number) {
-    console.log(product, weight, quantity);
 
     const newSoldProduct: SoldProduct = {
       product_id: product.id,
@@ -121,8 +124,15 @@ export default function NewSale() {
       weight,
     };
 
-    setSoldProductItems(prev => [...prev, newSoldProduct]);
+    const existingSoldProductItem = soldProductItems.find(item => item.product_id === product.id && item.weight === weight);
+    if (existingSoldProductItem) {  
+      const updatedQuantity = existingSoldProductItem.quantity + quantity;
+      setSoldProductItems(prev => prev.map(item => item.product_id === product.id && item.weight === weight ? { ...item, quantity: updatedQuantity } : item));
+      showSnackbar(`${product.name} da ${weight} aggiornato`);
+      return;
+    }
 
+    setSoldProductItems(prev => [...prev, newSoldProduct]);
     setShowAddProductModal(false);
   }
 

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { QuantityEditor } from '../QuantityEditor';
 
-import type { Sale } from '@/types/Sale';
 import type { SoldProduct } from '@/types/SoldProduct';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { getProduct } from '@/components/utils/getProduct';
+import { getProductFromId } from '@/components/api/productsApi';
+
 
 import { useColor } from '@/hooks/use-color';
 
@@ -20,7 +19,7 @@ type SoldItemCardProps = {
 export function SoldItemCard({ sale, removeItem }: SoldItemCardProps) {
 
   const color = useColor();
-  const product = getProduct(sale.product_id);
+  const product = getProductFromId(sale.product_id);
 
   return (
 		<View
@@ -54,12 +53,10 @@ export function SoldItemCard({ sale, removeItem }: SoldItemCardProps) {
 
 
 					<View style={{ gap: 10 }}>
-						<Text style={{ color: color.text }}>{product?.name}</Text>
+						<Text style={{ color: color.text }}>{sale.quantity + " x " + product?.name + " (" + sale.weight + " " + sale.uom + ")" }</Text>
             <Text style={{ color: color.text }}>{product?.description}</Text>
 						<Text style={{ color: color.textLighter }}>{sale.unit_price} €/{sale.uom}</Text>
 
-						<Text style={{ color: color.textLighter }}>{sale.quantity + " Articoli"}</Text>
-            <Text style={{ color: color.textLighter }}>{sale.weight + " " + sale.uom}</Text>
             <Text style={{ color: color.textLighter }}>{"Prezzo per articolo: " + sale.weight * sale.unit_price + " €"}</Text>
             <Text style={{ color: color.textLighter }}>{"Prezzo totale: " + sale.weight * sale.unit_price * sale.quantity + " €"}</Text>
 					</View>

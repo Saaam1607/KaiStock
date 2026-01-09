@@ -1,15 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import type { Reservation } from '@/types/Reservation';
-import type { Product } from '@/types/Product';
 import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
+import type { Reservation } from '@/types/Reservation';
 
 import { useColor } from '@/hooks/use-color';
 
-import { Card, CardTitle, CardDescription, CardToPerson, CardDate, CardList } from '@/components/custom/containers/Card';
+import { Card, CardDate, CardDescription, CardList, CardTitle } from '@/components/custom/containers/Card';
 
-import { getProduct } from '@/components/utils/getProduct';
+import { getProductFromId } from '@/components/api/productsApi';
+
 
 type ReservationCardProps = {
   reservation: Reservation;
@@ -30,7 +30,7 @@ export default function ReservationCard({ reservation }: ReservationCardProps) {
         data={reservation.body as ProductQuantityItem[]}
         keyField="product_id"
         renderItem={({ item }) => {
-          const product = getProduct(item.product_id);
+          const product = getProductFromId(item.product_id);
           return (
             <>
               <View style={[styles.quantityBadge, { backgroundColor: color.cardItemDark }]}>

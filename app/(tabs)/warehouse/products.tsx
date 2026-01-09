@@ -7,16 +7,16 @@ import { FlatList } from 'react-native';
 import type { Product } from '@/types/Product';
 import { initProduct } from '@/types/Product';
 
-import { PageContainer } from '@/components/custom/containers/PageContainer';
-import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { LazyContainer } from '@/components/custom/containers/LazyContainer';
+import { ModalContainer } from '@/components/custom/containers/ModalContainer';
+import { PageContainer } from '@/components/custom/containers/PageContainer';
 
 import { ProductCard } from '@/components/custom/product/ProductCard';
 import { ProductEditModal } from '@/components/custom/product/ProductEditModal';
 import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
 
-import { products } from '@/types/products';
+import { getAllProducts } from '@/components/api/productsApi';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 import { useSnackbar } from '@/components/SnackbarProvider';
@@ -30,6 +30,8 @@ export default function Products() {
 
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [itemEditModalVisible, setItemEditModalVisible] = useState(false);
+
+  const products = getAllProducts();
 
   const [product, setProduct] = useState<Product>(products.find(item => item.id === editingItemId) ?? initProduct);
 

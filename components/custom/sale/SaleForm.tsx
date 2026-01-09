@@ -1,26 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import DateInput from '../DateInput';
 // import { ProductionItemCard } from './ProductionItemCard';
 
 import type { Sale } from '@/types/Sale';
 import type { SoldProduct } from '@/types/SoldProduct';
 
-import { ProductionItemCard } from '../produce/ProductionItemCard';
 import { SoldItemCard } from './SoldItemCard';
 
-import type { Product } from '@/types/Product';
-import { getProduct } from '@/components/utils/getProduct';
+import { getProductFromId } from '@/components/api/productsApi';
+
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { useColor } from '@/hooks/use-color';
 
-import { FormItem } from '../form/FormItem';
-import { FormItemDate } from '../form/FromItemDate';
 import { FormCheck } from '../form/FormCheck';
+import { FormItem } from '../form/FormItem';
 import { FormItemGeneric } from '../form/FormItemGeneric';
+import { FormItemDate } from '../form/FromItemDate';
 
 type SaleFormProps = {
   sale: Sale;
@@ -34,6 +32,14 @@ type SaleFormProps = {
 export function SaleForm({ sale, setSale, soldProductItems, setSoldProductItems, setShowAddProductModal, showMandatoryBorders = false }: SaleFormProps) {
   
   const color = useColor();
+
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    const total = soldProductItems.reduce((acc, item) => acc + item.quantity * item.unit_price * item.weight, 0);
+    const newTotalPrice = total;
+    setTotalPrice(newTotalPrice);
+  }, [soldProductItems]);
 
   function removeSelectedProductionItem(product_id: string) {
     // setSelectedProductsIds(selectedProductsIds.filter(item => item !== product_id));
@@ -70,17 +76,21 @@ export function SaleForm({ sale, setSale, soldProductItems, setSoldProductItems,
           label="Data"
           input={sale.date}
           onInputChange={text => setSale({ ...sale, date: text })}
-        />        
+        />
+        <FormItem
+          label={`Prezzo totale (€)`}
+          input={totalPrice.toString()}
+        />
         <FormItemGeneric label="Articoli">
           <View style={styles.list}>
             {soldProductItems.map(item => {
               
-              const product = getProduct(item.product_id);
+              const product = getProductFromId(item.product_id);
               if (!product) return null;
 
               return (
                 <SoldItemCard
-                  key={product.id}
+                  key={product.id + item.weight}
                   sale={item}
                   removeItem={removeSelectedProductionItem}
                 />

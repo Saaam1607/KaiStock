@@ -1,22 +1,21 @@
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import DateInput from '../DateInput';
 import { ProductionItemCard } from './ProductionItemCard';
 
 import type { Production } from '@/types/Production';
 import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
 
-import type { Product } from '@/types/Product';
-import { getProduct } from '@/components/utils/getProduct';
+import { getProductFromId } from '@/components/api/productsApi';
+
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { useColor } from '@/hooks/use-color';
 
 import { FormItem } from '../form/FormItem';
-import { FormItemDate } from '../form/FromItemDate'; 
 import { FormItemGeneric } from '../form/FormItemGeneric';
+import { FormItemDate } from '../form/FromItemDate';
 
 type ProductionFormProps = {
   production: Production;
@@ -63,7 +62,7 @@ export function ProductionForm({ production, setProduction, productionItems, set
           <View style={styles.list}>
             {productionItems.map(item => {
               
-              const product = getProduct(item.product_id);
+              const product = getProductFromId(item.product_id);
               if (!product) return null;
 
               return (
