@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from 'expo-router';
 
-import { StyleSheet, View } from 'react-native';
+import { Keyboard } from 'react-native';
 
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
@@ -16,9 +16,9 @@ import { MyAlert } from '@/components/custom/MyAlert';
 import ProductForm from '@/components/custom/product/ProductForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
-import { HeaderBtnOpt } from './_layout';
+import { HeaderBtnOpt, HeaderBtnWithTextOpt } from './_layout';
 
-import { Keyboard } from 'react-native';
+
 import { useSnackbar } from '@/components/SnackbarProvider';
 
 export default function NewProduct() {
@@ -39,7 +39,7 @@ export default function NewProduct() {
     navigation.goBack()
   }
 
-  function checkProducValidity(): boolean {
+  function checkProductValidity(): boolean {
     if (newProduct.name === '') return false;
     return true;
   }
@@ -48,7 +48,7 @@ export default function NewProduct() {
 
     function handleSave() {
       Keyboard.dismiss();
-      if (!checkProducValidity()) {
+      if (!checkProductValidity()) {
         setShowMandatoryBorders(true);
         showSnackbar('I campi evidenziati sono obbligatori');
       } else {
@@ -75,14 +75,15 @@ export default function NewProduct() {
         />
       ),
       headerRight: () => (
-        <HeaderBtnOpt
+        <HeaderBtnWithTextOpt
           navigation={navigation}
           action={handleSave}
           iconName="save"
+          text="Salva"
         />
       ),
     });
-  }, [navigation]);
+  }, [navigation, newProduct]);
 
   return (
     <GestureContainer

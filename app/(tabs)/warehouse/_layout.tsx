@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Button, TouchableOpacity } from 'react-native';
+import { Button, TouchableOpacity, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 
@@ -7,6 +7,8 @@ import WarehouseIndex from './index';
 
 import Products from './products';
 import NewProduct from './newProduct';
+
+import Expenses from './expenses';
 
 import Productions from './productions';
 import Produce from './produce';
@@ -25,6 +27,7 @@ type WarehouseStackParamList = {
   warehouse: undefined;
   products: undefined;
   newProduct: undefined;
+  expenses: undefined;
   productions: undefined;
   produce: undefined;
   reservations: undefined;
@@ -40,9 +43,7 @@ type HeaderBtnProps = {
 };
 
 function HeaderBtn({ navigation, action, iconName = "arrow-back" }: HeaderBtnProps) {
-  
   const color = useColor();
-  
   return (
     <TouchableOpacity
       onPress={() => {
@@ -56,6 +57,35 @@ function HeaderBtn({ navigation, action, iconName = "arrow-back" }: HeaderBtnPro
   );
 }
 export const HeaderBtnOpt = memo(HeaderBtn);
+
+type HeaderBtnWithTextProps = {
+  navigation: any;
+  action?: () => void;
+  iconName?: string;
+  text: string;
+};
+
+function HeaderBtnWithText({ navigation, action, iconName = "arrow-back", text }: HeaderBtnWithTextProps) {
+  const color = useColor();
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        if (action)
+          action()
+      }}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        paddingHorizontal: 10,
+      }}
+    >
+      <Text style={{ color: color.icon, fontWeight: 'bold' }}>{text}</Text>
+      <Ionicons name={iconName as any} size={28} color={color.icon} />
+    </TouchableOpacity>
+  );
+}
+export const HeaderBtnWithTextOpt = memo(HeaderBtnWithText);
 
 const Stack = createStackNavigator<WarehouseStackParamList>();
 
@@ -86,7 +116,7 @@ export default function WarehouseLayout() {
         options={({ navigation }) => ({
           title: 'Articoli',
           headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('newProduct')} iconName="create" />,
+          headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newProduct')} text="Nuovo" iconName="create" />,
 
         })}
       />
@@ -100,12 +130,23 @@ export default function WarehouseLayout() {
       />
 
       <Stack.Screen
+        name="expenses"
+        component={Expenses}
+        options={({ navigation }) => ({
+          title: 'Spese',
+          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
+          // headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newProduct')} text="Nuovo" iconName="create" />,
+
+        })}
+      />
+
+      <Stack.Screen
         name="productions"
         component={Productions}
         options={({ navigation }) => ({
           title: 'Produzioni',
           headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('produce')} iconName="create" />,
+          headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('produce')} text="Nuova" iconName="create" />,
         })}
       />
 
@@ -123,7 +164,7 @@ export default function WarehouseLayout() {
         options={({ navigation }) => ({
           title: 'Prenotazioni',
           headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('newReservation')} iconName="create" />,
+          headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newReservation')} text="Nuova" iconName="create" />,
         })}
       />
 
@@ -141,7 +182,7 @@ export default function WarehouseLayout() {
         options={({ navigation }) => ({
           title: 'Vendite',
           headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          headerRight: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.navigate('newSale')} iconName="create" />,
+          headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newSale')} text="Nuova" iconName="create" />,
         })}
       />
 

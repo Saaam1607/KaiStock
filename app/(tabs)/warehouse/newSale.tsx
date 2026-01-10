@@ -21,7 +21,7 @@ import { SaleForm } from '@/components/custom/sale/SaleForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 import { useSnackbar } from '@/components/SnackbarProvider';
-import { HeaderBtnOpt } from './_layout';
+import { HeaderBtnOpt, HeaderBtnWithTextOpt } from './_layout';
 
 import { getProductFromId } from '@/components/api/productsApi';
 
@@ -47,9 +47,6 @@ export default function NewSale() {
       if (!soldProductItems.find(item => item.product_id === id)) {
         const product = getProductFromId(id);
         if (product) {
-          if (soldProductItems.find(item => item.product_id === id && item.weight === )) {
-            
-          }
           setSoldProductItems(prev => [...prev, { product_id: id, quantity: 0, unit_price: product.price, uom: product.uom, weight: 0 }]);
         }
       }
@@ -105,14 +102,15 @@ export default function NewSale() {
         />
       ),
       headerRight: () => (
-        <HeaderBtnOpt
+        <HeaderBtnWithTextOpt
           navigation={navigation}
           action={handleSave}
+          text="Salva"
           iconName="save"
         />
       ),
     });
-  }, [navigation]);
+  }, [navigation, newSale, soldProductItems]);
 
   function handleBodyItemSubmit(product: Product, weight: number, quantity: number) {
 

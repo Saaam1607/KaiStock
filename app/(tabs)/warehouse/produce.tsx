@@ -88,7 +88,7 @@ export default function Produce() {
         />
       ),
     });
-  }, [navigation]);
+  }, [navigation, newProduction, productionItems]);
 
   return (
     <GestureContainer

@@ -48,6 +48,13 @@ export default function HomeScreen({ navigation }: any) {
           </View>
           <View style={styles.buttonContainer}>
             <IconButton
+              text={"Spesa"}
+              iconName={"logo-euro"}
+              onPress={() => navigation.navigate('expenses')}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <IconButton
               text={"Riserva"}
               iconName={"bag-sharp"}
               onPress={() => navigation.navigate('reservations')}
