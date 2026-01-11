@@ -57,7 +57,7 @@ export default function Products() {
 
   return (
     <GestureContainer
-      leftAction={() => router.push('/(tabs)/warehouse/newProduct')}
+      leftAction={() => router.push('/(tabs)/warehouse/(products)/newProduct')}
       rightAction={() => navigation.goBack()}
     >
       <PageContainer>

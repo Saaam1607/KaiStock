@@ -1,23 +1,24 @@
+import { createStackNavigator } from '@react-navigation/stack';
 import React, { memo } from 'react';
-import { Button, TouchableOpacity, Text } from 'react-native';
-import { useRouter } from 'expo-router';
-import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import { Text, TouchableOpacity } from 'react-native';
 
 import WarehouseIndex from './index';
 
-import Products from './products';
-import NewProduct from './newProduct';
+import NewProduct from './(products)/newProduct';
+import Products from './(products)/products';
 
-import Expenses from './expenses';
+import Expenses from './(expenses)/expenses';
+import NewExpense from './(expenses)/newExpense';
+import ExpensesTrend from './(expensesTrend)/expensesTrend';
 
-import Productions from './productions';
-import Produce from './produce';
+import Produce from './(productions)/produce';
+import Productions from './(productions)/productions';
 
-import Reservations from './reservations';
-import NewReservation from './newReservation';
+import NewReservation from './(reservations)/newReservation';
+import Reservations from './(reservations)/reservations';
 
-import Sales from './sales';
-import NewSale from './newSale';
+import NewSale from './(sales)/newSale';
+import Sales from './(sales)/sales';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -28,6 +29,8 @@ type WarehouseStackParamList = {
   products: undefined;
   newProduct: undefined;
   expenses: undefined;
+  newExpense: undefined;
+  expensesTrend: undefined;
   productions: undefined;
   produce: undefined;
   reservations: undefined;
@@ -135,8 +138,24 @@ export default function WarehouseLayout() {
         options={({ navigation }) => ({
           title: 'Spese',
           headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          // headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newProduct')} text="Nuovo" iconName="create" />,
+          headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newExpense')} text="Nuova" iconName="create" />,
+        })}
+      />
 
+      <Stack.Screen
+        name="newExpense"
+        component={NewExpense}
+        options={({ navigation }) => ({
+          title: 'Nuova Spesa',
+        })}
+      />
+
+      <Stack.Screen
+        name="expensesTrend"
+        component={ExpensesTrend}
+        options={({ navigation }) => ({
+          title: 'Andamento Spese',
+          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
         })}
       />
 

@@ -19,7 +19,10 @@ export function MySnackBar({ visible, setVisible, message }: MySnackBarProps) {
         },
       }}
       duration={5000}
-      style={{ zIndex: 600 }}
+      style={{
+        zIndex: 600,
+        marginBottom: 8,
+      }}
     >
       {message}
     </Snackbar>

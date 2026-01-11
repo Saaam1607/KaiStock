@@ -6,6 +6,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 import { SnackbarProvider } from '@/components/SnackbarProvider';
+import { AlertProvider } from '@/components/providers/AlertProvider';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -16,17 +17,19 @@ export default function RootLayout() {
 
   return (
     <SnackbarProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false
-            }} />
-          {/* <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} /> */}
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
+      <AlertProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen
+              name="(tabs)"
+              options={{
+                headerShown: false
+              }} />
+            {/* <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} /> */}
+          </Stack>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </AlertProvider>
     </SnackbarProvider>
   );
 }

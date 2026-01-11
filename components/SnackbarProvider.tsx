@@ -2,31 +2,42 @@ import React, { createContext, useContext, useState } from 'react';
 
 import { MySnackBar } from './custom/MySnackBar';
 
-type SnackbarContextType = {
+interface SnackbarMessage {
+  id: string;
+  text: string;
+}
+
+interface SnackbarContextType {
   showSnackbar: (message: string) => void;
-};
+}
 
-const SnackbarContext = createContext<SnackbarContextType | null>(null);
+const SnackbarContext = createContext<SnackbarContextType | undefined>(undefined);
 
-export const SnackbarProvider = ({ children }: { children: React.ReactNode }) => {
-  const [snackbar, setSnackbar] = useState({
-    visible: false,
-    message: '',
-  });
+export const SnackbarProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [messages, setMessages] = useState<SnackbarMessage[]>([]);
 
-  const showSnackbar = (message: string) => {
-    setSnackbar({ visible: true, message });
+  const showSnackbar = (text: string) => {
+    const id = Date.now().toString();
+    setMessages(prev => [...prev, { id, text }]);
+  };
+
+  const removeSnackbar = (id: string) => {
+    setMessages(prev => prev.filter(msg => msg.id !== id));
   };
 
   return (
     <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
 
-      <MySnackBar
-        visible={snackbar.visible}
-        setVisible={(v) => setSnackbar(s => ({ ...s, visible: v }))}
-        message={snackbar.message}
-      />
+      {/* renderizza tutti i messaggi attivi */}
+      {messages.map(msg => (
+        <MySnackBar
+          key={msg.id}
+          visible={true}
+          setVisible={() => removeSnackbar(msg.id)}
+          message={msg.text}
+        />
+      ))}
     </SnackbarContext.Provider>
   );
 };

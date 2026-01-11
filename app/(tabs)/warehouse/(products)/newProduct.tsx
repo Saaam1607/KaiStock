@@ -16,7 +16,7 @@ import { MyAlert } from '@/components/custom/MyAlert';
 import ProductForm from '@/components/custom/product/ProductForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
-import { HeaderBtnOpt, HeaderBtnWithTextOpt } from './_layout';
+import { HeaderBtnOpt, HeaderBtnWithTextOpt } from '../_layout';
 
 
 import { useSnackbar } from '@/components/SnackbarProvider';

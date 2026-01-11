@@ -38,12 +38,7 @@ export default function HomeScreen({ navigation }: any) {
             <IconButton
               text={"Produzione"}
               iconName={"construct-sharp"}
-              onPress={() => router.push(
-                {
-                  pathname: '/(tabs)/warehouse/productions',
-                  params: { direction: 'forward' },
-                }
-              )}
+              onPress={() => navigation.navigate('productions')}
             />
           </View>
           <View style={styles.buttonContainer}>
@@ -51,6 +46,11 @@ export default function HomeScreen({ navigation }: any) {
               text={"Spesa"}
               iconName={"logo-euro"}
               onPress={() => navigation.navigate('expenses')}
+            />
+            <IconButton
+              text={"Andamento Spese"}
+              iconName={"logo-euro"}
+              onPress={() => navigation.navigate('expensesTrend')}
             />
           </View>
           <View style={styles.buttonContainer}>

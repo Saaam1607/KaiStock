@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, FlatList } from 'react-native';
+import { View, StyleSheet, Text, FlatList, Pressable } from 'react-native';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -59,7 +59,6 @@ export function CardList<T>({ label, data, keyField, renderItem }: CardListProps
   return (
     <View>
       <Text style={{ color: color.textLighter }}>{label}</Text>
-
       <FlatList
         data={data}
         keyExtractor={(item) => String(item[keyField])}
@@ -74,12 +73,54 @@ export function CardList<T>({ label, data, keyField, renderItem }: CardListProps
   );
 }
 
-export function Card({ children }: { children: React.ReactNode }) {
+type EditableProps =
+  | { isEditable: true, editAction: () => void }
+  | { isEditable?: false, editAction?: never };
+
+type DeletableProps =
+  | { isDeletable: true, deleteAction: () => void }
+  | { isDeletable?: false, deleteAction?: never };
+
+type CardProps = {
+  children: React.ReactNode
+} & EditableProps & DeletableProps;
+
+export function Card({ children, isEditable, editAction, isDeletable, deleteAction }: CardProps) {
   const color = useColor();
   return (
     <View style={[styles.shadowWrapper, { backgroundColor: color.cardBackground }]}>
       <View style={styles.card}>
-        {children}
+        <View style={{ flex: 1 }}>
+          {children}
+        </View>
+        {(isEditable || isDeletable) && (
+          <View style={styles.cardButtonsOuter}>
+            <View style={styles.cardButtons}>
+              {isEditable && (
+                <Pressable
+                  onPress={editAction}
+                  style={[
+                    styles.pressable,
+                    { backgroundColor: color.orange },
+                  ]}
+                >
+                  <Ionicons name="brush" size={20} />
+                </Pressable>
+              )}
+              {isDeletable && (
+                <Pressable
+                  onPress={deleteAction}
+                  style={[
+                    styles.pressable,
+                    { backgroundColor: color.red },
+                  ]}
+                >
+                  <Ionicons name="trash" size={20} color={color.text} />
+                </Pressable>
+              )}
+            </View>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -100,8 +141,9 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 15,
     paddingVertical: 15,
-    gap: 12,
+    gap: 10,
     overflow: 'hidden',
+    flexDirection: 'row',
   },
   cardItemRow: {
     flexDirection: 'row',
@@ -110,5 +152,27 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 12,
+  },
+  cardButtonsOuter: {
+    position: 'absolute',
+    right: 5,
+    top: 0,
+    bottom: 0,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  cardButtons: {
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    height: '100%',
+    maxHeight: 200
+  },
+  pressable: {
+    width: 40,
+    height: 40,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
   },
 });

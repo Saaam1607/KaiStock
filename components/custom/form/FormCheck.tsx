@@ -7,6 +7,7 @@ import { useColor } from '@/hooks/use-color';
 
 type FormCheckProps = {
   label: string;
+  labelOnRight?: boolean;
   input: boolean;
   oldInput?: boolean;
   onInputChange: (value: boolean) => void;
@@ -14,12 +15,15 @@ type FormCheckProps = {
   showMandatoryBorders?: boolean
 };
 
-export function FormCheck({ label, input, oldInput, onInputChange, inputStyle, showMandatoryBorders }: FormCheckProps) {
+export function FormCheck({ label, labelOnRight = false, input, oldInput, onInputChange, inputStyle, showMandatoryBorders }: FormCheckProps) {
 
   const color = useColor();
 
   return (
-    <View style={{ flexDirection: 'row', gap: 10 }}>
+    <View style={[
+      { flexDirection: 'row', gap: 10 },
+      labelOnRight && { flexDirection: 'row-reverse' }
+    ]}>
       <Text style={[styles.label, { color: color.textLighter }]}>{label}</Text>
       <Pressable
         onPress={() => onInputChange(!input)}
