@@ -60,13 +60,26 @@ export default function HomeScreen({ navigation }: any) {
               onPress={() => navigation.navigate('reservations')}
             />
             <IconButton
-              text={"Vendi"}
+              text={"Vendite"}
               iconName={"bag-check-sharp"}
               onPress={() => navigation.navigate('sales')}
             />
           </View>
           <View style={styles.buttonContainer}>
             <IconButton
+              text={"Andamento Guadagno Lordo"}
+              iconName={"cash-outline"}
+              onPress={() => navigation.navigate('earningsTrend')}
+            />
+            <IconButton
+              text={"Andamento Guadagno Netto"}
+              iconName={"cash-outline"}
+              onPress={() => navigation.navigate('netEarningsTrend')}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            
+            {/* <IconButton
               text={"Inventario"}
               iconName={"clipboard"}
               onPress={() => router.push('/(tabs)/warehouse/inventory')}
@@ -75,7 +88,7 @@ export default function HomeScreen({ navigation }: any) {
               text={"Storico Inventario"}
               iconName={"time"}
               onPress={() => router.push('/(tabs)/warehouse/inventory')}
-            />
+            /> */}
           </View>
         </ScrollView>
       </PageContainer>

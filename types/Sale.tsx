@@ -9,6 +9,7 @@ export type Sale = {
   date: Date;
   deltaDiscount: number;
   delivered: boolean;
+  paid: boolean;
 };
 
 export const initSale: Sale = {
@@ -20,4 +21,5 @@ export const initSale: Sale = {
   date: new Date(),
   deltaDiscount: 0,
   delivered: false,
+  paid: false
 };

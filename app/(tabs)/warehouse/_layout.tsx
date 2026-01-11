@@ -20,6 +20,9 @@ import Reservations from './(reservations)/reservations';
 import NewSale from './(sales)/newSale';
 import Sales from './(sales)/sales';
 
+import EarningsTrend from './(earningsTrend)/earningsTrend';
+import NetEarningsTrend from './(netEarningsTrend)/netEarningsTrend';
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { useColor } from '@/hooks/use-color';
@@ -37,6 +40,8 @@ type WarehouseStackParamList = {
   newReservation: undefined;
   sales: undefined;
   newSale: undefined;
+  earningsTrend: undefined;
+  netEarningsTrend: undefined;
 };
 
 type HeaderBtnProps = {
@@ -210,6 +215,26 @@ export default function WarehouseLayout() {
         component={NewSale}
         options={({ navigation }) => ({
           title: 'Nuova Vendita',
+        })}
+      />
+
+      <Stack.Screen
+        name="earningsTrend"
+        component={EarningsTrend}
+        options={({ navigation }) => ({
+          title: 'Andamento Guadagno Lordo',
+          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
+          // headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newSale')} text="Nuova" iconName="create" />,
+        })}
+      />
+
+      <Stack.Screen
+        name="netEarningsTrend"
+        component={NetEarningsTrend}
+        options={({ navigation }) => ({
+          title: 'Andamento Guadagno Netto',
+          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
+          // headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newSale')} text="Nuova" iconName="create" />,
         })}
       />
 

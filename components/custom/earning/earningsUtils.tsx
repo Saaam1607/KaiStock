@@ -1,5 +1,6 @@
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions } from 'react-native';
 
+import type { Sale } from '@/types/Sale';
 import type { Expense } from '@/types/Expense';
 
 const { width, height } = Dimensions.get('window');
@@ -41,15 +42,23 @@ export function getYearMonthLabels(): string[] {
   return res;
 }
 
-export function getMonthlyCumulativeData( expenses: Expense[], year: number, month: number ): number[] { 
+export function getMonthlyCumulativeData( sales: Sale[], expenses: Expense[], year: number, month: number ): number[] { 
   
   const daysInMonth = new Date(year, month + 1, 0).getDate(); // 0 = gennaio
   const dailyTotals = Array(daysInMonth).fill(0);
 
+  for (const e of sales)
+    if ( e.date.getFullYear() === year &&  e.date.getMonth() === month ) {
+      const dayIndex = e.date.getDate() - 1;
+      let amount = 0;
+      e.body.map(item => amount += item.quantity * item.unit_price * item.weight);
+      dailyTotals[dayIndex] += amount;
+    }
+
   for (const e of expenses)
     if ( e.date.getFullYear() === year &&  e.date.getMonth() === month ) {
       const dayIndex = e.date.getDate() - 1;
-      dailyTotals[dayIndex] += e.price;
+      dailyTotals[dayIndex] -= e.price;
     }
 
   let cumulative = 0;
@@ -59,13 +68,20 @@ export function getMonthlyCumulativeData( expenses: Expense[], year: number, mon
   });
 }
 
-export function getYearlyCumulativeData( expenses: Expense[], year: number): number[] {
+export function getYearlyCumulativeData( sales: Sale[], expenses: Expense[], year: number): number[] {
   
   const monthlyTotals = Array(12).fill(0);
   
+  for (const e of sales)
+    if (e.date.getFullYear() === year) {
+      let amount = 0;
+      e.body.map(item => amount += item.quantity * item.unit_price * item.weight);
+      monthlyTotals[e.date.getMonth()] += amount;
+    }
+
   for (const e of expenses)
     if (e.date.getFullYear() === year) {
-      monthlyTotals[e.date.getMonth()] += e.price;
+      monthlyTotals[e.date.getMonth()] -= e.price;
     }
 
   let cumulative = 0;

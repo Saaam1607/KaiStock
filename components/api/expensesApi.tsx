@@ -34,7 +34,7 @@ function generateExpensesForTwoYears(
   return expenses;
 }
 
-const expenses: Expense[] = generateExpensesForTwoYears(2025);
+const expenses: Expense[] = generateExpensesForTwoYears(2026);
 
 
 export function getAllExpenses() {

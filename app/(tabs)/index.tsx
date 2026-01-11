@@ -11,6 +11,9 @@ import { useRouter } from 'expo-router';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
+import WeekSummary from '@/components/custom/home/WeekSummary';
+import UnpaidSales from '@/components/custom/home/UnpaidSales';
+
 export default function HomeScreen() {
 
   const router = useRouter();
@@ -29,7 +32,11 @@ export default function HomeScreen() {
           />
         }>
         <ThemedView style={styles.titleContainer}>
+
           <ThemedText type="title">KaiStock</ThemedText>
+          <WeekSummary />
+          <UnpaidSales />
+
         </ThemedView>
         
       </ParallaxScrollView>
@@ -40,7 +47,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     gap: 8,
   },

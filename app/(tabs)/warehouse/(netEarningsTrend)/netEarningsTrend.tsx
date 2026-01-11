@@ -2,26 +2,32 @@ import React, { useMemo } from 'react';
 
 import { useNavigation, useRouter } from 'expo-router';
 
-
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { LazyContainer } from '@/components/custom/containers/LazyContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
 
-
+import { getAllSales } from '@/components/api/salesApi';
 import { getAllExpenses } from '@/components/api/expensesApi';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
 import { Trend } from '@/components/custom/trends/Trend';
 
-import { getMonthDayLabels, getMonthlyCumulativeData, getYearlyCumulativeData, getYearMonthLabels } from '@/components/custom/expense/expensesUtils';
+import { getMonthDayLabels, getMonthlyCumulativeData, getYearlyCumulativeData, getYearMonthLabels } from '@/components/custom/earning/earningsUtils';
 
-export default function ExpensesTrend() {
+export default function NetEarningsTrend() {
   
   const router = useRouter();
   const navigation = useNavigation();
 
+  const sales = getAllSales();
   const expenses = getAllExpenses();
+
+  const sortedSales = useMemo(() => {
+    return [...sales].sort(
+      (a, b) => a.date.getTime() - b.date.getTime()
+    );
+  }, [sales]);
 
   const sortedExpenses = useMemo(() => {
     return [...expenses].sort(
@@ -29,12 +35,13 @@ export default function ExpensesTrend() {
     );
   }, [expenses]);
 
+
   function getYearData(year: number): number[] {
-    return getYearlyCumulativeData(sortedExpenses, year);
+    return getYearlyCumulativeData(sortedSales, sortedExpenses, year);
   }
 
   function getMonthData(year: number, month: number): number[] {
-    return getMonthlyCumulativeData(sortedExpenses, year, month) ;
+    return getMonthlyCumulativeData(sortedSales, sortedExpenses, year, month) ;
   }
 
   function getDayLabels(year: number, month: number): string[] {
@@ -60,8 +67,8 @@ export default function ExpensesTrend() {
               getMonthData={getMonthData}
               getMonthLabels={getMonthLabels}
               getDayLabels={getDayLabels}
-              yearGraphLabel={"Spesa Cumulativa annuale"}
-              monthGraphLabel={"Spesa Cumulativa mensile"}
+              yearGraphLabel={"Guadagno Cumulativo annuale"}
+              monthGraphLabel={"Guadagno Cumulativo mensile"}
             />
           </LazyContainer>
         </BodyContainer>
