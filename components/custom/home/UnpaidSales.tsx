@@ -1,8 +1,9 @@
-import { View, StyleSheet, Text, FlatList } from 'react-native';
+import { View, StyleSheet, Text, FlatList, ScrollView } from 'react-native';
 
 import { useRouter } from 'expo-router';
 import { useColor } from '@/hooks/use-color';
 
+import type { Sale } from '@/types/Sale';
 import { getAllSales } from '@/components/api/salesApi';
 
 
@@ -14,11 +15,21 @@ export default function UnpaidSales() {
   const allSales = getAllSales();
 
   const unpaidSales = allSales.filter(sale => {
-    return !sale.paid
+    return !sale.paid && !sale.delivered;
   });
 
+  function getTotalToEarnFromSales(sales: Sale[]) {
+    let amount = 0;
+    sales.map(sale => {
+      sale.body.map(item => amount += item.quantity * item.unit_price * item.weight);
+    });
+    return amount;
+  }
+
+  const totalToEarn = getTotalToEarnFromSales(unpaidSales);
+
   return (
-    <View style={{ borderColor: 'red', borderWidth: 2, padding: 10, borderRadius: 10 }}>
+    <View style={{ borderColor: 'red', borderWidth: 2, padding: 10, borderRadius: 10, gap: 10 }}>
       <Text
         style={{
           fontSize: 20,
@@ -26,28 +37,51 @@ export default function UnpaidSales() {
           color: color.text
         }}
       >
-        Vendite non pagate:
+        Vendite consegnate non pagate:
       </Text>
-      <View style={{ borderColor: 'red', borderWidth: 2, padding: 10, width: 250, justifyContent: 'space-between' }}>
+      <View style={{ borderColor: 'red', borderWidth: 2, padding: 10, width: 500, height: 300, justifyContent: 'space-between' }}>
         
-        <FlatList
-          data={unpaidSales}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ color: color.text }} >
-                {item.title}
-              </Text>
-              <Text style={{ color: color.text }} >
-                {item.to}
-              </Text>
+        <ScrollView
+          contentContainerStyle={{
+            gap: 5
+          }}
+        >
+          {unpaidSales.map(sale => (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                borderColor: 'red',
+                borderWidth: 2,
+                paddingHorizontal: 10,
+                paddingVertical: 2,
+                borderRadius: 10
+              }}
+              key={sale.id}
+            >
+              <View style={{ flexDirection: 'column', flex: 1 }}>
+                <Text style={{ color: color.text }} >
+                  {sale.title}
+                </Text>
+                <Text style={{ color: color.text }} >
+                  {sale.to}
+                </Text>
+              </View>
+              
               <Text style={{ color: color.text, fontWeight: '800' }} >
-                {item.body.reduce((acc, item) => acc + item.quantity * item.unit_price * item.weight, 0)} €
+                {sale.body.reduce((acc, item) => acc + item.quantity * item.unit_price * item.weight, 0)} €
               </Text>
             </View>
-          )}
-        />
+          ))}
+        </ScrollView>
       </View>
+      <Text
+        style={{
+          color: color.text
+        }}
+      >
+        Totale da incassare: {totalToEarn} €
+      </Text>
     </View>
   );
 }
