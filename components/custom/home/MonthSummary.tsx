@@ -7,7 +7,7 @@ import { useColor } from '@/hooks/use-color';
 import { getSalesInInterval } from '@/components/api/salesApi';
 import { getExpensesInInterval } from '@/components/api/expensesApi';
 
-import { getThisWeekRange } from '@/utils/dateUtils';
+import { getThisMonthRange } from '@/utils/dateUtils';
 
 import { computeExpensesAmount, computeSalesAmount } from '@/utils/amountUtils';
 
@@ -15,15 +15,15 @@ export default function WeekSummary() {
 
   const color = useColor();
 
-  const { monday, sunday } = getThisWeekRange();
+  const { firstDay, lastDay } = getThisMonthRange();
 
-  const thisWeekExpenses = getExpensesInInterval(monday, sunday);
-  const thisWeekSales = getSalesInInterval(monday, sunday);
+  const expenses = getExpensesInInterval(firstDay, lastDay);
+  const sales = getSalesInInterval(firstDay, lastDay);
 
-  const thisWeekSalesAmount = computeSalesAmount(thisWeekSales);
-  const thisWeekExpensesAmount = computeExpensesAmount(thisWeekExpenses);
+  const salesAmount = computeSalesAmount(sales);
+  const expensesAmount = computeExpensesAmount(expenses);
   
-  const thisWeekNumberOfSoldProducts = thisWeekSales.reduce(
+  const thisWeekNumberOfSoldProducts = sales.reduce(
     (total, sale) =>
       total +
       sale.body.reduce((sum, item) => sum + item.quantity, 0),
@@ -39,7 +39,7 @@ export default function WeekSummary() {
           color: 'rgb(71, 95, 84)',
         }}
       >
-        Settimana corrente:
+        Mese corrente:
       </Text>
       <View style={{ padding: 10, width: 300, justifyContent: 'space-between' }}>
         
@@ -53,7 +53,7 @@ export default function WeekSummary() {
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center'}}>
           <Text style={{ color: color.red, fontWeight: '800', fontSize: 25,  }} >
-            {thisWeekExpensesAmount} €
+            {expensesAmount} €
           </Text>
           <Text style={{ color: color.text, fontSize: 18 }} >
             Spese
@@ -61,7 +61,7 @@ export default function WeekSummary() {
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center'}}>
           <Text style={{ color: color.green, fontWeight: '800', fontSize: 25 }} >
-            {thisWeekSalesAmount} €
+            {salesAmount} €
           </Text>
           <Text style={{ color: color.text, fontSize: 18 }} >
             Entrate

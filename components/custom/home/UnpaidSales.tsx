@@ -1,15 +1,13 @@
-import { View, StyleSheet, Text, FlatList, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 
-import { useRouter } from 'expo-router';
 import { useColor } from '@/hooks/use-color';
 
-import type { Sale } from '@/types/Sale';
 import { getAllSales } from '@/components/api/salesApi';
 
+import { computeSalesAmount } from '@/utils/amountUtils';
 
 export default function UnpaidSales() {
 
-  const router = useRouter();
   const color = useColor();
 
   const allSales = getAllSales();
@@ -18,30 +16,36 @@ export default function UnpaidSales() {
     return !sale.paid && !sale.delivered;
   });
 
-  function getTotalToEarnFromSales(sales: Sale[]) {
-    let amount = 0;
-    sales.map(sale => {
-      sale.body.map(item => amount += item.quantity * item.unit_price * item.weight);
-    });
-    return amount;
-  }
-
-  const totalToEarn = getTotalToEarnFromSales(unpaidSales);
+  const totalToEarn = computeSalesAmount(unpaidSales);
 
   return (
-    <View style={{ borderColor: 'red', borderWidth: 2, padding: 10, borderRadius: 10, gap: 10 }}>
+    <View
+      style={{
+        width: '100%',
+        padding: 10,
+        borderRadius: 20,
+        gap: 10,
+        backgroundColor: 'rgb(93, 137, 147)',
+      }}
+    >
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 15,
           fontWeight: '600',
-          color: color.text
+          color: 'rgb(50, 70, 61)',
         }}
       >
-        Vendite consegnate non pagate:
+        Vendite consegnate non pagate ({unpaidSales.length}):
       </Text>
-      <View style={{ borderColor: 'red', borderWidth: 2, padding: 10, width: 500, height: 300, justifyContent: 'space-between' }}>
-        
+      <View
+        style={{
+          width: '100%',
+          justifyContent: 'space-between',
+          maxHeight: 200,
+        }}
+      >
         <ScrollView
+          nestedScrollEnabled
           contentContainerStyle={{
             gap: 5
           }}
@@ -51,11 +55,10 @@ export default function UnpaidSales() {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                borderColor: 'red',
-                borderWidth: 2,
                 paddingHorizontal: 10,
                 paddingVertical: 2,
-                borderRadius: 10
+                borderRadius: 10,
+                backgroundColor: 'rgb(66, 113, 112)',
               }}
               key={sale.id}
             >
@@ -85,7 +88,3 @@ export default function UnpaidSales() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
- 
-});

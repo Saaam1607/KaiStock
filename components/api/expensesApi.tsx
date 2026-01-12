@@ -41,6 +41,13 @@ export function getAllExpenses() {
   return expenses;
 }
 
+export function getExpensesInInterval(start: Date, end: Date) {
+  return expenses.filter(expense => {
+    const expenseDate = new Date(expense.date);
+    return expenseDate >= start && expenseDate <= end;
+  });
+}
+
 export function getExpenseFromId(id: string) {
   return expenses.find((expense) => expense.id === id);
 }

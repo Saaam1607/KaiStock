@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
-import WeekSummary from '@/components/custom/home/WeekSummary';
+import WeekSummary from '@/components/custom/home/SummaryCard';
 import UnpaidSales from '@/components/custom/home/UnpaidSales';
 
 export default function HomeScreen() {
