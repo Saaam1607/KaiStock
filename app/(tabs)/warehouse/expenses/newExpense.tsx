@@ -17,8 +17,9 @@ import { MyAlert } from '@/components/custom/MyAlert';
 import ExpenseForm from '@/components/custom/expense/ExpenseForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
-import { HeaderBtnOpt, HeaderBtnWithTextOpt } from '../_layout';
 
+import HeaderBtn from '@/components/custom/header/HeaderBtn';
+import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
 
 import { useSnackbar } from '@/components/SnackbarProvider';
 
@@ -76,13 +77,13 @@ export default function NewExpense() {
 
     navigation.setOptions({
       headerLeft: () => (
-        <HeaderBtnOpt
+        <HeaderBtn
           navigation={navigation}
           action={handleBack}
         />
       ),
       headerRight: () => (
-        <HeaderBtnWithTextOpt
+        <HeaderBtnWithText
           navigation={navigation}
           action={handleSave}
           iconName="save"

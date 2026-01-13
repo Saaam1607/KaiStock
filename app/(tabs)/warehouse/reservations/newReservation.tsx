@@ -1,33 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useNavigation } from 'expo-router';
+
 
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
 
-import type { Production } from '@/types/Production';
-import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
+import type { SoldProduct } from '@/types/SoldProduct';
 
-import { initProduction } from '@/types/Production';
+import { getProductFromId } from '@/components/api/productsApi';
+
+import { initReservation, Reservation } from '@/types/Reservation';
 
 import { MyAlert } from '@/components/custom/MyAlert';
 
 import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
-import { ProductionForm } from '@/components/custom/produce/ProductionForm';
+import { ReservationForm } from '@/components/custom/reservation/ReservationForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
-import { HeaderBtnOpt } from '../_layout';
 import { useSnackbar } from '@/components/SnackbarProvider';
 
-export default function Produce() {
+import HeaderBtn from '@/components/custom/header/HeaderBtn';
+
+export default function NewReservation() {
   
   const navigation = useNavigation();
   
   const { showSnackbar } = useSnackbar();
 
-  const [newProduction, setNewProduction] = useState<Production>(initProduction);
-  const [productionItems, setProductionItems] = useState<ProductQuantityItem[]>([]);
+  const [newReservation, setNewReservation] = useState<Reservation>(initReservation);
+  const [soldProductItems, setSoldProductItems] = useState<SoldProduct[]>([]);
 
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
@@ -36,21 +39,24 @@ export default function Produce() {
     showSnackbar('Articoli aggiunti');
     
     selectedIds.map(id => {
-      if (!productionItems.find(item => item.product_id === id)) {
-        setProductionItems(prev => [...prev, { product_id: id, quantity: 0 }]);
+      if (!soldProductItems.find(item => item.product_id === id)) {
+        const product = getProductFromId(id);
+        if (product) {
+          setSoldProductItems(prev => [...prev, { product_id: id, quantity: 0, unit_price: product.price, uom: product.uom, weight: 0 }]);
+        }
       }
     });
 
-    productionItems.map(item => {
+    soldProductItems.map(item => {
       if (!selectedIds.includes(item.product_id)) {
-        setProductionItems(prev => prev.filter(i => i.product_id !== item.product_id));
+        setSoldProductItems(prev => prev.filter(i => i.product_id !== item.product_id));
       }
     });
   }
 
   function backAndReset() {
-    setNewProduction(initProduction);
-    setProductionItems([]);
+    setNewReservation(initReservation);
+    setSoldProductItems([]);
     setShowDiscardChangesModal(false);
     navigation.goBack()
   }
@@ -58,15 +64,15 @@ export default function Produce() {
   useEffect(() => {
 
     function handleSave() {
-      setNewProduction(initProduction);
-      setProductionItems([]);
+      setNewReservation(initReservation);
+      setSoldProductItems([]);
       
-      showSnackbar('Nuova produzione creata');
+      showSnackbar('Nuova prenotazione creata');
       navigation.goBack()
     }
 
     function handleBack() {
-      if (newProduction !== initProduction || productionItems.length > 0) {
+      if (newReservation !== initReservation || soldProductItems.length > 0) {
         setShowDiscardChangesModal(true);
         return;
       }
@@ -75,20 +81,20 @@ export default function Produce() {
 
     navigation.setOptions({
       headerLeft: () => (
-        <HeaderBtnOpt
+        <HeaderBtn
           navigation={navigation}
           action={handleBack}
         />
       ),
       headerRight: () => (
-        <HeaderBtnOpt
+        <HeaderBtn
           navigation={navigation}
           action={handleSave}
           iconName="save"
         />
       ),
     });
-  }, [navigation, newProduction, productionItems]);
+  }, [navigation]);
 
   return (
     <GestureContainer
@@ -101,7 +107,7 @@ export default function Produce() {
           <ProductionAddProductModal
             modalVisible={showAddProductModal}
             setModalVisible={setShowAddProductModal}
-            selectedIds={productionItems.map(item => item.product_id)}
+            selectedIds={soldProductItems.map(item => item.product_id)}
             onSave={handleItemAdd}
           />
         </ModalContainer>
@@ -120,11 +126,11 @@ export default function Produce() {
 
         {/* Body */}
         <BodyContainer>
-          <ProductionForm
-            production={newProduction}
-            setProduction={setNewProduction}
-            productionItems={productionItems}
-            setProductionItems={setProductionItems}
+          <ReservationForm
+            reservation={newReservation}
+            setReservation={setNewReservation}
+            soldProductItems={soldProductItems}
+            setSoldProductItems={setSoldProductItems}
             setShowAddProductModal={setShowAddProductModal}
           />
         </BodyContainer>

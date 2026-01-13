@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useNavigation, useRouter } from 'expo-router';
-
 import { FlatList } from 'react-native';
 
 import type { Product } from '@/types/Product';
@@ -18,14 +16,10 @@ import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
 
 import { getAllProducts } from '@/components/api/productsApi';
 
-import { GestureContainer } from '@/components/custom/GestureContainer';
 import { useSnackbar } from '@/components/SnackbarProvider';
 
 export default function Products() {
   
-  const router = useRouter();
-  const navigation = useNavigation();
-    
   const { showSnackbar } = useSnackbar();
 
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
@@ -56,55 +50,50 @@ export default function Products() {
   }
 
   return (
-    <GestureContainer
-      leftAction={() => router.push('/(tabs)/warehouse/(products)/newProduct')}
-      rightAction={() => navigation.goBack()}
-    >
-      <PageContainer>
+    <PageContainer>
 
-        {/* Editing Modal */}
-        <ModalContainer visible={itemEditModalVisible && product !== null}>
-          <ProductEditModal
-            modalVisible={itemEditModalVisible}
-            setModalVisible={setItemEditModalVisible}
-            product={product}
-            onSave={(updatedProduct: Product) => {
-              showSnackbar('Articolo modificato');
-            }}
-            onDiscard={() => {
-              stopEditing();
+      {/* Editing Modal */}
+      <ModalContainer visible={itemEditModalVisible && product !== null}>
+        <ProductEditModal
+          modalVisible={itemEditModalVisible}
+          setModalVisible={setItemEditModalVisible}
+          product={product}
+          onSave={(updatedProduct: Product) => {
+            showSnackbar('Articolo modificato');
+          }}
+          onDiscard={() => {
+            stopEditing();
+          }}
+        />
+      </ModalContainer>
+
+      {/* Body */}
+      <BodyContainer>
+        <SearchBarWithFilters
+          placeholder="Cerca articolo..."
+          text={searchText}
+          setText={setSearchText}
+          showFilter={showFilter}
+          setShowFilter={setShowFilter}
+        />
+        <LazyContainer>
+          <FlatList
+            data={productsToDisplay}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <ProductCard
+                product={item}
+                startEditingItem={startEditingItem}
+              />
+            )}
+            contentContainerStyle={{
+              gap: 10
             }}
           />
-        </ModalContainer>
+        </LazyContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <SearchBarWithFilters
-            placeholder="Cerca articolo..."
-            text={searchText}
-            setText={setSearchText}
-            showFilter={showFilter}
-            setShowFilter={setShowFilter}
-          />
-          <LazyContainer>
-            <FlatList
-              data={productsToDisplay}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <ProductCard
-                  product={item}
-                  startEditingItem={startEditingItem}
-                />
-              )}
-              contentContainerStyle={{
-                gap: 10
-              }}
-            />
-          </LazyContainer>
+      </BodyContainer>
 
-        </BodyContainer>
-
-      </PageContainer>
-    </GestureContainer>
+    </PageContainer>
   );
 }

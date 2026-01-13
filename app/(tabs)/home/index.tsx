@@ -7,42 +7,31 @@ import { ThemedView } from '@/components/themed-view';
 
 import { useRouter } from 'expo-router';
 
-import { GestureContainer } from '@/components/custom/GestureContainer';
-
 import SummaryCard from '@/components/custom/home/SummaryCard';
 import UnpaidSales from '@/components/custom/home/UnpaidSales';
-
-import FlipCard from '@/components/custom/home/FlipCard';
-
 
 export default function HomeScreen() {
 
   const router = useRouter();
 
   return (
-    <GestureContainer
-      // rightAction={() => router.push('/(tabs)/warehouse')}
-    >
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerImage={
+        <Image
+          source={require('@/assets/images/topWallpaper.jpg')}
+          style={styles.wallpaper}
+        />
+      }>
+      <ThemedView style={styles.titleContainer}>
 
-      <ParallaxScrollView
-        headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-        headerImage={
-          <Image
-            source={require('@/assets/images/topWallpaper.jpg')}
-            style={styles.wallpaper}
-          />
-        }>
-        <ThemedView style={styles.titleContainer}>
+        <ThemedText type="title">KaiStock</ThemedText>
+        <SummaryCard />
+        <UnpaidSales />
 
-          <ThemedText type="title">KaiStock</ThemedText>
-          <SummaryCard />
-          <UnpaidSales />
-
-        </ThemedView>
-        
-      </ParallaxScrollView>
-    </GestureContainer>
-
+      </ThemedView>
+      
+    </ParallaxScrollView>
   );
 }
 

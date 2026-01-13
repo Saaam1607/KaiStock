@@ -1,58 +1,42 @@
-import { useRouter } from 'expo-router';
+import React from 'react';
 
+import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PageContainer } from '@/components/custom/containers/PageContainer';
-
 import IconButton from '@/components/custom/IconTextButton';
 
-import { GestureContainer } from '@/components/custom/GestureContainer';
-
-export default function HomeScreen({ navigation }: any) {
+export default function Trends() {
   
   const router = useRouter();
 
   return (
-    <GestureContainer
-      // upAction={() => router.push('/(tabs)/index')}
-      // downAction={() => router.push('/(tabs)/index')}
-      // leftAction={() => router.push('/(tabs)/index')}
-      // leftAction={() => router.push('/(tabs)/')}
-    >
-      <PageContainer>
-
-        <ScrollView
-          style={{
-          }}
-          contentContainerStyle={{
-            gap: 20,
-            padding: 20
-          }}
-        >
-          <View style={styles.buttonContainer}>
-            <IconButton
-              text={"Andamento Guadagno Lordo"}
-              iconName={"cash-outline"}
-              onPress={() => navigation.navigate('earningsTrend')}
-            />
-            <IconButton
-              text={"Andamento Guadagno Netto"}
-              iconName={"cash-outline"}
-              onPress={() => navigation.navigate('netEarningsTrend')}
-            />
-          </View>
-          <View style={styles.buttonContainer}>
-            <IconButton
-              text={"Andamento Spese"}
-              iconName={"logo-euro"}
-              onPress={() => navigation.navigate('expensesTrend')}
-            />
-          </View>
-        </ScrollView>
-      </PageContainer>
-    </GestureContainer>
+    <PageContainer>
+      <ScrollView contentContainerStyle={{ gap: 20, padding: 20 }}>
+        <View style={styles.buttonContainer}>
+          <IconButton
+            text={"Andamento Guadagno Lordo"}
+            iconName={"cash-outline"}
+            onPress={() => router.push('/(tabs)/trends/earningsTrend')}
+          />
+          <IconButton
+            text={"Andamento Guadagno Netto"}
+            iconName={"cash-outline"}
+            onPress={() => router.push('/(tabs)/trends/netEarningsTrend')}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <IconButton
+            text={"Andamento Spese"}
+            iconName={"logo-euro"}
+            onPress={() => router.push('/(tabs)/trends/expensesTrend')}
+          />
+        </View>
+      </ScrollView>
+    </PageContainer>
   );
 }
+
 
 const styles = StyleSheet.create({
   buttonContainer: {

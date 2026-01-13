@@ -18,9 +18,6 @@ import { GestureContainer } from '@/components/custom/GestureContainer';
 
 export default function Productions() {
   
-  const router = useRouter();
-  const navigation = useNavigation();
-
   const productions = getAllProductions();
 
   const [searchText, setSearchText] = useState('');
@@ -35,44 +32,39 @@ export default function Productions() {
   }, [searchText]);
 
   return (
-    <GestureContainer
-      leftAction={() => router.push('/(tabs)/warehouse/produce')}
-      rightAction={() => navigation.goBack()}
-    >
-      <PageContainer>
+    <PageContainer>
 
-        {/* Modal */}
-        <ModalContainer visible={false}>
-          <></>
-        </ModalContainer>
+      {/* Modal */}
+      <ModalContainer visible={false}>
+        <></>
+      </ModalContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <SearchBarWithFilters
-            placeholder="Cerca produzione..."
-            text={searchText}
-            setText={setSearchText}
-            showFilter={showFilter}
-            setShowFilter={setShowFilter}
+      {/* Body */}
+      <BodyContainer>
+        <SearchBarWithFilters
+          placeholder="Cerca produzione..."
+          text={searchText}
+          setText={setSearchText}
+          showFilter={showFilter}
+          setShowFilter={setShowFilter}
+        />
+        <LazyContainer>
+          <FlatList
+            data={productionsToDisplay}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <ProductionCard
+                production={item}
+              />
+            )}
+            contentContainerStyle={{
+              gap: 10,
+            }}
           />
-          <LazyContainer>
-            <FlatList
-              data={productionsToDisplay}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <ProductionCard
-                  production={item}
-                />
-              )}
-              contentContainerStyle={{
-                gap: 10,
-              }}
-            />
-          </LazyContainer>
+        </LazyContainer>
 
-        </BodyContainer>
+      </BodyContainer>
 
-      </PageContainer>
-    </GestureContainer>
+    </PageContainer>
   );
 }

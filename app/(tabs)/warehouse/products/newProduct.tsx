@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 
 import { Keyboard } from 'react-native';
 
@@ -16,7 +16,9 @@ import { MyAlert } from '@/components/custom/MyAlert';
 import ProductForm from '@/components/custom/product/ProductForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
-import { HeaderBtnOpt, HeaderBtnWithTextOpt } from '../_layout';
+
+import HeaderBtn from '@/components/custom/header/HeaderBtn';
+import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
 
 
 import { useSnackbar } from '@/components/SnackbarProvider';
@@ -24,6 +26,7 @@ import { useSnackbar } from '@/components/SnackbarProvider';
 export default function NewProduct() {
   
   const navigation = useNavigation();
+  const router = useRouter();
 
   const { showSnackbar } = useSnackbar();
 
@@ -36,7 +39,7 @@ export default function NewProduct() {
   function backAndReset() {
     setNewProduct(initProduct);
     setShowDiscardChangesModal(false);
-    navigation.goBack()
+    router.back();
   }
 
   function checkProductValidity(): boolean {
@@ -55,7 +58,7 @@ export default function NewProduct() {
         setShowMandatoryBorders(false);
         setNewProduct(initProduct);
         showSnackbar('Articolo creato');
-        navigation.goBack()
+        router.back();
       }
     }
 
@@ -64,19 +67,17 @@ export default function NewProduct() {
         setShowDiscardChangesModal(true);
         return;
       }
-      navigation.goBack()
+      router.back();
     }
 
     navigation.setOptions({
       headerLeft: () => (
-        <HeaderBtnOpt
-          navigation={navigation}
+        <HeaderBtn
           action={handleBack}
         />
       ),
       headerRight: () => (
-        <HeaderBtnWithTextOpt
-          navigation={navigation}
+        <HeaderBtnWithText
           action={handleSave}
           iconName="save"
           text="Salva"
@@ -87,7 +88,6 @@ export default function NewProduct() {
 
   return (
     <GestureContainer
-      rightAction={() => navigation.goBack()}
     >
       <PageContainer>
       

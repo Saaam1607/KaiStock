@@ -21,7 +21,9 @@ import { SaleForm } from '@/components/custom/sale/SaleForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 import { useSnackbar } from '@/components/SnackbarProvider';
-import { HeaderBtnOpt, HeaderBtnWithTextOpt } from '../_layout';
+
+import HeaderBtn from '@/components/custom/header/HeaderBtn';
+import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
 
 import { getProductFromId } from '@/components/api/productsApi';
 
@@ -96,13 +98,13 @@ export default function NewSale() {
 
     navigation.setOptions({
       headerLeft: () => (
-        <HeaderBtnOpt
+        <HeaderBtn
           navigation={navigation}
           action={handleBack}
         />
       ),
       headerRight: () => (
-        <HeaderBtnWithTextOpt
+        <HeaderBtnWithText
           navigation={navigation}
           action={handleSave}
           text="Salva"

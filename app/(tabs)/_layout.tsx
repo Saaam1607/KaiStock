@@ -1,55 +1,62 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { withLayoutContext } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import Ionicons from '@expo/vector-icons/Ionicons';
+const Tab = createMaterialTopTabNavigator();
+const MaterialTopTabs = withLayoutContext(Tab.Navigator);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  const iconSize = 20;
-
+function TabItem({ label, icon, activeIcon, focused, color }: any) {
   return (
-    <Tabs
-      initialRouteName="index"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarLabelStyle: {
-          fontSize: 14,
-        },
-      }}>
-      <Tabs.Screen
-        name="warehouse"
-        options={{
-          title: 'Magazzino',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'storefront-sharp' : 'storefront-outline'} color={color} size={iconSize} />
-          ),
+    <View style={{ alignItems: 'center' }} >
+      <Ionicons name={focused ? activeIcon : icon} color={color} size={20} />
+      <Text style={{ color, fontSize: 12 }}>{label}</Text>
+    </View>
+  );
+}
+
+export default function TabsLayout() {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <MaterialTopTabs
+        tabBarPosition='bottom'
+        screenOptions={{
+          tabBarIndicatorStyle: { backgroundColor: '#000' },
+          tabBarShowIcon: false,
+          tabBarLabelStyle: { textTransform: 'none' },
         }}
-      />
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={iconSize} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="trends"
-        options={{
-          title: 'Andamenti',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'podium-sharp' : 'podium-outline'} color={color} size={iconSize} />
-          ),
-        }}
-      />
-    </Tabs>
+      >
+        <MaterialTopTabs.Screen
+          name="warehouse"
+          options={{
+            tabBarLabel: ({ focused, color }: any) => (
+              <TabItem label="Magazzino" icon="storefront-outline" activeIcon="storefront-sharp" focused={focused} color={color} />
+            ),
+          }}
+        />
+        <MaterialTopTabs.Screen
+          name="home"
+          options={{
+            tabBarLabel: ({ focused, color }: any) => (
+              <TabItem label="Home" icon="home-outline" activeIcon="home-sharp" focused={focused} color={color} />
+            ),
+          }}
+        />
+        <MaterialTopTabs.Screen
+          name="trends"
+          options={{
+            tabBarLabel: ({ focused, color }: any) => (
+              <TabItem label="Andamenti" icon="podium-outline" activeIcon="podium-sharp" focused={focused} color={color} />
+            ),
+          }}
+        />
+
+        <MaterialTopTabs.Screen
+          name="settings"
+          options={{ title: 'Settings' }}
+        />
+      </MaterialTopTabs>
+    </SafeAreaView>
   );
 }

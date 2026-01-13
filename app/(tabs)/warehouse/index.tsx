@@ -1,70 +1,56 @@
-import { useRouter } from 'expo-router';
+import React from 'react';
 
+import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PageContainer } from '@/components/custom/containers/PageContainer';
-
 import IconButton from '@/components/custom/IconTextButton';
 
-import { GestureContainer } from '@/components/custom/GestureContainer';
-
-export default function HomeScreen({ navigation }: any) {
+export default function Warehouse() {
   
   const router = useRouter();
 
   return (
-    <GestureContainer
-      // upAction={() => router.push('/(tabs)/index')}
-      // downAction={() => router.push('/(tabs)/index')}
-      // leftAction={() => router.push('/(tabs)/index')}
-      // leftAction={() => router.push('/(tabs)/')}
-    >
-      <PageContainer>
+    <PageContainer>
+      <ScrollView contentContainerStyle={{ gap: 20, padding: 20 }}>
+        <View style={styles.buttonContainer}>
+          <IconButton
+            text="Articoli"
+            iconName="book"
+            onPress={() => router.push('/(tabs)/warehouse/products')}
+          />
+          <IconButton
+            text="Produzione"
+            iconName="construct-sharp"
+            onPress={() => router.push('/(tabs)/warehouse/productions')}
+          />
+        </View>
 
-        <ScrollView
-          style={{
-          }}
-          contentContainerStyle={{
-            gap: 20,
-            padding: 20
-          }}
-        >
-          <View style={styles.buttonContainer}>
-            <IconButton
-              text={"Articoli"}
-              iconName={"book"}
-              onPress={() => navigation.navigate('products')}
-            />
-            <IconButton
-              text={"Produzione"}
-              iconName={"construct-sharp"}
-              onPress={() => navigation.navigate('productions')}
-            />
-          </View>
-          <View style={styles.buttonContainer}>
-            <IconButton
-              text={"Riserva"}
-              iconName={"bag-sharp"}
-              onPress={() => navigation.navigate('reservations')}
-            />
-            <IconButton
-              text={"Vendite"}
-              iconName={"bag-check-sharp"}
-              onPress={() => navigation.navigate('sales')}
-            />
-          </View>
-            <View style={styles.buttonContainer}>
-            <IconButton
-              text={"Spesa"}
-              iconName={"logo-euro"}
-              onPress={() => navigation.navigate('expenses')}
-            />
-          </View>
-        </ScrollView>
-      </PageContainer>
-    </GestureContainer>
+        <View style={styles.buttonContainer}>
+          <IconButton
+            text="Riserva"
+            iconName="bag-sharp"
+            onPress={() => router.push('/(tabs)/warehouse/reservations')}
+          />
+          <IconButton
+            text="Vendite"
+            iconName="bag-check-sharp"
+            onPress={() => router.push('/(tabs)/warehouse/sales')}
+          />
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <IconButton
+            text="Spese"
+            iconName="logo-euro"
+            onPress={() => router.push('/(tabs)/warehouse/expenses')}
+          />
+        </View>
+      </ScrollView>
+    </PageContainer>
   );
 }
+
 
 const styles = StyleSheet.create({
   buttonContainer: {

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 
-import { useNavigation, useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { FlatList, View } from 'react-native';
@@ -20,16 +19,11 @@ import { ExpensesFilters } from '@/components/custom/expense/ExpenseFilters';
 
 import { getAllExpenses, editExpense, deleteExpense } from '@/components/api/expensesApi';
 
-import { GestureContainer } from '@/components/custom/GestureContainer';
-
 import { useSnackbar } from '@/components/SnackbarProvider';
 import { useAlert } from '@/components/providers/AlertProvider';
 
 export default function Expenses() {
   
-  const router = useRouter();
-  const navigation = useNavigation();
-    
   const { showSnackbar } = useSnackbar();
   const { showAlert } = useAlert();
 
@@ -116,55 +110,50 @@ export default function Expenses() {
   }
 
   return (
-    <GestureContainer
-      // leftAction={() => router.push('/(tabs)/warehouse/newProduct')}
-      rightAction={() => navigation.goBack()}
-    >
-      <PageContainer>
+    <PageContainer>
 
-        {/* Editing Modal */}
-        <ModalContainer visible={itemEditModalVisible && expense !== null}>
-          <ExpenseEditModal
-            modalVisible={itemEditModalVisible}
-            setModalVisible={setItemEditModalVisible}
-            expense={expense}
-            onSave={(updatedExpense: Expense) => {
-              updateItem(updatedExpense);
-            }}
-            onDiscard={() => {
-              stopEditing();
-            }}
+      {/* Editing Modal */}
+      <ModalContainer visible={itemEditModalVisible && expense !== null}>
+        <ExpenseEditModal
+          modalVisible={itemEditModalVisible}
+          setModalVisible={setItemEditModalVisible}
+          expense={expense}
+          onSave={(updatedExpense: Expense) => {
+            updateItem(updatedExpense);
+          }}
+          onDiscard={() => {
+            stopEditing();
+          }}
+        />
+      </ModalContainer>
+
+      {/* Body */}
+      <BodyContainer>
+        <SearchBarWithFilters
+          placeholder="Cerca spesa..."
+          text={searchText}
+          setText={setSearchText}
+          showFilter={showFilter}
+          setShowFilter={setShowFilter}
+          filtersComponent={<ExpensesFilters sortKey={sortKey} setSortKey={setSortKey} />}
+        />
+        <LazyContainer>
+          <FlatList
+            data={expensesToDisplay}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <ExpenseCard
+                expense={item}
+                startEditingItem={startEditingItem}
+                deleteItem={handleDeleteItem}
+              />
+            )}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           />
-        </ModalContainer>
+        </LazyContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <SearchBarWithFilters
-            placeholder="Cerca spesa..."
-            text={searchText}
-            setText={setSearchText}
-            showFilter={showFilter}
-            setShowFilter={setShowFilter}
-            filtersComponent={<ExpensesFilters sortKey={sortKey} setSortKey={setSortKey} />}
-          />
-          <LazyContainer>
-            <FlatList
-              data={expensesToDisplay}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <ExpenseCard
-                  expense={item}
-                  startEditingItem={startEditingItem}
-                  deleteItem={handleDeleteItem}
-                />
-              )}
-              ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-            />
-          </LazyContainer>
+      </BodyContainer>
 
-        </BodyContainer>
-
-      </PageContainer>
-    </GestureContainer>
+    </PageContainer>
   );
 }

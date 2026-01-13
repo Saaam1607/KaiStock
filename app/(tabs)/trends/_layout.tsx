@@ -1,125 +1,51 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import React, { memo } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import WarehouseIndex from './index';
+import HeaderBtn from '@/components/custom/header/HeaderBtn';
 
-import ExpensesTrend from './(expensesTrend)/expensesTrend';
-import EarningsTrend from './(earningsTrend)/earningsTrend';
-import NetEarningsTrend from './(netEarningsTrend)/netEarningsTrend';
+import Trends from './index';
+import EarningsTrend from './earningsTrend';
+import NetEarningsTrend from './netEarningsTrend';
+import ExpensesTrend from './expensesTrend';
 
-import Ionicons from '@expo/vector-icons/Ionicons';
+const Stack = createNativeStackNavigator();
 
-import { useColor } from '@/hooks/use-color';
+export default function ExpensesLayout() {
 
-type WarehouseStackParamList = {
-  trends: undefined;
-  expensesTrend: undefined;
-  earningsTrend: undefined;
-  netEarningsTrend: undefined;
-};
-
-type HeaderBtnProps = {
-  navigation: any;
-  action?: () => void;
-  iconName?: string;
-};
-
-function HeaderBtn({ navigation, action, iconName = "arrow-back" }: HeaderBtnProps) {
-  const color = useColor();
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        if (action)
-          action()
-      }}
-      style={{ paddingHorizontal: 10 }}
-    >
-      <Ionicons name={iconName as any} size={28} color={color.icon} />
-    </TouchableOpacity>
-  );
-}
-export const HeaderBtnOpt = memo(HeaderBtn);
-
-type HeaderBtnWithTextProps = {
-  navigation: any;
-  action?: () => void;
-  iconName?: string;
-  text: string;
-};
-
-function HeaderBtnWithText({ navigation, action, iconName = "arrow-back", text }: HeaderBtnWithTextProps) {
-  const color = useColor();
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        if (action)
-          action()
-      }}
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-        paddingHorizontal: 10,
-      }}
-    >
-      <Text style={{ color: color.icon, fontWeight: 'bold' }}>{text}</Text>
-      <Ionicons name={iconName as any} size={28} color={color.icon} />
-    </TouchableOpacity>
-  );
-}
-export const HeaderBtnWithTextOpt = memo(HeaderBtnWithText);
-
-const Stack = createStackNavigator<WarehouseStackParamList>();
-
-export default function WarehouseLayout() {
+  const router = useRouter();
 
   return (
-    <Stack.Navigator
-      screenOptions={{ animation: 'none' }}
-      // screenOptions={({ route }) => {
-      //   return {
-      //     gestureEnabled: true,
-      //     headerShown: true,
-      //     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      //   };
-      // }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="trends"
-        component={WarehouseIndex}
-        options={({ navigation }) => ({
-          title: 'Andamenti',
-        })}
+        component={Trends}
+        options={{
+          headerShown: false,
+        }}
       />
-
-      <Stack.Screen
-        name="expensesTrend"
-        component={ExpensesTrend}
-        options={({ navigation }) => ({
-          title: 'Andamento Spese',
-          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-        })}
-      />
-
       <Stack.Screen
         name="earningsTrend"
         component={EarningsTrend}
-        options={({ navigation }) => ({
+        options={{
           title: 'Andamento Guadagno Lordo',
-          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          // headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newSale')} text="Nuova" iconName="create" />,
-        })}
+          headerLeft: () => <HeaderBtn action = {router.back} />,
+        }}
       />
-
       <Stack.Screen
         name="netEarningsTrend"
         component={NetEarningsTrend}
-        options={({ navigation }) => ({
+        options={{
           title: 'Andamento Guadagno Netto',
-          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          // headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newSale')} text="Nuova" iconName="create" />,
-        })}
+          headerLeft: () => <HeaderBtn action = {router.back} />,
+        }}
+      />
+      <Stack.Screen
+        name="expensesTrend"
+        component={ExpensesTrend}
+        options={{
+          title: 'Andamento Spese',
+          headerLeft: () => <HeaderBtn action = {router.back} />,
+        }}
       />
     </Stack.Navigator>
   );

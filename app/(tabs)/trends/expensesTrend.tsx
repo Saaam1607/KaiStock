@@ -1,16 +1,10 @@
 import React, { useMemo } from 'react';
 
-import { useNavigation, useRouter } from 'expo-router';
-
-
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { LazyContainer } from '@/components/custom/containers/LazyContainer';
 import { PageContainer } from '@/components/custom/containers/PageContainer';
 
-
 import { getAllExpenses } from '@/components/api/expensesApi';
-
-import { GestureContainer } from '@/components/custom/GestureContainer';
 
 import { Trend } from '@/components/custom/trends/Trend';
 
@@ -18,9 +12,6 @@ import { getMonthDayLabels, getMonthlyCumulativeData, getYearlyCumulativeData, g
 
 export default function ExpensesTrend() {
   
-  const router = useRouter();
-  const navigation = useNavigation();
-
   const expenses = getAllExpenses();
 
   const sortedExpenses = useMemo(() => {
@@ -46,27 +37,22 @@ export default function ExpensesTrend() {
   }
 
   return (
-    <GestureContainer
-      // leftAction={() => router.push('/(tabs)/warehouse/(products)/newProduct')}
-      // rightAction={() => navigation.goBack()}
-    >
-      <PageContainer>
+    <PageContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <LazyContainer>
-            <Trend
-              getYearData={getYearData}
-              getMonthData={getMonthData}
-              getMonthLabels={getMonthLabels}
-              getDayLabels={getDayLabels}
-              yearGraphLabel={"Spesa Cumulativa annuale"}
-              monthGraphLabel={"Spesa Cumulativa mensile"}
-            />
-          </LazyContainer>
-        </BodyContainer>
+      {/* Body */}
+      <BodyContainer>
+        <LazyContainer>
+          <Trend
+            getYearData={getYearData}
+            getMonthData={getMonthData}
+            getMonthLabels={getMonthLabels}
+            getDayLabels={getDayLabels}
+            yearGraphLabel={"Spesa Cumulativa annuale"}
+            monthGraphLabel={"Spesa Cumulativa mensile"}
+          />
+        </LazyContainer>
+      </BodyContainer>
 
-      </PageContainer>
-    </GestureContainer>
+    </PageContainer>
   );
 }
