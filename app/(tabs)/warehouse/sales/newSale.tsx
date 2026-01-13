@@ -27,6 +27,7 @@ import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
 
 import { getProductFromId } from '@/components/api/productsApi';
 
+import { useProtectedAction } from '@/hooks/useProtectedAction';
 
 export default function NewSale() {
   
@@ -41,6 +42,27 @@ export default function NewSale() {
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
 
   const [showMandatoryBorders, setShowMandatoryBorders] = useState(false);
+
+  const { protectedAction: saveSale } = useProtectedAction(async () => {
+    Keyboard.dismiss();
+    if (!checkProducValidity()) {
+      setShowMandatoryBorders(true);
+      showSnackbar('I campi evidenziati sono obbligatori');
+    } else {
+      setShowMandatoryBorders(false);
+      setNewSale(initSale);
+      showSnackbar('Nuova vendita creata');
+      navigation.goBack()
+    }
+  });
+
+  const { protectedAction: handleBack } = useProtectedAction(async () => {
+    if (newSale !== initSale || soldProductItems.length > 0) {
+      setShowDiscardChangesModal(true);
+      return;
+    }
+    navigation.goBack()
+  });
 
   function handleItemAdd(selectedIds: string[]) {
     showSnackbar('Articoli aggiunti');
@@ -74,28 +96,6 @@ export default function NewSale() {
   }
 
   useEffect(() => {
-
-    function handleSave() {
-      Keyboard.dismiss();
-      if (!checkProducValidity()) {
-        setShowMandatoryBorders(true);
-        showSnackbar('I campi evidenziati sono obbligatori');
-      } else {
-        setShowMandatoryBorders(false);
-        setNewSale(initSale);
-        showSnackbar('Nuova vendita creata');
-        navigation.goBack()
-      }
-    }
-
-    function handleBack() {
-      if (newSale !== initSale || soldProductItems.length > 0) {
-        setShowDiscardChangesModal(true);
-        return;
-      }
-      navigation.goBack()
-    }
-
     navigation.setOptions({
       headerLeft: () => (
         <HeaderBtn
@@ -106,13 +106,13 @@ export default function NewSale() {
       headerRight: () => (
         <HeaderBtnWithText
           navigation={navigation}
-          action={handleSave}
+          action={saveSale}
           text="Salva"
           iconName="save"
         />
       ),
     });
-  }, [navigation, newSale, soldProductItems]);
+  }, [handleBack, navigation, saveSale]);
 
   function handleBodyItemSubmit(product: Product, weight: number, quantity: number) {
 

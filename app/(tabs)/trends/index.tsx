@@ -10,6 +10,27 @@ export default function Trends() {
   
   const router = useRouter();
 
+  const [isNavigating, setIsNavigating] = React.useState(false);
+  
+  enum Routes {
+    trends = '/(tabs)/trends',
+    earningsTrend = '/(tabs)/trends/earningsTrend',
+    netEarningsTrend = '/(tabs)/trends/netEarningsTrend',
+    expensesTrend = '/(tabs)/trends/expensesTrend',
+  }
+        
+  async function handleButtonPress(route: Routes) {
+    if (isNavigating) return;
+    setIsNavigating(true);
+    try {
+      await router.push(route);
+    } finally {
+      setTimeout(() => {
+        setIsNavigating(false);
+      }, 200);
+    }
+  }
+
   return (
     <PageContainer>
       <ScrollView contentContainerStyle={{ gap: 20, padding: 20 }}>
@@ -17,19 +38,19 @@ export default function Trends() {
           <IconButton
             text={"Andamento Guadagno Lordo"}
             iconName={"cash-outline"}
-            onPress={() => router.push('/(tabs)/trends/earningsTrend')}
+            onPress={() => handleButtonPress(Routes.earningsTrend)}
           />
           <IconButton
             text={"Andamento Guadagno Netto"}
             iconName={"cash-outline"}
-            onPress={() => router.push('/(tabs)/trends/netEarningsTrend')}
+            onPress={() => handleButtonPress(Routes.netEarningsTrend)}
           />
         </View>
         <View style={styles.buttonContainer}>
           <IconButton
             text={"Andamento Spese"}
             iconName={"logo-euro"}
-            onPress={() => router.push('/(tabs)/trends/expensesTrend')}
+            onPress={() => handleButtonPress(Routes.expensesTrend)}
           />
         </View>
       </ScrollView>

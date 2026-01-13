@@ -64,7 +64,7 @@ export function SaleForm({ sale, setSale, soldProductItems, setSoldProductItems,
         <FormItem
           label="Riservato a"
           input={sale.to}
-          onInputChange={text => setSale({ ...sale, notes: text })}
+          onInputChange={text => setSale({ ...sale, to: text })}
           showMandatoryBorders={showMandatoryBorders && sale.to === ''}
         />
         <FormCheck

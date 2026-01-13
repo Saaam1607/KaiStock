@@ -7,8 +7,33 @@ import { PageContainer } from '@/components/custom/containers/PageContainer';
 import IconButton from '@/components/custom/IconTextButton';
 
 export default function Warehouse() {
-  
+
   const router = useRouter();
+  
+  const [isNavigating, setIsNavigating] = React.useState(false);
+
+  enum Routes {
+    warehouse = '/(tabs)/warehouse',
+    products = '/(tabs)/warehouse/products',
+    newProduct = '/(tabs)/warehouse/products/newProduct',
+    productions = '/(tabs)/warehouse/productions',
+    newProduction = '/(tabs)/warehouse/productions/newProduction',
+    reservations = '/(tabs)/warehouse/reservations',
+    sales = '/(tabs)/warehouse/sales',
+    expenses = '/(tabs)/warehouse/expenses',
+  }
+
+  async function handleButtonPress(route: Routes) {
+    if (isNavigating) return;
+    setIsNavigating(true);
+    try {
+      await router.push(route);
+    } finally {
+      setTimeout(() => {
+        setIsNavigating(false);
+      }, 200);
+    }
+  }
 
   return (
     <PageContainer>
@@ -17,12 +42,12 @@ export default function Warehouse() {
           <IconButton
             text="Articoli"
             iconName="book"
-            onPress={() => router.push('/(tabs)/warehouse/products')}
+            onPress={() => handleButtonPress(Routes.products)}
           />
           <IconButton
             text="Produzione"
             iconName="construct-sharp"
-            onPress={() => router.push('/(tabs)/warehouse/productions')}
+            onPress={() => handleButtonPress(Routes.productions)}
           />
         </View>
 
@@ -30,12 +55,12 @@ export default function Warehouse() {
           <IconButton
             text="Riserva"
             iconName="bag-sharp"
-            onPress={() => router.push('/(tabs)/warehouse/reservations')}
+            onPress={() => handleButtonPress(Routes.reservations)}
           />
           <IconButton
             text="Vendite"
             iconName="bag-check-sharp"
-            onPress={() => router.push('/(tabs)/warehouse/sales')}
+            onPress={() => handleButtonPress(Routes.sales)}
           />
         </View>
 
@@ -43,7 +68,7 @@ export default function Warehouse() {
           <IconButton
             text="Spese"
             iconName="logo-euro"
-            onPress={() => router.push('/(tabs)/warehouse/expenses')}
+            onPress={() => handleButtonPress(Routes.expenses)}
           />
         </View>
       </ScrollView>
