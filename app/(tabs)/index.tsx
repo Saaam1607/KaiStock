@@ -1,18 +1,19 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet, View , Text} from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
 
 import { useRouter } from 'expo-router';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
-import WeekSummary from '@/components/custom/home/SummaryCard';
+import SummaryCard from '@/components/custom/home/SummaryCard';
 import UnpaidSales from '@/components/custom/home/UnpaidSales';
+
+import FlipCard from '@/components/custom/home/FlipCard';
+
 
 export default function HomeScreen() {
 
@@ -34,7 +35,7 @@ export default function HomeScreen() {
         <ThemedView style={styles.titleContainer}>
 
           <ThemedText type="title">KaiStock</ThemedText>
-          <WeekSummary />
+          <SummaryCard />
           <UnpaidSales />
 
         </ThemedView>
