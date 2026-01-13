@@ -2,16 +2,13 @@ import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import Svg, { Path } from 'react-native-svg';
 
-
-
-type SummaryCardContainerProps = {
-  index: number;
-  numberOfCards: number;
+type CardContainerProps = {
+  index?: number;
+  numberOfCards?: number;
   children: React.ReactNode;
 };
 
-
-export function SummaryCardContainer({ index, numberOfCards, children }: SummaryCardContainerProps) {
+export function CardContainer({ index, numberOfCards, children }: CardContainerProps) {
 
   const { width } = useWindowDimensions();
   const height = 400;
@@ -73,29 +70,32 @@ export function SummaryCardContainer({ index, numberOfCards, children }: Summary
             fill="rgba(255,255,255,0.08)"
           />
         </Svg>
+        
         <View style={{ width: '100%', padding: 20, gap: 10 }}>
           {children}
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 5,
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}
-          >
-            {Array.from({ length: numberOfCards }).map((_, i) => (
-              <View
-                key={i}
-                style={{
-                  width: 13,
-                  height: 13,
-                  borderRadius: 13,
-                  backgroundColor: i === index ? 'white' : 'grey',
-                }}
-              />
-            ))}
-          </View>
-        </View>
+          {numberOfCards && (
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: 5,
+                justifyContent: 'flex-end',
+                width: '100%',
+              }}
+            >
+              {Array.from({ length: numberOfCards }).map((_, i) => (
+                <View
+                  key={i}
+                  style={{
+                    width: 13,
+                    height: 13,
+                    borderRadius: 13,
+                    backgroundColor: i === index ? 'white' : 'grey',
+                  }}
+                />
+              ))}
+            </View>
+          )}
+        </View> 
       </View>
     </View>
   );

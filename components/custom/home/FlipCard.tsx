@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Pressable, Text } from "react-native";
+import { View, Pressable } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, runOnJS, useDerivedValue } from "react-native-reanimated";
 
 import { LazyContainer } from "../containers/LazyContainer";
@@ -40,14 +40,14 @@ export default function FlipCard({ index, setIndex, children }: FlipCardProps) {
   };
 
   useDerivedValue(() => {
-    const angle = rotate.value % 180;
+    const angle = rotate.value - Math.floor(rotate.value / 360) * 360;
 
-    if (angle > 90 && !swapped.value) {
+    if (angle > 90 && angle < 270 && !swapped.value) {
       swapped.value = true;
       runOnJS(nextIndex)();
     }
 
-    if (angle < 10) 
+    if (angle < 10 || angle > 350)
       swapped.value = false;
   });
 
@@ -60,7 +60,7 @@ export default function FlipCard({ index, setIndex, children }: FlipCardProps) {
         <Animated.View
           style={[
             animatedStyle,
-            {  overflow: "hidden", backfaceVisibility: "hidden", width: '100%' },
+            { backfaceVisibility: "hidden", width: '100%' },
           ]}
           onLayout={(e) => {
             const w = e.nativeEvent.layout.width;

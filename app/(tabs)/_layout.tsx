@@ -14,6 +14,7 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      initialRouteName="index"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
@@ -31,22 +32,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="warehouse/products"
-        options={{ href: null }}  
-      /> */}
-      {/* <Tabs.Screen
-        name="warehouse/produce"
-        options={{ href: null }}  
-      /> */}
-      {/* <Tabs.Screen
-        name="warehouse/productions"
-        options={{ href: null }}  
-      /> */}
-      {/* <Tabs.Screen
-        name="warehouse/inventory"
-        options={{ href: null }}  
-      /> */}
       <Tabs.Screen
         name="index"
         options={{
@@ -57,16 +42,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="order"
+        name="trends"
         options={{
-          title: 'Ordine',
+          title: 'Andamenti',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'fast-food-sharp' : 'fast-food-outline'} color={color} size={iconSize} />
+            <Ionicons name={focused ? 'podium-sharp' : 'podium-outline'} color={color} size={iconSize} />
           ),
         }}
       />
-
-
     </Tabs>
   );
 }

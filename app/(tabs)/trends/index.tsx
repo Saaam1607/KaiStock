@@ -31,33 +31,21 @@ export default function HomeScreen({ navigation }: any) {
         >
           <View style={styles.buttonContainer}>
             <IconButton
-              text={"Articoli"}
-              iconName={"book"}
-              onPress={() => navigation.navigate('products')}
+              text={"Andamento Guadagno Lordo"}
+              iconName={"cash-outline"}
+              onPress={() => navigation.navigate('earningsTrend')}
             />
             <IconButton
-              text={"Produzione"}
-              iconName={"construct-sharp"}
-              onPress={() => navigation.navigate('productions')}
+              text={"Andamento Guadagno Netto"}
+              iconName={"cash-outline"}
+              onPress={() => navigation.navigate('netEarningsTrend')}
             />
           </View>
           <View style={styles.buttonContainer}>
             <IconButton
-              text={"Riserva"}
-              iconName={"bag-sharp"}
-              onPress={() => navigation.navigate('reservations')}
-            />
-            <IconButton
-              text={"Vendite"}
-              iconName={"bag-check-sharp"}
-              onPress={() => navigation.navigate('sales')}
-            />
-          </View>
-            <View style={styles.buttonContainer}>
-            <IconButton
-              text={"Spesa"}
+              text={"Andamento Spese"}
               iconName={"logo-euro"}
-              onPress={() => navigation.navigate('expenses')}
+              onPress={() => navigation.navigate('expensesTrend')}
             />
           </View>
         </ScrollView>

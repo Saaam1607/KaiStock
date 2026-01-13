@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    gap: 8,
+    gap: 30,
   },
   stepContainer: {
     gap: 8,

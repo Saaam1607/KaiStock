@@ -9,7 +9,6 @@ import Products from './(products)/products';
 
 import Expenses from './(expenses)/expenses';
 import NewExpense from './(expenses)/newExpense';
-import ExpensesTrend from './(expensesTrend)/expensesTrend';
 
 import Produce from './(productions)/produce';
 import Productions from './(productions)/productions';
@@ -19,9 +18,6 @@ import Reservations from './(reservations)/reservations';
 
 import NewSale from './(sales)/newSale';
 import Sales from './(sales)/sales';
-
-import EarningsTrend from './(earningsTrend)/earningsTrend';
-import NetEarningsTrend from './(netEarningsTrend)/netEarningsTrend';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -33,15 +29,12 @@ type WarehouseStackParamList = {
   newProduct: undefined;
   expenses: undefined;
   newExpense: undefined;
-  expensesTrend: undefined;
   productions: undefined;
   produce: undefined;
   reservations: undefined;
   newReservation: undefined;
   sales: undefined;
   newSale: undefined;
-  earningsTrend: undefined;
-  netEarningsTrend: undefined;
 };
 
 type HeaderBtnProps = {
@@ -156,15 +149,6 @@ export default function WarehouseLayout() {
       />
 
       <Stack.Screen
-        name="expensesTrend"
-        component={ExpensesTrend}
-        options={({ navigation }) => ({
-          title: 'Andamento Spese',
-          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-        })}
-      />
-
-      <Stack.Screen
         name="productions"
         component={Productions}
         options={({ navigation }) => ({
@@ -215,26 +199,6 @@ export default function WarehouseLayout() {
         component={NewSale}
         options={({ navigation }) => ({
           title: 'Nuova Vendita',
-        })}
-      />
-
-      <Stack.Screen
-        name="earningsTrend"
-        component={EarningsTrend}
-        options={({ navigation }) => ({
-          title: 'Andamento Guadagno Lordo',
-          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          // headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newSale')} text="Nuova" iconName="create" />,
-        })}
-      />
-
-      <Stack.Screen
-        name="netEarningsTrend"
-        component={NetEarningsTrend}
-        options={({ navigation }) => ({
-          title: 'Andamento Guadagno Netto',
-          headerLeft: () => <HeaderBtnOpt navigation={navigation} action={() => navigation.goBack()}/>,
-          // headerRight: () => <HeaderBtnWithTextOpt navigation={navigation} action={() => navigation.navigate('newSale')} text="Nuova" iconName="create" />,
         })}
       />
 
