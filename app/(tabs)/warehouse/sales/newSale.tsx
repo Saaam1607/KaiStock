@@ -22,12 +22,10 @@ import { SaleForm } from '@/components/custom/sale/SaleForm';
 import { GestureContainer } from '@/components/custom/GestureContainer';
 import { useSnackbar } from '@/components/SnackbarProvider';
 
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
-import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
-
 import { getProductFromId } from '@/components/api/productsApi';
 
 import { useProtectedAction } from '@/hooks/useProtectedAction';
+import { useNewItemHeader } from '@/hooks/useNewItemHeader';
 
 export default function NewSale() {
   
@@ -43,7 +41,7 @@ export default function NewSale() {
 
   const [showMandatoryBorders, setShowMandatoryBorders] = useState(false);
 
-  const { protectedAction: saveSale } = useProtectedAction(async () => {
+  const { protectedAction: handleSave } = useProtectedAction(async () => {
     Keyboard.dismiss();
     if (!checkProducValidity()) {
       setShowMandatoryBorders(true);
@@ -62,6 +60,12 @@ export default function NewSale() {
       return;
     }
     navigation.goBack()
+  });
+
+  useNewItemHeader({
+    navigation,
+    onSave: handleSave,
+    onBack: handleBack,
   });
 
   function handleItemAdd(selectedIds: string[]) {
@@ -94,25 +98,6 @@ export default function NewSale() {
     if (newSale.to === '') return false;
     return true;
   }
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <HeaderBtn
-          navigation={navigation}
-          action={handleBack}
-        />
-      ),
-      headerRight: () => (
-        <HeaderBtnWithText
-          navigation={navigation}
-          action={saveSale}
-          text="Salva"
-          iconName="save"
-        />
-      ),
-    });
-  }, [handleBack, navigation, saveSale]);
 
   function handleBodyItemSubmit(product: Product, weight: number, quantity: number) {
 

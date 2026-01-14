@@ -21,7 +21,9 @@ import { ReservationForm } from '@/components/custom/reservation/ReservationForm
 import { GestureContainer } from '@/components/custom/GestureContainer';
 import { useSnackbar } from '@/components/SnackbarProvider';
 
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
+import { useProtectedAction } from '@/hooks/useProtectedAction';
+import { useNewItemHeader } from '@/hooks/useNewItemHeader';
+import { Keyboard } from 'react-native';
 
 export default function NewReservation() {
   
@@ -34,6 +36,40 @@ export default function NewReservation() {
 
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
+
+  const [showMandatoryBorders, setShowMandatoryBorders] = useState(false);
+
+  const { protectedAction: handleSave } = useProtectedAction(async () => {
+    Keyboard.dismiss();
+    if (!checkReservationValidity()) {
+      setShowMandatoryBorders(true);
+      showSnackbar('I campi evidenziati sono obbligatori');
+    } else {
+      setShowMandatoryBorders(false);
+      setNewReservation(initReservation);
+      setSoldProductItems([]);
+      showSnackbar('Nuova prenotazione creata');
+      navigation.goBack()
+    }
+  });
+
+  const { protectedAction: handleBack } = useProtectedAction(async () => {
+    if (newReservation !== initReservation || soldProductItems.length > 0) {
+      setShowDiscardChangesModal(true);
+      return;
+    }
+    navigation.goBack()
+  });
+
+  useNewItemHeader({
+    navigation,
+    onSave: handleSave,
+    onBack: handleBack,
+  });
+
+  function checkReservationValidity(): boolean {
+    return true;
+  }
 
   function handleItemAdd(selectedIds: string[]) {
     showSnackbar('Articoli aggiunti');
@@ -60,41 +96,6 @@ export default function NewReservation() {
     setShowDiscardChangesModal(false);
     navigation.goBack()
   }
-
-  useEffect(() => {
-
-    function handleSave() {
-      setNewReservation(initReservation);
-      setSoldProductItems([]);
-      
-      showSnackbar('Nuova prenotazione creata');
-      navigation.goBack()
-    }
-
-    function handleBack() {
-      if (newReservation !== initReservation || soldProductItems.length > 0) {
-        setShowDiscardChangesModal(true);
-        return;
-      }
-      navigation.goBack()
-    }
-
-    navigation.setOptions({
-      headerLeft: () => (
-        <HeaderBtn
-          navigation={navigation}
-          action={handleBack}
-        />
-      ),
-      headerRight: () => (
-        <HeaderBtn
-          navigation={navigation}
-          action={handleSave}
-          iconName="save"
-        />
-      ),
-    });
-  }, [navigation]);
 
   return (
     <GestureContainer

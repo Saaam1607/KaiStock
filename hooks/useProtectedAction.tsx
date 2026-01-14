@@ -1,23 +1,20 @@
-import { useState, useCallback } from 'react';
-import { Keyboard } from 'react-native';
+import { useRef, useCallback } from 'react';
 
-export function useProtectedAction(action: () => void | Promise<void>) {
-  const [isLocked, setIsLocked] = useState(false);
+export function useProtectedAction(action: () => Promise<void> | void) {
+  const lockedRef = useRef(false);
 
   const protectedAction = useCallback(async () => {
-    
-    if (isLocked) return;
-    
-    setIsLocked(true);
+    if (lockedRef.current) return;
+
+    lockedRef.current = true;
 
     try {
-      Keyboard.dismiss();
       await action();
     } finally {
-      setIsLocked(false);
+      lockedRef.current = false;
     }
-
-  }, [isLocked, action]);
+    
+  }, [action]);
 
   return { protectedAction };
 }

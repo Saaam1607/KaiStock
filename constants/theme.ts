@@ -43,7 +43,8 @@ export const Colors = {
     cardItemDark: '#2f2f2fff',
   },
   dark: {
-    backGroundGradient: ['#222222', '#1E1E1E', '#181818'],
+    // backGroundGradient: ['#222222', '#1E1E1E', '#181818'],
+    backGroundGradient: ['#323e3e', '#233032', '#16191d'],
     menuButtonGradient: ['#366962ff', '#4c909bff'],
     text: '#e0e0e0ff',
     textLighter: '#afafafff',

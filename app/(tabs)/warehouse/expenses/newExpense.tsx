@@ -18,12 +18,11 @@ import ExpenseForm from '@/components/custom/expense/ExpenseForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
-import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
-
 import { useSnackbar } from '@/components/SnackbarProvider';
 
 import { createExpense } from '@/components/api/expensesApi';
+import { useProtectedAction } from '@/hooks/useProtectedAction';
+import { useNewItemHeader } from '@/hooks/useNewItemHeader';
 
 export default function NewExpense() {
   
@@ -37,6 +36,33 @@ export default function NewExpense() {
 
   const [showMandatoryBorders, setShowMandatoryBorders] = useState(false);
 
+  const { protectedAction: handleSave } = useProtectedAction(async () => {
+    Keyboard.dismiss();
+    if (!checkExpenseValidity()) {
+      setShowMandatoryBorders(true);
+      showSnackbar('I campi evidenziati sono obbligatori');
+    } else {
+      setShowMandatoryBorders(false);
+      setNewExpense(initExpense);
+      showSnackbar('Nuova spesa creata');
+      navigation.goBack()
+    }
+  });
+          
+  const { protectedAction: handleBack } = useProtectedAction(async () => {
+    if (newExpense !== initExpense) {
+      setShowDiscardChangesModal(true);
+      return;
+    }
+    navigation.goBack()
+  });
+          
+  useNewItemHeader({
+    navigation,
+    onSave: handleSave,
+    onBack: handleBack,
+  });
+
   function backAndReset() {
     setNewExpense(initExpense);
     setShowDiscardChangesModal(false);
@@ -47,51 +73,6 @@ export default function NewExpense() {
     if (newExpense.title === '') return false;
     return true;
   }
-
-  useEffect(() => {
-
-    function handleSave() {
-      Keyboard.dismiss();
-      if (!checkExpenseValidity()) {
-        setShowMandatoryBorders(true);
-        showSnackbar('I campi evidenziati sono obbligatori');
-      } else {
-        createExpense(newExpense)
-        .then(() => {
-          setShowMandatoryBorders(false);
-          showSnackbar('Articolo creato');
-          setNewExpense(initExpense);
-          navigation.goBack()
-        })
-        .catch(() => showSnackbar('Si è verificato un errore'));
-      }
-    }
-
-    function handleBack() {
-      if (newExpense !== initExpense) {
-        setShowDiscardChangesModal(true);
-        return;
-      }
-      navigation.goBack()
-    }
-
-    navigation.setOptions({
-      headerLeft: () => (
-        <HeaderBtn
-          navigation={navigation}
-          action={handleBack}
-        />
-      ),
-      headerRight: () => (
-        <HeaderBtnWithText
-          navigation={navigation}
-          action={handleSave}
-          iconName="save"
-          text="Salva"
-        />
-      ),
-    });
-  }, [navigation, newExpense]);
 
   return (
     <GestureContainer

@@ -18,10 +18,11 @@ import { ProductionForm } from '@/components/custom/produce/ProductionForm';
 
 import { GestureContainer } from '@/components/custom/GestureContainer';
 
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
-import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
 
 import { useSnackbar } from '@/components/SnackbarProvider';
+import { Keyboard } from 'react-native';
+import { useProtectedAction } from '@/hooks/useProtectedAction';
+import { useNewItemHeader } from '@/hooks/useNewItemHeader';
 
 export default function NewProduction() {
   
@@ -34,6 +35,36 @@ export default function NewProduction() {
 
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
+
+  const [showMandatoryBorders, setShowMandatoryBorders] = useState(false);
+
+  const { protectedAction: handleSave } = useProtectedAction(async () => {
+    Keyboard.dismiss();
+    if (!checkProductionValidity()) {
+      setShowMandatoryBorders(true);
+      showSnackbar('I campi evidenziati sono obbligatori');
+    } else {
+      setShowMandatoryBorders(false);
+      setNewProduction(initProduction);
+      setProductionItems([]);
+      showSnackbar('Nuova produzione creata');
+      navigation.goBack()
+    }
+  });
+
+  const { protectedAction: handleBack } = useProtectedAction(async () => {
+    if (newProduction !== initProduction || productionItems.length > 0) {
+      setShowDiscardChangesModal(true);
+      return;
+    }
+    navigation.goBack()
+  });
+
+  useNewItemHeader({
+    navigation,
+    onSave: handleSave,
+    onBack: handleBack,
+  });
 
   function handleItemAdd(selectedIds: string[]) {
     showSnackbar('Articoli aggiunti');
@@ -51,47 +82,16 @@ export default function NewProduction() {
     });
   }
 
+  function checkProductionValidity(): boolean {
+    return true;
+  }
+
   function backAndReset() {
     setNewProduction(initProduction);
     setProductionItems([]);
     setShowDiscardChangesModal(false);
     navigation.goBack()
   }
-
-  useEffect(() => {
-
-    function handleSave() {
-      setNewProduction(initProduction);
-      setProductionItems([]);
-      
-      showSnackbar('Nuova produzione creata');
-      navigation.goBack()
-    }
-
-    function handleBack() {
-      if (newProduction !== initProduction || productionItems.length > 0) {
-        setShowDiscardChangesModal(true);
-        return;
-      }
-      navigation.goBack()
-    }
-
-    navigation.setOptions({
-      headerLeft: () => (
-        <HeaderBtn
-          navigation={navigation}
-          action={handleBack}
-        />
-      ),
-      headerRight: () => (
-        <HeaderBtn
-          navigation={navigation}
-          action={handleSave}
-          iconName="save"
-        />
-      ),
-    });
-  }, [navigation, newProduction, productionItems]);
 
   return (
     <GestureContainer

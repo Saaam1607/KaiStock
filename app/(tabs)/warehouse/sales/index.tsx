@@ -12,6 +12,8 @@ import { getAllSales } from '@/components/api/salesApi';
 
 import SaleCard from '@/components/custom/sale/SaleCard';
 
+import { useProtectedAction } from '@/hooks/useProtectedAction';
+
 export default function Sales() {
 
   const sales = getAllSales();
@@ -26,6 +28,20 @@ export default function Sales() {
       setSalesToDisplay(sales.filter(item => item.title.toLowerCase().includes(searchText.toLowerCase())));
     }, 250);
   }, [searchText]);
+
+    // const { protectedAction: saveSale } = useProtectedAction(async () => {
+    //   Keyboard.dismiss();
+    //   if (!checkProducValidity()) {
+    //     setShowMandatoryBorders(true);
+    //     showSnackbar('I campi evidenziati sono obbligatori');
+    //   } else {
+    //     setShowMandatoryBorders(false);
+    //     setNewSale(initSale);
+    //     showSnackbar('Nuova vendita creata');
+    //     navigation.goBack()
+    //   }
+    // });
+  
 
   return (
     <PageContainer>

@@ -22,6 +22,8 @@ import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
 
 
 import { useSnackbar } from '@/components/SnackbarProvider';
+import { useProtectedAction } from '@/hooks/useProtectedAction';
+import { useNewItemHeader } from '@/hooks/useNewItemHeader';
 
 export default function NewProduct() {
   
@@ -36,6 +38,33 @@ export default function NewProduct() {
 
   const [showMandatoryBorders, setShowMandatoryBorders] = useState(false);
 
+  const { protectedAction: handleSave } = useProtectedAction(async () => {
+    Keyboard.dismiss();
+    if (!checkProductValidity()) {
+      setShowMandatoryBorders(true);
+      showSnackbar('I campi evidenziati sono obbligatori');
+    } else {
+      setShowMandatoryBorders(false);
+      setNewProduct(initProduct);
+      showSnackbar('Nuovo articolo creato');
+      navigation.goBack()
+    }
+  });
+
+  const { protectedAction: handleBack } = useProtectedAction(async () => {
+    if (newProduct !== initProduct) {
+      setShowDiscardChangesModal(true);
+      return;
+    }
+    navigation.goBack()
+  });
+
+  useNewItemHeader({
+    navigation,
+    onSave: handleSave,
+    onBack: handleBack,
+  });
+
   function backAndReset() {
     setNewProduct(initProduct);
     setShowDiscardChangesModal(false);
@@ -46,45 +75,6 @@ export default function NewProduct() {
     if (newProduct.name === '') return false;
     return true;
   }
-
-  useEffect(() => {
-
-    function handleSave() {
-      Keyboard.dismiss();
-      if (!checkProductValidity()) {
-        setShowMandatoryBorders(true);
-        showSnackbar('I campi evidenziati sono obbligatori');
-      } else {
-        setShowMandatoryBorders(false);
-        setNewProduct(initProduct);
-        showSnackbar('Articolo creato');
-        router.back();
-      }
-    }
-
-    function handleBack() {
-      if (newProduct !== initProduct) {
-        setShowDiscardChangesModal(true);
-        return;
-      }
-      router.back();
-    }
-
-    navigation.setOptions({
-      headerLeft: () => (
-        <HeaderBtn
-          action={handleBack}
-        />
-      ),
-      headerRight: () => (
-        <HeaderBtnWithText
-          action={handleSave}
-          iconName="save"
-          text="Salva"
-        />
-      ),
-    });
-  }, [navigation, newProduct]);
 
   return (
     <GestureContainer
