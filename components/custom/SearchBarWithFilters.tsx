@@ -50,7 +50,7 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
           <View>
             <Ionicons
               name="filter"
-              size={30}
+              size={25}
               color={color.icon}
             />
           </View>

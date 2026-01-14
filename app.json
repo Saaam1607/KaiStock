@@ -40,6 +40,14 @@
           }
         }
       ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Jost-VariableFont_wght.ttf"
+          ]
+        }
+      ],
       "@react-native-community/datetimepicker"
     ],
     "experiments": {

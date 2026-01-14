@@ -130,11 +130,11 @@ const styles = StyleSheet.create({
   shadowWrapper: {
     borderRadius: 25,
     margin: 3,
-    shadowColor: '#000000ff',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.28,
-    shadowRadius: 14,
-    elevation: 5,
+    // shadowColor: '#000000ff',
+    // shadowOffset: { width: 0, height: 0 },
+    // shadowOpacity: 0.28,
+    // shadowRadius: 14,
+    // elevation: 5,
     backgroundColor: 'transparent',
   },
   card: {

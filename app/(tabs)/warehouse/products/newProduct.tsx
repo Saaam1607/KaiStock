@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useNavigation, useRouter } from 'expo-router';
 
@@ -14,12 +14,6 @@ import { initProduct } from '@/types/Product';
 import { MyAlert } from '@/components/custom/MyAlert';
 
 import ProductForm from '@/components/custom/product/ProductForm';
-
-import { GestureContainer } from '@/components/custom/GestureContainer';
-
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
-import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
-
 
 import { useSnackbar } from '@/components/SnackbarProvider';
 import { useProtectedAction } from '@/hooks/useProtectedAction';
@@ -61,6 +55,7 @@ export default function NewProduct() {
 
   useNewItemHeader({
     navigation,
+    title: 'Nuovo articolo',
     onSave: handleSave,
     onBack: handleBack,
   });
@@ -77,35 +72,32 @@ export default function NewProduct() {
   }
 
   return (
-    <GestureContainer
-    >
-      <PageContainer>
-      
-        {/* Modal */}
-        <ModalContainer visible={showDiscardChangesModal}>
-          <MyAlert
-            alertVisible={showDiscardChangesModal}
-            alertTitle="Modifiche non salvate"
-            alertMessage="Vuoi uscire senza salvare le modifiche?"
-            okText="Esci"
-            notOkText="Continua"
-            onOk={() => backAndReset()}
-            onNotOk={() => setShowDiscardChangesModal(false)}
-          />
-        </ModalContainer>
+    <PageContainer>
+    
+      {/* Modal */}
+      <ModalContainer visible={showDiscardChangesModal}>
+        <MyAlert
+          alertVisible={showDiscardChangesModal}
+          alertTitle="Modifiche non salvate"
+          alertMessage="Vuoi uscire senza salvare le modifiche?"
+          okText="Esci"
+          notOkText="Continua"
+          onOk={() => backAndReset()}
+          onNotOk={() => setShowDiscardChangesModal(false)}
+        />
+      </ModalContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <ProductForm
-            product={newProduct}
-            setProduct={setNewProduct}
-            showMandatoryBorders={showMandatoryBorders}
-          />
-        </BodyContainer>
-      
-        {/* Notifications */}
-      
-      </PageContainer>
-    </GestureContainer>
+      {/* Body */}
+      <BodyContainer>
+        <ProductForm
+          product={newProduct}
+          setProduct={setNewProduct}
+          showMandatoryBorders={showMandatoryBorders}
+        />
+      </BodyContainer>
+    
+      {/* Notifications */}
+    
+    </PageContainer>
   )
 }

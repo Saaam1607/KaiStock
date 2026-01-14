@@ -22,11 +22,12 @@ export default function TabsLayout() {
   return (
     <SafeAreaProvider>
       <StatusBar style="light" />
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
         <MaterialTopTabs
           tabBarPosition='bottom'
           screenOptions={{
-            tabBarIndicatorStyle: { backgroundColor: '#000' },
+            tabBarIndicatorStyle: { backgroundColor: '#454545' },
+            tabBarStyle: { backgroundColor: '#16191d' },
             tabBarShowIcon: false,
             tabBarLabelStyle: { textTransform: 'none' },
           }}

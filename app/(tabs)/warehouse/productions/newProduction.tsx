@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { useNavigation } from 'expo-router';
 
@@ -15,9 +15,6 @@ import { MyAlert } from '@/components/custom/MyAlert';
 
 import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
 import { ProductionForm } from '@/components/custom/produce/ProductionForm';
-
-import { GestureContainer } from '@/components/custom/GestureContainer';
-
 
 import { useSnackbar } from '@/components/SnackbarProvider';
 import { Keyboard } from 'react-native';
@@ -62,6 +59,7 @@ export default function NewProduction() {
 
   useNewItemHeader({
     navigation,
+    title: 'Nuova produzione',
     onSave: handleSave,
     onBack: handleBack,
   });
@@ -94,45 +92,41 @@ export default function NewProduction() {
   }
 
   return (
-    <GestureContainer
-      rightAction={() => navigation.goBack()}
-    >
-      <PageContainer>
-      
-        {/* Modal */}
-        <ModalContainer visible={showAddProductModal}>
-          <ProductionAddProductModal
-            modalVisible={showAddProductModal}
-            setModalVisible={setShowAddProductModal}
-            selectedIds={productionItems.map(item => item.product_id)}
-            onSave={handleItemAdd}
-          />
-        </ModalContainer>
+    <PageContainer>
 
-        <ModalContainer visible={showDiscardChangesModal}>
-          <MyAlert
-            alertVisible={showDiscardChangesModal}
-            alertTitle="Modifiche non salvate"
-            alertMessage="Vuoi uscire senza salvare le modifiche?"
-            okText="Esci"
-            notOkText="Continua"
-            onOk={() => backAndReset()}
-            onNotOk={() => setShowDiscardChangesModal(false)}
-          />
-        </ModalContainer>
+      {/* Modal */}
+      <ModalContainer visible={showAddProductModal}>
+        <ProductionAddProductModal
+          modalVisible={showAddProductModal}
+          setModalVisible={setShowAddProductModal}
+          selectedIds={productionItems.map(item => item.product_id)}
+          onSave={handleItemAdd}
+        />
+      </ModalContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <ProductionForm
-            production={newProduction}
-            setProduction={setNewProduction}
-            productionItems={productionItems}
-            setProductionItems={setProductionItems}
-            setShowAddProductModal={setShowAddProductModal}
-          />
-        </BodyContainer>
-      
-      </PageContainer>
-    </GestureContainer>
+      <ModalContainer visible={showDiscardChangesModal}>
+        <MyAlert
+          alertVisible={showDiscardChangesModal}
+          alertTitle="Modifiche non salvate"
+          alertMessage="Vuoi uscire senza salvare le modifiche?"
+          okText="Esci"
+          notOkText="Continua"
+          onOk={() => backAndReset()}
+          onNotOk={() => setShowDiscardChangesModal(false)}
+        />
+      </ModalContainer>
+
+      {/* Body */}
+      <BodyContainer>
+        <ProductionForm
+          production={newProduction}
+          setProduction={setNewProduction}
+          productionItems={productionItems}
+          setProductionItems={setProductionItems}
+          setShowAddProductModal={setShowAddProductModal}
+        />
+      </BodyContainer>
+
+    </PageContainer>
   )
 }

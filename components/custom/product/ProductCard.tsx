@@ -62,7 +62,7 @@ export function ProductCard({ product, startEditingItem }: ProductCardProps) {
                 quantity={product.total_quantity}
               />
               <QuantityField
-                label="Riservata"
+                label="Prenotato"
                 quantity={product.reserved_quantity}
               />
               <QuantityField
@@ -95,6 +95,8 @@ const styles = StyleSheet.create({
     left: 0,
     width: 60,
     zIndex: 0,
+    borderTopLeftRadius: 15,
+    borderBottomLeftRadius: 15,
   },
   cardContent: {
     flexDirection: 'row',

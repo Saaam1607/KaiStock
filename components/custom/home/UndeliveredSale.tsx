@@ -6,22 +6,22 @@ import { getAllSales } from '@/components/api/salesApi';
 
 import { computeSalesAmount } from '@/utils/amountUtils';
 
-export default function UnpaidSales() {
+export default function UndeliveredSales() {
 
   const color = useColor();
 
   const allSales = getAllSales();
 
-  const unpaidSales = allSales.filter(sale => {
-    return !sale.paid && sale.delivered;
+  const undeliveredSales = allSales.filter(sale => {
+    return !sale.delivered;
   });
 
-  const totalToEarn = computeSalesAmount(unpaidSales);
+  const totalToEarn = computeSalesAmount(undeliveredSales);
 
   return (
     <View>
       <ScrollView nestedScrollEnabled contentContainerStyle={{ gap: 5 }} >
-        {unpaidSales.map(sale => (
+        {undeliveredSales.map(sale => (
           <View
             style={{
               flexDirection: 'row',
@@ -48,12 +48,6 @@ export default function UnpaidSales() {
           </View>
         ))}
       </ScrollView>
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: 15, paddingVertical: 8,  }} >
-        <Text style={{ color: color.text }}>
-          Totale da incassare: {totalToEarn} €
-        </Text>
-      </View>
-      
     </View>
   );
 }

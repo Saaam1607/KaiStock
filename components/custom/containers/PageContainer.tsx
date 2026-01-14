@@ -22,8 +22,7 @@ export function PageContainer({ children }: PageContainerProps) {
     : ['#fff', '#000'];
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, gap: 20, }}>
+      <View style={{ flex: 1, gap: 20}}>
         <ThemedView
           style={{
             flex: 1,
@@ -39,8 +38,6 @@ export function PageContainer({ children }: PageContainerProps) {
               {children}
           </LinearGradient>
         </ThemedView>
-      </SafeAreaView>
-    </SafeAreaProvider>
-
+      </View>
   );
 }

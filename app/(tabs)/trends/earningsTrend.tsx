@@ -40,8 +40,6 @@ export default function EarningsTrend() {
 
   return (
     <PageContainer>
-
-      {/* Body */}
       <BodyContainer>
         <LazyContainer>
           <Trend

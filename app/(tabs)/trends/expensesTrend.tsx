@@ -38,8 +38,6 @@ export default function ExpensesTrend() {
 
   return (
     <PageContainer>
-
-      {/* Body */}
       <BodyContainer>
         <LazyContainer>
           <Trend

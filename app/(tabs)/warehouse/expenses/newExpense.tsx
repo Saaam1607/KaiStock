@@ -16,8 +16,6 @@ import { MyAlert } from '@/components/custom/MyAlert';
 
 import ExpenseForm from '@/components/custom/expense/ExpenseForm';
 
-import { GestureContainer } from '@/components/custom/GestureContainer';
-
 import { useSnackbar } from '@/components/SnackbarProvider';
 
 import { createExpense } from '@/components/api/expensesApi';
@@ -59,6 +57,7 @@ export default function NewExpense() {
           
   useNewItemHeader({
     navigation,
+    title: 'Nuova spesa',
     onSave: handleSave,
     onBack: handleBack,
   });
@@ -75,38 +74,34 @@ export default function NewExpense() {
   }
 
   return (
-    <GestureContainer
-      rightAction={() => navigation.goBack()}
-    >
-      <PageContainer>
-      
-        {/* Modal */}
-        <ModalContainer visible={showDiscardChangesModal}>
-          <MyAlert
-            alertVisible={showDiscardChangesModal}
-            alertTitle="Modifiche non salvate"
-            alertMessage="Vuoi uscire senza salvare le modifiche?"
-            okText="Esci"
-            notOkText="Continua"
-            onOk={() => backAndReset()}
-            onNotOk={() => setShowDiscardChangesModal(false)}
-          />
-        </ModalContainer>
+    <PageContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <LazyContainer>
-            <ExpenseForm
-              expense={newExpense}
-              setExpense={setNewExpense}
-              showMandatoryBorders={showMandatoryBorders}
-            />
-          </LazyContainer>
-        </BodyContainer>
-      
-        {/* Notifications */}
-      
-      </PageContainer>
-    </GestureContainer>
+      {/* Modal */}
+      <ModalContainer visible={showDiscardChangesModal}>
+        <MyAlert
+          alertVisible={showDiscardChangesModal}
+          alertTitle="Modifiche non salvate"
+          alertMessage="Vuoi uscire senza salvare le modifiche?"
+          okText="Esci"
+          notOkText="Continua"
+          onOk={() => backAndReset()}
+          onNotOk={() => setShowDiscardChangesModal(false)}
+        />
+      </ModalContainer>
+
+      {/* Body */}
+      <BodyContainer>
+        <LazyContainer>
+          <ExpenseForm
+            expense={newExpense}
+            setExpense={setNewExpense}
+            showMandatoryBorders={showMandatoryBorders}
+          />
+        </LazyContainer>
+      </BodyContainer>
+
+      {/* Notifications */}
+
+    </PageContainer>
   )
 }

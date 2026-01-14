@@ -3,11 +3,9 @@ import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
-import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
-
 import Sales from './index';
 import NewSale from './newSale';
+import Header from '@/components/custom/header/Header';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,18 +34,20 @@ export default function SalesLayout() {
         name="sales"
         component={Sales}
         options={{
-          title: 'Vendite',
-          headerLeft: () => <HeaderBtn action = {router.back} />,
-          headerRight: () => <HeaderBtnWithText text="Nuova" iconName="create" action={handleButtonPress} />,
+          header: () => (
+            <Header 
+              title="Vendite"
+              rightIconName="create"
+              rightIconLabel="Nuova"
+              rightIconPress={handleButtonPress}
+            />
+          ),
         }}
       />
 
       <Stack.Screen
         name="newSale"
         component={NewSale}
-        options={{
-          title: 'Nuova Vendita',
-        }}
       />
 
     </Stack.Navigator>

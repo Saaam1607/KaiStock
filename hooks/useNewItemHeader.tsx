@@ -1,31 +1,26 @@
 import { useEffect } from 'react';
 
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
-import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
+import Header from '@/components/custom/header/Header';
 
 type UseNewItemHeaderProps = {
   navigation: any;
+  title: string;
   onSave: () => void;
   onBack: () => void;
 };
 
-export function useNewItemHeader({ navigation, onSave, onBack }: UseNewItemHeaderProps) {
+export function useNewItemHeader({ navigation, title, onSave, onBack }: UseNewItemHeaderProps) {
   
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <HeaderBtn
-          action={onBack}
-        />
-      ),
-      headerRight: () => (
-        <HeaderBtnWithText
-          text="Salva"
-          iconName="save"
-          action={onSave}
+      header: () => (
+        <Header 
+          title={title}
+          rightIconName="save"
+          rightIconLabel="Salva"
+          rightIconPress={onSave}
         />
       ),
     });
   }, [navigation, onSave, onBack]);
-
 }

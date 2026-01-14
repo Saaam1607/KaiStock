@@ -1,11 +1,9 @@
 import { useRouter } from 'expo-router';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
-import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
-
 import Expenses from './index';
 import NewExpense from './newExpense';
+import Header from '@/components/custom/header/Header';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,18 +18,20 @@ export default function ExpensesLayout() {
         name="expenses"
         component={Expenses}
         options={{
-          title: 'Spese',
-          headerLeft: () => <HeaderBtn action = {router.back} />,
-          headerRight: () => <HeaderBtnWithText text="Nuova" iconName="create" action={() => router.push('/warehouse/expenses/newExpense')} />,
+          header: () => (
+            <Header 
+              title="Spese"
+              rightIconName="create"
+              rightIconLabel="Nuova"
+              rightIconPress={() => router.push('/warehouse/expenses/newExpense')}
+            />
+          ),
         }}
       />
 
       <Stack.Screen
         name="newExpense"
         component={NewExpense}
-        options={{
-          title: 'Nuova Spesa',
-        }}
       />
 
     </Stack.Navigator>

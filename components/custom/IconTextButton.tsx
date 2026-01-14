@@ -20,10 +20,6 @@ function IconTextButton({
 
   const color = useColor();
 
-  const gradientColors: [string, string, ...string[]] = color.menuButtonGradient.length >= 2
-    ? (color.menuButtonGradient as [string, string, ...string[]])
-    : ['#fff', '#000'];
-
   return (
     <TouchableHighlight
       onPress={onPress}
@@ -32,14 +28,10 @@ function IconTextButton({
         width: '45%',
       }}
     >
-      <LinearGradient
-        colors={gradientColors}
-        style={[
-          styles.button,
-        ]}>
-          <Ionicons name={iconName as any} size={60} color="white" />
-          <Text style={styles.text}>{text}</Text>
-      </LinearGradient>
+      <View style={[ styles.button ]}>
+        <Ionicons name={iconName as any} size={60} color={color.text} />
+        <Text style={styles.text}>{text}</Text>
+      </View>
     </TouchableHighlight>
   );
 }
@@ -51,11 +43,11 @@ const styles = StyleSheet.create({
     // flexDirection: 'row', 
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#699c9fff',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     // gap: 10,
     paddingVertical: 10,
     paddingHorizontal: 16,
-    borderRadius: 10,
+    borderRadius: 15,
     width: '100%',
     height: 150,
   },

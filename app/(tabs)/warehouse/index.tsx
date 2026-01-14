@@ -53,7 +53,7 @@ export default function Warehouse() {
 
         <View style={styles.buttonContainer}>
           <IconButton
-            text="Riserva"
+            text="Prenota"
             iconName="bag-sharp"
             onPress={() => handleButtonPress(Routes.reservations)}
           />

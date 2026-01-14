@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useNavigation } from 'expo-router';
-
 
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
 import { ModalContainer } from '@/components/custom/containers/ModalContainer';
@@ -18,7 +17,6 @@ import { MyAlert } from '@/components/custom/MyAlert';
 import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
 import { ReservationForm } from '@/components/custom/reservation/ReservationForm';
 
-import { GestureContainer } from '@/components/custom/GestureContainer';
 import { useSnackbar } from '@/components/SnackbarProvider';
 
 import { useProtectedAction } from '@/hooks/useProtectedAction';
@@ -63,6 +61,7 @@ export default function NewReservation() {
 
   useNewItemHeader({
     navigation,
+    title: 'Nuova prenotazione',
     onSave: handleSave,
     onBack: handleBack,
   });
@@ -98,45 +97,41 @@ export default function NewReservation() {
   }
 
   return (
-    <GestureContainer
-      rightAction={() => navigation.goBack()}
-    >
-      <PageContainer>
-      
-        {/* Modal */}
-        <ModalContainer visible={showAddProductModal}>
-          <ProductionAddProductModal
-            modalVisible={showAddProductModal}
-            setModalVisible={setShowAddProductModal}
-            selectedIds={soldProductItems.map(item => item.product_id)}
-            onSave={handleItemAdd}
-          />
-        </ModalContainer>
+    <PageContainer>
+    
+      {/* Modal */}
+      <ModalContainer visible={showAddProductModal}>
+        <ProductionAddProductModal
+          modalVisible={showAddProductModal}
+          setModalVisible={setShowAddProductModal}
+          selectedIds={soldProductItems.map(item => item.product_id)}
+          onSave={handleItemAdd}
+        />
+      </ModalContainer>
 
-        <ModalContainer visible={showDiscardChangesModal}>
-          <MyAlert
-            alertVisible={showDiscardChangesModal}
-            alertTitle="Modifiche non salvate"
-            alertMessage="Vuoi uscire senza salvare le modifiche?"
-            okText="Esci"
-            notOkText="Continua"
-            onOk={() => backAndReset()}
-            onNotOk={() => setShowDiscardChangesModal(false)}
-          />
-        </ModalContainer>
+      <ModalContainer visible={showDiscardChangesModal}>
+        <MyAlert
+          alertVisible={showDiscardChangesModal}
+          alertTitle="Modifiche non salvate"
+          alertMessage="Vuoi uscire senza salvare le modifiche?"
+          okText="Esci"
+          notOkText="Continua"
+          onOk={() => backAndReset()}
+          onNotOk={() => setShowDiscardChangesModal(false)}
+        />
+      </ModalContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <ReservationForm
-            reservation={newReservation}
-            setReservation={setNewReservation}
-            soldProductItems={soldProductItems}
-            setSoldProductItems={setSoldProductItems}
-            setShowAddProductModal={setShowAddProductModal}
-          />
-        </BodyContainer>
-      
-      </PageContainer>
-    </GestureContainer>
+      {/* Body */}
+      <BodyContainer>
+        <ReservationForm
+          reservation={newReservation}
+          setReservation={setNewReservation}
+          soldProductItems={soldProductItems}
+          setSoldProductItems={setSoldProductItems}
+          setShowAddProductModal={setShowAddProductModal}
+        />
+      </BodyContainer>
+    
+    </PageContainer>
   )
 }

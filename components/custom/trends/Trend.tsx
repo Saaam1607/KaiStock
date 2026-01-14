@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { View, ScrollView } from 'react-native';
+
 import { TrendMonthNavigationHeader, TrendYearNavigationHeader } from '../trends/TrendNavigationHeader';
 import { CustomLineChart } from './CustomLineChart';
 
@@ -46,29 +48,34 @@ export function Trend({ getYearData, getMonthData, getMonthLabels, getDayLabels,
   };
 
   return (
-    <>
-      <TrendYearNavigationHeader
-        currentYear={currentYear}
-        setCurrentMonth={setCurrentMonth}
-        setCurrentYear={setCurrentYear}
-      />
-      <CustomLineChart
-        title={yearGraphLabel}
-        data={getData("year")}
-        labels={getLabels("year")}
-        graphColor='rgb(40, 98, 179)'
-      />
-      <TrendMonthNavigationHeader
-        currentMonth={currentMonth}
-        setCurrentMonth={setCurrentMonth}
-        setCurrentYear={setCurrentYear}
-      />
-      <CustomLineChart
-        title={monthGraphLabel}
-        data={getData("month")}
-        labels={getLabels("month")}
-        graphColor='rgb(40, 98, 179)'
-      />
-    </>
+    <ScrollView style={{ }} contentContainerStyle={{ gap: 20 }}>
+      <View style={{ gap: 10 }}>
+        <TrendYearNavigationHeader
+          currentYear={currentYear}
+          setCurrentMonth={setCurrentMonth}
+          setCurrentYear={setCurrentYear}
+        />
+        <CustomLineChart
+          title={yearGraphLabel}
+          data={getData("year")}
+          labels={getLabels("year")}
+          graphColor='rgb(40, 98, 179)'
+        />
+      </View>
+      <View style={{ gap: 10 }}>
+        <TrendMonthNavigationHeader
+          currentMonth={currentMonth}
+          currentYear={currentYear}
+          setCurrentMonth={setCurrentMonth}
+          setCurrentYear={setCurrentYear}
+        />
+        <CustomLineChart
+          title={monthGraphLabel}
+          data={getData("month")}
+          labels={getLabels("month")}
+          graphColor='rgb(40, 98, 179)'
+        />
+      </View>
+    </ScrollView>
   );
 }

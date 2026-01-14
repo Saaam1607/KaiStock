@@ -62,7 +62,7 @@ export function SaleForm({ sale, setSale, soldProductItems, setSoldProductItems,
           multiLine
         />
         <FormItem
-          label="Riservato a"
+          label="Prenotato da"
           input={sale.to}
           onInputChange={text => setSale({ ...sale, to: text })}
           showMandatoryBorders={showMandatoryBorders && sale.to === ''}

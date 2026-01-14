@@ -6,6 +6,7 @@ import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
 
 import Productions from './index';
 import NewProduction from './newProduction';
+import Header from '@/components/custom/header/Header';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,18 +21,20 @@ export default function ProductionsLayout() {
         name="productions"
         component={Productions}
         options={{
-          title: 'Produzioni',
-          headerLeft: () => <HeaderBtn action = {router.back} />,
-          headerRight: () => <HeaderBtnWithText text="Nuova" iconName="create" action={() => router.push('/warehouse/productions/newProduction')} />,
+          header: () => (
+            <Header 
+              title="Produzioni"
+              rightIconName="create"
+              rightIconLabel="Nuova"
+              rightIconPress={() => router.push('/warehouse/productions/newProduction')}
+            />
+          ),
         }}
       />
 
       <Stack.Screen
         name="newProduction"
         component={NewProduction}
-        options={{
-          title: 'Nuova Produzione',
-        }}
       />
 
     </Stack.Navigator>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useNavigation } from 'expo-router';
 
@@ -19,7 +19,6 @@ import { MyAlert } from '@/components/custom/MyAlert';
 import { AddSoldItemModal } from '@/components/custom/sale/AddSoldItemModal';
 import { SaleForm } from '@/components/custom/sale/SaleForm';
 
-import { GestureContainer } from '@/components/custom/GestureContainer';
 import { useSnackbar } from '@/components/SnackbarProvider';
 
 import { getProductFromId } from '@/components/api/productsApi';
@@ -64,6 +63,7 @@ export default function NewSale() {
 
   useNewItemHeader({
     navigation,
+    title: 'Nuova vendita',
     onSave: handleSave,
     onBack: handleBack,
   });
@@ -122,47 +122,43 @@ export default function NewSale() {
   }
 
   return (
-    <GestureContainer
-      rightAction={() => navigation.goBack()}
-    >
-      <PageContainer>
-      
-        {/* Modal */}
-        <ModalContainer visible={showAddProductModal}>
-          <AddSoldItemModal
-            modalVisible={showAddProductModal}
-            setModalVisible={setShowAddProductModal}
-            handleSubmit={handleBodyItemSubmit}
-            selectedIds={soldProductItems.map(item => item.product_id)}
-            onSave={handleItemAdd}
-          />
-        </ModalContainer>
+    <PageContainer>
+    
+      {/* Modal */}
+      <ModalContainer visible={showAddProductModal}>
+        <AddSoldItemModal
+          modalVisible={showAddProductModal}
+          setModalVisible={setShowAddProductModal}
+          handleSubmit={handleBodyItemSubmit}
+          selectedIds={soldProductItems.map(item => item.product_id)}
+          onSave={handleItemAdd}
+        />
+      </ModalContainer>
 
-        <ModalContainer visible={showDiscardChangesModal}>
-          <MyAlert
-            alertVisible={showDiscardChangesModal}
-            alertTitle="Modifiche non salvate"
-            alertMessage="Vuoi uscire senza salvare le modifiche?"
-            okText="Esci"
-            notOkText="Continua"
-            onOk={() => backAndReset()}
-            onNotOk={() => setShowDiscardChangesModal(false)}
-          />
-        </ModalContainer>
+      <ModalContainer visible={showDiscardChangesModal}>
+        <MyAlert
+          alertVisible={showDiscardChangesModal}
+          alertTitle="Modifiche non salvate"
+          alertMessage="Vuoi uscire senza salvare le modifiche?"
+          okText="Esci"
+          notOkText="Continua"
+          onOk={() => backAndReset()}
+          onNotOk={() => setShowDiscardChangesModal(false)}
+        />
+      </ModalContainer>
 
-        {/* Body */}
-        <BodyContainer>
-          <SaleForm
-            sale={newSale}
-            setSale={setNewSale}
-            soldProductItems={soldProductItems}
-            setSoldProductItems={setSoldProductItems}
-            setShowAddProductModal={setShowAddProductModal}
-            showMandatoryBorders={showMandatoryBorders}
-          />
-        </BodyContainer>
-      
-      </PageContainer>
-    </GestureContainer>
+      {/* Body */}
+      <BodyContainer>
+        <SaleForm
+          sale={newSale}
+          setSale={setNewSale}
+          soldProductItems={soldProductItems}
+          setSoldProductItems={setSoldProductItems}
+          setShowAddProductModal={setShowAddProductModal}
+          showMandatoryBorders={showMandatoryBorders}
+        />
+      </BodyContainer>
+    
+    </PageContainer>
   )
 }

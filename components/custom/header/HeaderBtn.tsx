@@ -3,10 +3,23 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { memo } from 'react';
 import { useColor } from '@/hooks/use-color';
 
-const HeaderBtn = memo(({ action, iconName = "arrow-back" }: any) => {
+type HeaderBtnProps = {
+  iconName?: string;
+  text?: string;
+  action?: () => void;
+};
+
+
+const HeaderBtn = memo(({ iconName = "arrow-back", text, action }: HeaderBtnProps) => {
   const color = useColor();
   return (
-    <TouchableOpacity onPress={action} style={{ paddingHorizontal: 10 }}>
+    <TouchableOpacity
+      onPress={action || (() => {})}
+      style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10 }}
+    >
+      {text && (
+        <Text style={{ color: color.icon, fontWeight: 'bold' }}>{text}</Text>
+      )}
       <Ionicons name={iconName as any} size={28} color={color.icon} />
     </TouchableOpacity>
   );

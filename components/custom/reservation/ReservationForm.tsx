@@ -55,7 +55,7 @@ export function ReservationForm({ reservation, setReservation, soldProductItems,
         />
 
         <FormItem
-          label="Riservato a"
+          label="Prenotato da"
           input={reservation.to}
           onInputChange={text => setReservation({ ...reservation, notes: text })}
         />

@@ -1,23 +1,23 @@
 import React from 'react';
 
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import { useColor } from '@/hooks/use-color';
 
 import { getSalesInInterval } from '@/components/api/salesApi';
 import { getExpensesInInterval } from '@/components/api/expensesApi';
 
-import { getThisYearRange } from '@/utils/dateUtils';
+import { getThisMonthRange } from '@/utils/dateUtils';
 
 import { computeExpensesAmount, computeSalesAmount } from '@/utils/amountUtils';
-import SummaryData from './SummaryData';
-import SalesExpensesPieChart from './SalesExpensesPieChart';
+import SummaryData from '../SummaryData';
+import SalesExpensesPieChart from '../SalesExpensesPieChart';
 
 export default function WeekSummary() {
 
   const color = useColor();
 
-  const { firstDay, lastDay } = getThisYearRange();
+  const { firstDay, lastDay } = getThisMonthRange();
 
   const expenses = getExpensesInInterval(firstDay, lastDay);
   const sales = getSalesInInterval(firstDay, lastDay);
@@ -38,14 +38,11 @@ export default function WeekSummary() {
   ];
 
   return (
-    <View style={{ width: '100%', flexDirection: 'row', gap: 10 }}>
-      
+    <View style={{ width: 300, borderRadius: 30, backgroundColor: 'rgba(0, 0, 0, 0.25)', flexDirection: 'row', gap: 10, padding: 10 }}>
       <View style={{ flex: 1 }}>
-        <SummaryData numberOfSoldProducts={numberOfSoldProducts} expensesAmount={expensesAmount} salesAmount={salesAmount} />
+        <SummaryData title={"Mese corrente"} numberOfSoldProducts={numberOfSoldProducts} expensesAmount={expensesAmount} salesAmount={salesAmount} />
       </View>
-    
       <SalesExpensesPieChart data={data} />
-    
     </View>
   );
 }

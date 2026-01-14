@@ -48,8 +48,6 @@ export default function NetEarningsTrend() {
 
   return (
     <PageContainer>
-
-      {/* Body */}
       <BodyContainer>
         <LazyContainer>
           <Trend

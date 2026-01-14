@@ -1,18 +1,14 @@
-import { useRouter } from 'expo-router';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
 
 import Trends from './index';
 import EarningsTrend from './earningsTrend';
 import NetEarningsTrend from './netEarningsTrend';
 import ExpensesTrend from './expensesTrend';
+import Header from '@/components/custom/header/Header';
 
 const Stack = createNativeStackNavigator();
 
 export default function ExpensesLayout() {
-
-  const router = useRouter();
 
   return (
     <Stack.Navigator>
@@ -27,24 +23,33 @@ export default function ExpensesLayout() {
         name="earningsTrend"
         component={EarningsTrend}
         options={{
-          title: 'Andamento Guadagno Lordo',
-          headerLeft: () => <HeaderBtn action = {router.back} />,
+          header: () => (
+            <Header 
+              title="Andamento Guadagno Lordo"
+            />
+          ),
         }}
       />
       <Stack.Screen
         name="netEarningsTrend"
         component={NetEarningsTrend}
         options={{
-          title: 'Andamento Guadagno Netto',
-          headerLeft: () => <HeaderBtn action = {router.back} />,
+          header: () => (
+            <Header 
+              title="Andamento Guadagno Netto"
+            />
+          ),
         }}
       />
       <Stack.Screen
         name="expensesTrend"
         component={ExpensesTrend}
         options={{
-          title: 'Andamento Spese',
-          headerLeft: () => <HeaderBtn action = {router.back} />,
+          header: () => (
+            <Header 
+              title="Andamento Spese"
+            />
+          ),
         }}
       />
     </Stack.Navigator>

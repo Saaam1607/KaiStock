@@ -7,6 +7,7 @@ import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
 
 import Reservations from './index';
 import NewReservation from './newReservation';
+import Header from '@/components/custom/header/Header';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,18 +22,20 @@ export default function ReservationsLayout() {
         name="reservations"
         component={Reservations}
         options={{
-          title: 'Prenotazioni',
-          headerLeft: () => <HeaderBtn action = {router.back} />,
-          headerRight: () => <HeaderBtnWithText text="Nuovo" iconName="create" action={() => router.push('/warehouse/reservations/newReservation')} />,
+          header: () => (
+            <Header 
+              title="Prenotazioni"
+              rightIconName="create"
+              rightIconLabel="Nuova"
+              rightIconPress={() => router.push('/warehouse/reservations/newReservation')}
+            />
+          ),
         }}
       />
 
       <Stack.Screen
         name="newReservation"
         component={NewReservation}
-        options={{
-          title: 'Nuova Prenotazione',
-        }}
       />
 
     </Stack.Navigator>
