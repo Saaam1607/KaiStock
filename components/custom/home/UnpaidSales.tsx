@@ -1,4 +1,5 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -34,24 +35,24 @@ export default function UnpaidSales() {
             key={sale.id}
           >
             <View style={{ flexDirection: 'column', flex: 1 }}>
-              <Text style={{ color: color.text }} >
+              <MyText style={{ color: color.text }} >
                 {sale.title}
-              </Text>
-              <Text style={{ color: color.textLighter }} >
+              </MyText>
+              <MyText style={{ color: color.textLighter }} >
                 {sale.to}
-              </Text>
+              </MyText>
             </View>
             
-            <Text style={{ color: color.textLighter, fontWeight: '800' }} >
+            <MyText style={{ color: color.textLighter, fontWeight: '800' }} >
               {sale.body.reduce((acc, item) => acc + item.quantity * item.unit_price * item.weight, 0)} €
-            </Text>
+            </MyText>
           </View>
         ))}
       </ScrollView>
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: 15, paddingVertical: 8,  }} >
-        <Text style={{ color: color.text }}>
+        <MyText style={{ color: color.text }}>
           Totale da incassare: {totalToEarn} €
-        </Text>
+        </MyText>
       </View>
       
     </View>

@@ -1,7 +1,8 @@
-import { View, Text } from 'react-native';
+import MyText from '@/components/custom/generic/MyText';
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { withLayoutContext } from 'expo-router';
+import { View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { StatusBar } from 'expo-status-bar';
@@ -13,7 +14,7 @@ function TabItem({ label, icon, activeIcon, focused, color }: any) {
   return (
     <View style={{ alignItems: 'center' }} >
       <Ionicons name={focused ? activeIcon : icon} color={color} size={20} />
-      <Text style={{ color, fontSize: 12 }}>{label}</Text>
+      <MyText style={{ color, fontSize: 14 }}>{label}</MyText>
     </View>
   );
 }

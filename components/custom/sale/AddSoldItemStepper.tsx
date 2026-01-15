@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { FlatList, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -120,12 +121,12 @@ export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
                   </View>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontWeight: 'bold', color: color.text }}>
+                  <MyText style={{ fontWeight: 'bold', color: color.text }}>
                     {item.name}
-                  </Text>
-                  <Text style={{ fontSize: 12, color: color.textLighter }}>
+                  </MyText>
+                  <MyText style={{ fontSize: 12, color: color.textLighter }}>
                     {item.description}
-                  </Text>  
+                  </MyText>  
                 </View>
               </View>
 

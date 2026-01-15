@@ -1,4 +1,5 @@
 import { View, Text, ScrollView } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -16,8 +17,6 @@ export default function UndeliveredSales() {
     return !sale.delivered;
   });
 
-  const totalToEarn = computeSalesAmount(undeliveredSales);
-
   return (
     <View>
       <ScrollView nestedScrollEnabled contentContainerStyle={{ gap: 5 }} >
@@ -34,17 +33,17 @@ export default function UndeliveredSales() {
             key={sale.id}
           >
             <View style={{ flexDirection: 'column', flex: 1 }}>
-              <Text style={{ color: color.text }} >
+              <MyText style={{ color: color.text }} >
                 {sale.title}
-              </Text>
-              <Text style={{ color: color.textLighter }} >
+              </MyText>
+              <MyText style={{ color: color.textLighter }} >
                 {sale.to}
-              </Text>
+              </MyText>
             </View>
             
-            <Text style={{ color: color.textLighter, fontWeight: '800' }} >
+            <MyText style={{ color: color.textLighter, fontWeight: '800' }} >
               {sale.body.reduce((acc, item) => acc + item.quantity * item.unit_price * item.weight, 0)} €
-            </Text>
+            </MyText>
           </View>
         ))}
       </ScrollView>

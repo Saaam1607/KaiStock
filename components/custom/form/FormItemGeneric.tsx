@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { StyleProp, StyleSheet, Text, TextInput, TextStyle, View, KeyboardTypeOptions } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -15,7 +16,7 @@ export function FormItemGeneric({ label, children }: FormItemGenericProps) {
 
   return (
     <View>
-      <Text style={[styles.label, { color: color.textLighter }]}>{label}</Text>
+      <MyText style={[styles.label, { color: color.textLighter }]}>{label}</MyText>
       {children}
     </View>   
   );

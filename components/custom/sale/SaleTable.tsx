@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  FlatList,
-  Text,
-} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import MyText from '../generic/MyText';
 
 import type { SoldProduct } from '@/types/SoldProduct';
 import { useColor } from '@/hooks/use-color';
@@ -56,9 +50,9 @@ export default function SaleTable({ data }: Props) {
       <View style={[styles.headerRow, { borderColor: color.cardTableBorder }]}>
         {columns.map((column) => (
           <TouchableOpacity key={column} style={styles.headerCell}>
-            <Text style={[styles.headerText, { color: color.textLighter }]}>
+            <MyText style={[styles.headerText, { color: color.textLighter }]}>
               {getColumnHeaderLabel(column)}
-            </Text>
+            </MyText>
           </TouchableOpacity>
         ))}
       </View>
@@ -78,7 +72,7 @@ export default function SaleTable({ data }: Props) {
 
             return (
               <View style={styles.row}>
-                <Text
+                <MyText
                   style={[
                     styles.cell,
                     styles.textLeft,
@@ -87,9 +81,9 @@ export default function SaleTable({ data }: Props) {
                   ]}
                 >
                   {item.name}
-                </Text>
+                </MyText>
 
-                <Text
+                <MyText
                   style={[
                     styles.cell,
                     styles.textCenter,
@@ -98,9 +92,9 @@ export default function SaleTable({ data }: Props) {
                   ]}
                 >
                   {item.quantity}
-                </Text>
+                </MyText>
 
-                <Text
+                <MyText
                   style={[
                     styles.cell,
                     styles.textCenter,
@@ -109,9 +103,9 @@ export default function SaleTable({ data }: Props) {
                   ]}
                 >
                   {item.weight} {item.uom}
-                </Text>
+                </MyText>
 
-                <Text
+                <MyText
                   style={[
                     styles.cell,
                     styles.textRight,
@@ -120,9 +114,9 @@ export default function SaleTable({ data }: Props) {
                   ]}
                 >
                   {item.unit_price} €/{item.uom}
-                </Text>
+                </MyText>
 
-                <Text
+                <MyText
                   style={[
                     styles.cell,
                     styles.textRight,
@@ -132,7 +126,7 @@ export default function SaleTable({ data }: Props) {
                   ]}
                 >
                   {item.totalPrice} €
-                </Text>
+                </MyText>
               </View>
             );
           }}

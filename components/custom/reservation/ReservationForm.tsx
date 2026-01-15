@@ -1,7 +1,7 @@
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-// import { ProductionItemCard } from './ProductionItemCard';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import type { Reservation } from '@/types/Reservation';
 import type { SoldProduct } from '@/types/SoldProduct';
@@ -9,7 +9,6 @@ import type { SoldProduct } from '@/types/SoldProduct';
 import { ProductionItemCard } from '../produce/ProductionItemCard';
 
 import { getProductFromId } from '@/components/api/productsApi';
-
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -112,7 +111,7 @@ export function ReservationForm({ reservation, setReservation, soldProductItems,
             }}
           >
             <Ionicons name="add-circle" size={25} color={color.text} />
-            <Text style={{ color: color.text }}>Aggiungi Prodotto</Text>
+            <MyText style={{ color: color.text }}>Aggiungi Prodotto</MyText>
           </Pressable>
         </View>
       </ScrollView>

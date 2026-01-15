@@ -1,10 +1,9 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { ReactElement } from 'react';
+import { StyleSheet, View } from 'react-native';
+import MyText from './generic/MyText';
 
 
 import { useColor } from '@/hooks/use-color';
-
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 type StepperProps = {
   content: ReactElement[];
@@ -57,9 +56,9 @@ export function Stepper({ content, step, setStep }: StepperProps) {
                   alignItems: 'center',
                 }}
               >
-                <Text style={{ fontWeight: 'bold' }}>
+                <MyText style={{ fontWeight: 'bold' }}>
                   {index + 1}
-                </Text>
+                </MyText>
               </View>
             </View>
 
@@ -82,7 +81,7 @@ export function Stepper({ content, step, setStep }: StepperProps) {
             opacity: step === 0 ? 0.5 : 1
           }}
         >
-          <Text style={{ color: color.text }}>Indietro</Text>
+          <MyText style={{ color: color.text }}>Indietro</MyText>
         </Pressable>
         <Pressable
           onPress={handleNextStep}
@@ -95,7 +94,7 @@ export function Stepper({ content, step, setStep }: StepperProps) {
             alignItems: 'center',
           }}
         >
-          <Text style={{ color: color.text }}>{step === maxStep ? 'Conferma' : 'Avanti'}</Text>
+          <MyText style={{ color: color.text }}>{step === maxStep ? 'Conferma' : 'Avanti'}</MyText>
         </Pressable>
       </View> */}
     </View> 

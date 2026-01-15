@@ -1,5 +1,6 @@
 import { useColor } from '@/hooks/use-color';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import MyText from './generic/MyText';
 
 type QuantityFieldProps = {
   label: string;
@@ -24,15 +25,15 @@ export function QuantityField({
         gap: 20,
       }}
     >
-      <Text
+      <MyText
         style={{
           width: 125,
           color: color.textLighter,
         }}
       >
         {label}
-      </Text>
-      <Text
+      </MyText>
+      <MyText
         style={{
           fontSize: 16,
           fontWeight: '600',
@@ -42,7 +43,7 @@ export function QuantityField({
         }}
       >
         {quantity}
-      </Text>
+      </MyText>
     </View>
   );
 }

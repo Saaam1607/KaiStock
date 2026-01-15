@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text, TextInput, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
+import MyText from './generic/MyText';
+import MyTextInput from './generic/MyTextInput';
 
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
@@ -30,10 +32,10 @@ export default function DateInput({ date, setDate }: DateInputProps) {
 
   return (
     <View>
-      <Text style={styles.label}>Data</Text>
+      <MyText style={styles.label}>Data</MyText>
       <Pressable onPress={() => setVisible(true)}>
         <View style={styles.date_input}>
-          <TextInput
+          <MyTextInput
             style={styles.input}
             value={formatDate(date)}
             editable={false}

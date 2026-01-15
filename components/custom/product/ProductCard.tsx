@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+
+import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -45,17 +47,17 @@ export function ProductCard({ product, startEditingItem }: ProductCardProps) {
 
         <View style={styles.cardData}>
           <View>
-            <Text style={[styles.name, { color: color.text }]}>{product.name}</Text>
-            <Text style={[styles.description, { color: color.textLighter }]}>{product.description}</Text>
+            <MyText style={[styles.name, { color: color.text }]}>{product.name}</MyText>
+            <MyText style={[styles.description, { color: color.textLighter }]}>{product.description}</MyText>
           </View>
 
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-            <Text style={[styles.price, { color: color.purple }]}>{product.price.toFixed(2)}</Text>
-            <Text style={[styles.price, { color: color.purple, fontSize: 15 }]}>€/{product.uom}</Text>
+            <MyText style={[styles.price, { color: color.purple }]}>{product.price.toFixed(2)}</MyText>
+            <MyText style={[styles.price, { color: color.purple, fontSize: 15 }]}>€/{product.uom}</MyText>
           </View>
 
           <View>
-            <Text style={[styles.name, { color: color.textLighter }]}>Quantità</Text>
+            <MyText style={[styles.name, { color: color.textLighter }]}>Quantità</MyText>
             <View style={{ flexDirection: 'column', gap: 5, paddingHorizontal: 20 }}>
               <QuantityField
                 label="In Magazzino"

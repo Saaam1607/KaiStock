@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text, FlatList, Pressable } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable } from 'react-native';
+import MyText from '../generic/MyText';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -8,14 +9,14 @@ import { useColor } from '@/hooks/use-color';
 export function CardTitle({ value }: { value: string }) {
   const color = useColor();
   return (
-    <Text style={[{ fontWeight: 'bold' }, { color: color.text }]}>{value}</Text>
+    <MyText style={[{ fontWeight: 'bold' }, { color: color.text }]}>{value}</MyText>
   );
 }
 
 export function CardDescription({ value }: { value: string }) {
   const color = useColor();
   return (
-    <Text style={[{ color: color.textLighter }]}>{value}</Text>
+    <MyText style={[{ color: color.textLighter }]}>{value}</MyText>
   );
 }
 
@@ -24,7 +25,7 @@ export function CardToPerson({ value }: { value: string }) {
   return (
     <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
       <Ionicons name="person" size={20} color={color.text} />
-      <Text style={[{ fontWeight: 'bold' }, { color: color.text }]}>{value}</Text>
+      <MyText style={[{ fontWeight: 'bold' }, { color: color.text }]}>{value}</MyText>
     </View>
   );
 }
@@ -42,7 +43,7 @@ export function CardDate({ value }: { value: Date }) {
   return (
     <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
       <Ionicons name="calendar" size={20} color={color.icon} />
-      <Text style={[{ color: color.text }]}>{formatDate(value)}</Text>
+      <MyText style={[{ color: color.text }]}>{formatDate(value)}</MyText>
     </View>
   );
 }
@@ -58,7 +59,7 @@ export function CardList<T>({ label, data, keyField, renderItem }: CardListProps
 
   return (
     <View>
-      <Text style={{ color: color.textLighter }}>{label}</Text>
+      <MyText style={{ color: color.textLighter }}>{label}</MyText>
       <FlatList
         data={data}
         keyExtractor={(item) => String(item[keyField])}

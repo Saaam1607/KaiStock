@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import { StyleSheet, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import type { Production } from '@/types/Production';
 import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
@@ -33,11 +35,11 @@ export default function ProductionCard({ production }: ProductionCardProps) {
           return (
             <>
               <View style={[styles.quantityBadge, { backgroundColor: color.cardItemDark }]}>
-                <Text style={[styles.quantityText, { color: color.text }]}>{item.quantity}</Text>
+                <MyText style={[styles.quantityText, { color: color.text }]}>{item.quantity}</MyText>
               </View>
-              <Text style={[styles.productName, { color: color.text }]} numberOfLines={1}>
+              <MyText style={[styles.productName, { color: color.text }]} numberOfLines={1}>
                 {product?.name}
-              </Text>
+              </MyText>
             </>
           );
         }}

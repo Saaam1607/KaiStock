@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, View, ScrollView, Text} from 'react-native';
+import MyText from '@/components/custom/generic/MyText';
+import { ScrollView, View } from 'react-native';
 
 import { useRouter } from 'expo-router';
 
-import { PageContainer } from '@/components/custom/containers/PageContainer';
 import { BodyContainer } from '@/components/custom/containers/BodyContainer';
+import { PageContainer } from '@/components/custom/containers/PageContainer';
 
 import SummaryCarousel from '@/components/custom/home/SummaryCarousel';
 
-import UnpaidSales from '@/components/custom/home/UnpaidSales';
 import UndeliveredSales from '@/components/custom/home/UndeliveredSale';
+import UnpaidSales from '@/components/custom/home/UnpaidSales';
 
 import { useColor } from '@/hooks/use-color';
 import { Ionicons } from '@expo/vector-icons';
@@ -32,9 +33,9 @@ export default function HomeScreen() {
       <BodyContainer>
         
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Text style={{ fontSize: 25, color: color.textLighter }} >
+          <MyText style={{ fontSize: 25, color: color.text }} >
             {today.getDate()}/{today.getMonth() + 1}/{today.getFullYear()}
-          </Text>
+          </MyText>
           <Ionicons name="settings-sharp" size={30} color={color.icon} />
         </View>
 

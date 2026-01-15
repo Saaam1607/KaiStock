@@ -56,52 +56,6 @@ export default function SaleCard({ sale }: SaleCardProps) {
         </LazyContainer>
       </View>
       <CardTitle value={'Totale: ' + totalPrice + ' €'} />
-      {/* <CardList
-        label="Prodotti"
-        data={sale.body as SoldProduct[]}
-        keyField="product_id"
-        renderItem={({ item }) => {
-          const product = getProduct(item.product_id);
-          return (
-            <View style={{ width: '100%', borderColor: 'blue', borderWidth: 1, flexDirection: 'row', gap: 10 }}>
-              <View style={{ flexDirection: 'row', flexGrow: 1, gap: 10, borderColor: 'red', borderWidth: 1 }}>
-                <View style={[styles.quantityBadge, { backgroundColor: color.cardItemDark }]}>
-                  <Text style={[styles.quantityText, { color: color.text }]}>{item.quantity}</Text>
-                </View>
-                <Text style={[styles.productName, { color: color.text }]} numberOfLines={1}>
-                  {product?.name}
-                </Text>
-                <Text style={[styles.productName, { color: color.text }]} numberOfLines={1}>
-                  {'da ' + item.weight + ' ' + item.uom}
-                </Text>
-                <Text style={[styles.productName, { color: color.text }]} numberOfLines={1}>
-                  {'a ' + item.unit_price + ' €/' + item.uom}
-                </Text>
-              </View>
-                <Text style={[{ color: color.text }]} numberOfLines={1}>
-                  {item.quantity * item.unit_price * item.weight}
-                </Text>
-            </View>
-          );
-        }}
-      /> */}
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  quantityBadge: {
-    minWidth: 32,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  quantityText: {
-    fontWeight: '600',
-    fontSize: 13,
-  },
-  productName: {
-    fontSize: 14,
-  },
-});

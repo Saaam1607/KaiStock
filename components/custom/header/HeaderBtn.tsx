@@ -1,4 +1,6 @@
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import MyText from '../generic/MyText';
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { memo } from 'react';
 import { useColor } from '@/hooks/use-color';
@@ -18,7 +20,7 @@ const HeaderBtn = memo(({ iconName = "arrow-back", text, action }: HeaderBtnProp
       style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 10 }}
     >
       {text && (
-        <Text style={{ color: color.icon, fontWeight: 'bold' }}>{text}</Text>
+        <MyText style={{ color: color.icon, fontWeight: 'bold' }}>{text}</MyText>
       )}
       <Ionicons name={iconName as any} size={28} color={color.icon} />
     </TouchableOpacity>

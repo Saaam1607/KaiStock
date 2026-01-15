@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React from 'react';
+
+import { Pressable, StyleSheet, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { QuantityEditor } from '../QuantityEditor';
 
@@ -41,9 +43,9 @@ export function ProductionItemCard({ product, removeProduct, quantity, setQuanti
 				<View style={{ flexDirection: 'column', gap: 10, flex: 1 }}>
 
 					<View style={{ gap: 10 }}>
-						<Text style={{ color: color.text }}>{product.name}</Text>
-						<Text style={{ color: color.textLighter }}>{product.description}</Text>
-						<Text style={{ color: color.textLighter }}>{product.price} €/{product.uom}</Text>
+						<MyText style={{ color: color.text }}>{product.name}</MyText>
+						<MyText style={{ color: color.textLighter }}>{product.description}</MyText>
+						<MyText style={{ color: color.textLighter }}>{product.price} €/{product.uom}</MyText>
 					</View>
 					<View style={{ }}>
 						<QuantityEditor

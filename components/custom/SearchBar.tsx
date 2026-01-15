@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { View, TextInput, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import MyTextInput from './generic/MyTextInput';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -20,7 +21,7 @@ export function SearchBar({ placeholder, text, setText, style }: SearchBarProps)
   return (
     <View style={[styles.container, {backgroundColor: color.searchBackground}, style]}>
       <Ionicons name="search" size={25} color={color.icon} />
-      <TextInput
+      <MyTextInput
         style={[styles.input, { color: color.text }]}
         placeholder={placeholder}
         placeholderTextColor={color.textLighter}

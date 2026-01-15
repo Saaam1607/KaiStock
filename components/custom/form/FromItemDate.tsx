@@ -1,5 +1,8 @@
 import React from 'react';
-import { StyleProp, StyleSheet, Text, TextInput, TextStyle, View, KeyboardTypeOptions, Pressable } from 'react-native';
+
+import { StyleProp, StyleSheet, TextStyle, View, KeyboardTypeOptions, Pressable } from 'react-native';
+import MyText from '../generic/MyText';
+import MyTextInput from '../generic/MyTextInput';
 
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -38,10 +41,10 @@ export function FormItemDate({ label, input, oldInput, onInputChange, inputStyle
 
   return (
     <View>
-      <Text style={[styles.label, { color: color.textLighter }]}>Data</Text>
+      <MyText style={[styles.label, { color: color.textLighter }]}>Data</MyText>
       <Pressable onPress={() => setVisible(true)}>
         <View style={styles.date_input}>
-          <TextInput
+          <MyTextInput
             style={[
               styles.input,
               inputStyle,

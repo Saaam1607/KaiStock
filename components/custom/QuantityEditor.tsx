@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, View } from 'react-native';
+import MyTextInput from './generic/MyTextInput';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -144,7 +145,7 @@ function addQuantity(delta = 1) {
       </View>
 
       <View style={containerStyles.quantity}>
-        <TextInput
+        <MyTextInput
           style={[
             styles.input,
             { color: color.text }

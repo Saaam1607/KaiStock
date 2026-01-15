@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import MyText from './generic/MyText';
 
 
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -32,7 +33,7 @@ export function MyAlert({ alertVisible, alertTitle, alertMessage, okText, notOkT
         <View style={styles.modalView}>
           
           <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>{alertTitle}</Text>
+            <MyText style={styles.modalTitle}>{alertTitle}</MyText>
             <Ionicons
               name="close"
               size={32}
@@ -42,15 +43,15 @@ export function MyAlert({ alertVisible, alertTitle, alertMessage, okText, notOkT
           </View>
 
           <View style={styles.modalBody}>
-            <Text>{alertMessage}</Text>
+            <MyText>{alertMessage}</MyText>
           </View>
 
           <View style={styles.modalButtons}>
             <Pressable style={[styles.button, styles.buttonCancel]} onPress={() => onNotOk()}>
-              <Text style={styles.buttonText}>{notOkText}</Text>
+              <MyText style={styles.buttonText}>{notOkText}</MyText>
             </Pressable>
             <Pressable style={[styles.button, styles.buttonSave]} onPress={() => onOk()}>
-              <Text style={styles.buttonText}>{okText}</Text>
+              <MyText style={styles.buttonText}>{okText}</MyText>
             </Pressable>
           </View>
 

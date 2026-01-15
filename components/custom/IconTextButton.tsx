@@ -1,7 +1,7 @@
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import MyText from './generic/MyText';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { useColor } from '@/hooks/use-color';
 import { memo } from 'react';
@@ -30,7 +30,7 @@ function IconTextButton({
     >
       <View style={[ styles.button ]}>
         <Ionicons name={iconName as any} size={60} color={color.text} />
-        <Text style={styles.text}>{text}</Text>
+        <MyText style={styles.text}>{text}</MyText>
       </View>
     </TouchableHighlight>
   );

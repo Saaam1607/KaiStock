@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import MyText from './generic/MyText';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -33,7 +34,7 @@ export function ItemModal({ modalVisible, modalTitle, okText, notOkText, onOk, o
         <View style={[styles.modalView, { backgroundColor: color.modalBackground }]}>
           
           <View style={styles.modalHeader}>
-            <Text style={[styles.modalTitle, { color: color.text }]}>{modalTitle}</Text>
+            <MyText style={[styles.modalTitle, { color: color.text }]}>{modalTitle}</MyText>
             <Ionicons
               name="close"
               size={32}
@@ -49,10 +50,10 @@ export function ItemModal({ modalVisible, modalTitle, okText, notOkText, onOk, o
           { (okText !== undefined || notOkText !== undefined) && (
             <View style={styles.modalButtons}>
               <Pressable style={[styles.button, {backgroundColor: color.red}]} onPress={() => {onNotOk && onNotOk()}}>
-                <Text style={[styles.buttonText, { color: color.text }]}>{notOkText}</Text>
+                <MyText style={[styles.buttonText, { color: color.text }]}>{notOkText}</MyText>
               </Pressable>
               <Pressable style={[styles.button, {backgroundColor: color.green}]} onPress={() => {onOk && onOk()}}>
-                <Text style={[styles.buttonText, { color: color.text }]}>{okText}</Text>
+                <MyText style={[styles.buttonText, { color: color.text }]}>{okText}</MyText>
               </Pressable>
             </View>
           )}

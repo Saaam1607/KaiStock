@@ -1,5 +1,6 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
+import MyText from './generic/MyText';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -33,7 +34,7 @@ export function Button({ text, onPress, iconName }: ButtonProps) {
       }}
     >
       {iconName && <Ionicons name={iconName} size={25} color={color.text} />}
-      <Text style={{ color: color.text }}>{text}</Text>
+      <MyText style={{ color: color.text }}>{text}</MyText>
     </Pressable>
   );
 }

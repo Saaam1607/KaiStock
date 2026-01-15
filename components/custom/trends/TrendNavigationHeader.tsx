@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+
+import { View, Pressable } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -33,9 +35,9 @@ function TrendNavigationHeaderTemplate({ currentValue, setPrevValue, setNextValu
     <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ width: '100%', paddingHorizontal: 20, flexDirection: 'row',  justifyContent: 'space-between', alignItems: 'center' }}>
         <Button iconName="chevron-back" action={setPrevValue} />
-        <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'silver' }} >
+        <MyText style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'silver' }} >
           {currentValue}
-        </Text>
+        </MyText>
         <Button iconName="chevron-forward" action={setNextValue} />
       </View>
     </View>

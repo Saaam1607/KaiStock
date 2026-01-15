@@ -1,7 +1,6 @@
 import React from 'react';
-import { Modal, StyleSheet, Text, Pressable, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { Modal, StyleSheet, Pressable, View } from 'react-native';
+import MyText from './generic/MyText';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -22,7 +21,7 @@ export function EditModal({ modalVisible, setModalVisible, itemName = 'nomeArtic
       <View style={styles.overlay}>
         <View style={styles.modalView}>
           <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Attenzione!</Text>
+            <MyText style={styles.modalTitle}>Attenzione!</MyText>
             <Ionicons
               name="close"
               size={32}
@@ -31,17 +30,17 @@ export function EditModal({ modalVisible, setModalVisible, itemName = 'nomeArtic
             />
           </View>
 
-          <Text style={styles.modalText}>
+          <MyText style={styles.modalText}>
             Stai già modificando l'articolo{' '}
-            <Text style={{ fontWeight: 'bold' }}>{itemName}</Text>.
-          </Text>
+            <MyText style={{ fontWeight: 'bold' }}>{itemName}</MyText>.
+          </MyText>
 
           <View style={styles.modalButtons}>
             <Pressable style={[styles.button, styles.buttonCancel]} onPress={() => setModalVisible(false)}>
-              <Text style={styles.buttonText}>Cancella modifiche</Text>
+              <MyText style={styles.buttonText}>Cancella modifiche</MyText>
             </Pressable>
             <Pressable style={[styles.button, styles.buttonSave]} onPress={() => setModalVisible(false)}>
-              <Text style={styles.buttonText}>Salva modifiche</Text>
+              <MyText style={styles.buttonText}>Salva modifiche</MyText>
             </Pressable>
           </View>
         </View>

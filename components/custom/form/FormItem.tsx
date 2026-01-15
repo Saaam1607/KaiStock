@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleProp, StyleSheet, Text, TextInput, TextStyle, View, KeyboardTypeOptions } from 'react-native';
 
+import { StyleProp, StyleSheet, Text, TextInput, TextStyle, View, KeyboardTypeOptions } from 'react-native';
+import MyText from '../generic/MyText';
+import MyTextInput from '../generic/MyTextInput';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -22,8 +24,8 @@ export function FormItem({ label, input, oldInput, onInputChange, inputStyle, mu
 
   return (
     <View>
-      <Text style={[styles.label, { color: color.textLighter }]}>{label}</Text>
-      <TextInput
+      <MyText style={[styles.label, { color: color.textLighter }]}>{label}</MyText>
+      <MyTextInput
         editable={!readonly}
         selectTextOnFocus={!readonly}
         style={[

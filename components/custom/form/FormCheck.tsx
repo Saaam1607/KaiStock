@@ -1,5 +1,8 @@
 import React from 'react';
-import { StyleProp, StyleSheet, Text, TextStyle, View, Pressable } from 'react-native';
+
+import { StyleProp, StyleSheet, TextStyle, View, Pressable } from 'react-native';
+import MyText from '../generic/MyText';
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
@@ -24,7 +27,7 @@ export function FormCheck({ label, labelOnRight = false, input, oldInput, onInpu
       { flexDirection: 'row', gap: 10 },
       labelOnRight && { flexDirection: 'row-reverse' }
     ]}>
-      <Text style={[styles.label, { color: color.textLighter }]}>{label}</Text>
+      <MyText style={[styles.label, { color: color.textLighter }]}>{label}</MyText>
       <Pressable
         onPress={() => onInputChange(!input)}
         style={[

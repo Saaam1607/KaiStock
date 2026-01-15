@@ -1,5 +1,7 @@
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { ProductionItemCard } from './ProductionItemCard';
 
@@ -104,7 +106,7 @@ export function ProductionForm({ production, setProduction, productionItems, set
             }}
           >
             <Ionicons name="add-circle" size={25} color={color.text} />
-            <Text style={{ color: color.text }}>Aggiungi Prodotto</Text>
+            <MyText style={{ color: color.text }}>Aggiungi Prodotto</MyText>
           </Pressable>
         </View>
       </ScrollView>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { View, Text, Pressable } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -30,7 +31,7 @@ export function SectionButtons({ buttons }: SectionButtonsProps) {
             borderColor: 'rgb(78, 96, 100)',
           }}
         >
-          <Text
+          <MyText
             style={{
               fontSize: 14,
               fontWeight: '600',
@@ -38,7 +39,7 @@ export function SectionButtons({ buttons }: SectionButtonsProps) {
             }}
           >
             {button.label}
-          </Text>  
+          </MyText>  
         </Pressable>
       ))}
     </View>

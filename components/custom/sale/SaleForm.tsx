@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-// import { ProductionItemCard } from './ProductionItemCard';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import type { Sale } from '@/types/Sale';
 import type { SoldProduct } from '@/types/SoldProduct';
@@ -117,10 +117,10 @@ export function SaleForm({ sale, setSale, soldProductItems, setSoldProductItems,
             }}
           >
             <Ionicons name="add-circle" size={25} color={color.text} />
-            <Text style={{ color: color.text }}>Aggiungi Prodotto</Text>
+            <MyText style={{ color: color.text }}>Aggiungi Prodotto</MyText>
           </Pressable>
         </View>
-        <Text style={{ color: color.textLighter, marginTop: 20, fontSize: 12 }}>* Campo Obbligatorio </Text>
+        <MyText style={{ color: color.textLighter, marginTop: 20, fontSize: 12 }}>* Campo Obbligatorio </MyText>
 
       </ScrollView>
     </View>

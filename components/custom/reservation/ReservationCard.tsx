@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import { StyleSheet, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
 import type { Reservation } from '@/types/Reservation';
@@ -34,15 +36,14 @@ export default function ReservationCard({ reservation }: ReservationCardProps) {
           return (
             <>
               <View style={[styles.quantityBadge, { backgroundColor: color.cardItemDark }]}>
-                <Text style={[styles.quantityText, { color: color.text }]}>{item.quantity}</Text>
+                <MyText style={[styles.quantityText, { color: color.text }]}>{item.quantity}</MyText>
               </View>
-              <Text style={[styles.productName, { color: color.text }]} numberOfLines={1}>
+              <MyText style={[styles.productName, { color: color.text }]} numberOfLines={1}>
                 {product?.name}
-              </Text>
-              <Text style={[{ color: color.text }]} numberOfLines={1}>
+              </MyText>
+              <MyText style={[{ color: color.text }]} numberOfLines={1}>
                 {product ? item.quantity * product.price : 0}
-
-              </Text>
+              </MyText>
             </>
           );
         }}

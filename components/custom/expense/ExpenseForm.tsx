@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import type { Expense } from '@/types/Expense';
 
@@ -63,7 +64,7 @@ export default function ProductForm({ expense, setExpense, showMandatoryBorders 
         keyboardType="decimal-pad"
       />
 
-      <Text style={{ color: color.textLighter, marginTop: 20, fontSize: 12 }}>* Campo Obbligatorio </Text>
+      <MyText style={{ color: color.textLighter, marginTop: 20, fontSize: 12 }}>* Campo Obbligatorio </MyText>
       
     </View>
   );

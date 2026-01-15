@@ -1,4 +1,5 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import MyText from '../generic/MyText';
 
 import HeaderBtn from '@/components/custom/header/HeaderBtn';
 
@@ -37,9 +38,9 @@ export default function Header({ leftIconName, leftIconLabel, leftIconPress, rig
         text={leftIconLabel || ''}
       />
       <View style={{ flex: 1 }}>
-        <Text style={{ color: color.textLighter, fontSize: 20, fontWeight: 'bold' }}>
+        <MyText style={{ color: color.textLighter, fontSize: 20, fontWeight: 'bold' }}>
           {title}
-        </Text>
+        </MyText>
       </View>
       {rightIconName && (
         <HeaderBtn

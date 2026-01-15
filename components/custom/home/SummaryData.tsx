@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { View, Text } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -18,36 +19,37 @@ export default function SummaryData({ title, numberOfSoldProducts, expensesAmoun
   return (
     <>
       <View style={{ alignItems: 'center' }}>
-        <Text style={{ fontSize: 16, fontWeight: '600', color: 'rgb(71, 95, 84)' }} >
+        <MyText style={{ fontSize: 16, fontWeight: '600', color: 'rgb(71, 95, 84)' }} >
           {title}
-        </Text>
+        </MyText>
       </View>
 
       <View style={{ padding: 10, width: '100%', flexDirection: 'row', justifyContent: 'space-between', gap: 20 }}>
         <View style={{ width: '100%'}}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-            <Text style={{ color: color.text, fontWeight: '800', fontSize: 18 }} >
-              {numberOfSoldProducts}
-            </Text>
-            <Text style={{ color: color.text, fontSize: 14 }} >
-              Prodotti venduti
-            </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+            <MyText style={{ color: color.text, fontSize: 14 }} >
+              Prodotti venduti: 
+            </MyText>
+            <MyText style={{ color: color.text, fontWeight: '800', fontSize: 18 }} >
+              {" "}{numberOfSoldProducts}
+            </MyText>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center'}}>
-            <Text style={{ color: color.red, fontWeight: '800', fontSize: 18,  }} >
-              {expensesAmount} €
-            </Text>
-            <Text style={{ color: color.text, fontSize: 14 }} >
-              Spese
-            </Text>
+          <View style={{ flexDirection: 'row', width: '100%', alignItems: 'center'}}>
+            
+            <MyText style={{ color: color.text, fontSize: 14 }} >
+              Spese:
+            </MyText>
+            <MyText style={{ color: color.red, fontWeight: '800', fontSize: 18 }} >
+              {" "}{expensesAmount} €
+            </MyText>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center'}}>
-            <Text style={{ color: color.green, fontWeight: '800', fontSize: 18 }} >
-              {salesAmount} €
-            </Text>
-            <Text style={{ color: color.text, fontSize: 14 }} >
+          <View style={{ flexDirection: 'row', width: '100%', alignItems: 'center'}}>
+            <MyText style={{ color: color.text, fontSize: 14 }} >
               Entrate
-            </Text>
+            </MyText>
+            <MyText style={{ color: color.green, fontWeight: '800', fontSize: 18 }} >
+              {" "}{salesAmount} €
+            </MyText>
           </View>
         </View>
       </View>

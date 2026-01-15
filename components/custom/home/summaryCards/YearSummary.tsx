@@ -38,11 +38,13 @@ export default function WeekSummary() {
   ];
 
   return (
-    <View style={{ width: 300, borderRadius: 30, backgroundColor: 'rgba(0, 0, 0, 0.25)', flexDirection: 'row', gap: 10, padding: 10 }}>
+    <View style={{ borderRadius: 30, backgroundColor: 'rgba(0, 0, 0, 0.25)', flexDirection: 'row', gap: 10, padding: 10 }}>
       <View style={{ flex: 1 }}>
         <SummaryData title={"Anno corrente"} numberOfSoldProducts={numberOfSoldProducts} expensesAmount={expensesAmount} salesAmount={salesAmount} />
       </View>
-      <SalesExpensesPieChart data={data} />
+      <View style={{ justifyContent: 'center' }}>
+        <SalesExpensesPieChart data={data} />
+      </View>
     </View>
   );
 }
