@@ -33,14 +33,14 @@ export default function ProductionCard({ production }: ProductionCardProps) {
         renderItem={({ item }) => {
           const product = getProductFromId(item.product_id);
           return (
-            <>
-              <View style={[styles.quantityBadge, { backgroundColor: color.cardItemDark }]}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: color.cardBackground, borderRadius: 25, paddingHorizontal: 5, paddingVertical: 5, gap: 10 }}>
+              <View style={[styles.quantityBadge, { backgroundColor: color.cardBackground }]}>
                 <MyText style={[styles.quantityText, { color: color.text }]}>{item.quantity}</MyText>
               </View>
               <MyText style={[styles.productName, { color: color.text }]} numberOfLines={1}>
                 {product?.name}
               </MyText>
-            </>
+            </View>
           );
         }}
       />
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     minWidth: 32,
     paddingVertical: 4,
     paddingHorizontal: 8,
-    borderRadius: 8,
+    borderRadius: 25,
     alignItems: 'center',
   },
   quantityText: {

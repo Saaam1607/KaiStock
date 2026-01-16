@@ -13,6 +13,16 @@ export function CardTitle({ value }: { value: string }) {
   );
 }
 
+export function CardPerson({ value }: { value: string }) {
+  const color = useColor();
+  return (
+    <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
+      <Ionicons name="person" size={20} color={color.icon} />
+      <MyText style={[{ fontWeight: 'bold' }, { color: color.text }]}>{value}</MyText>
+    </View>
+  );
+}
+
 export function CardDescription({ value }: { value: string }) {
   const color = useColor();
   return (
@@ -65,7 +75,7 @@ export function CardList<T>({ label, data, keyField, renderItem }: CardListProps
         keyExtractor={(item) => String(item[keyField])}
         style={{ gap: 4 }}
         renderItem={({ item }) => (
-          <View style={[styles.cardItemRow, { backgroundColor: color.cardItem }]}>
+          <View >
             {renderItem({ item })}
           </View>
         )}
@@ -91,7 +101,7 @@ export function Card({ children, isEditable, editAction, isDeletable, deleteActi
   return (
     <View style={[styles.shadowWrapper, { backgroundColor: color.cardBackground }]}>
       <View style={styles.card}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, gap: 5 }}>
           {children}
         </View>
         {(isEditable || isDeletable) && (

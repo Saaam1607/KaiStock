@@ -34,17 +34,18 @@ export default function ReservationCard({ reservation }: ReservationCardProps) {
         renderItem={({ item }) => {
           const product = getProductFromId(item.product_id);
           return (
-            <>
-              <View style={[styles.quantityBadge, { backgroundColor: color.cardItemDark }]}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: color.cardBackground, borderRadius: 25, paddingHorizontal: 5, paddingVertical: 5, gap: 10 }}>
+              {/* <View style={[styles.quantityBadge, { backgroundColor: color.cardItemDark }]}> */}
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 8, backgroundColor: color.cardBackground, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 }}>
                 <MyText style={[styles.quantityText, { color: color.text }]}>{item.quantity}</MyText>
               </View>
               <MyText style={[styles.productName, { color: color.text }]} numberOfLines={1}>
                 {product?.name}
               </MyText>
-              <MyText style={[{ color: color.text }]} numberOfLines={1}>
+              {/* <MyText style={[{ color: color.text, paddingEnd: 15 }]} numberOfLines={1}>
                 {product ? item.quantity * product.price : 0}
-              </MyText>
-            </>
+              </MyText> */}
+            </View>
           );
         }}
       />

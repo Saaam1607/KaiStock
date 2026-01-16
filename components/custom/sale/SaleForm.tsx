@@ -68,6 +68,11 @@ export function SaleForm({ sale, setSale, soldProductItems, setSoldProductItems,
           showMandatoryBorders={showMandatoryBorders && sale.to === ''}
         />
         <FormCheck
+          label="Pagato"
+          input={sale.paid}
+          onInputChange={text => setSale({ ...sale, paid: text })}
+        />
+        <FormCheck
           label="Consegnato"
           input={sale.delivered}
           onInputChange={text => setSale({ ...sale, delivered: text })}

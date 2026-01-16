@@ -4,8 +4,6 @@ export type Product = {
   description: string;
   price: number;
   uom: string;
-  total_quantity: number;
-  reserved_quantity: number;
 };
 
 export const initProduct: Product = {
@@ -14,6 +12,4 @@ export const initProduct: Product = {
   description: '',
   price: 0,
   uom: '',
-  total_quantity: 0,
-  reserved_quantity: 0,
 };

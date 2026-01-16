@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
+import MyText from '../generic/MyText';
 
 import { LazyContainer } from '../containers/LazyContainer';
 
@@ -8,7 +9,7 @@ import type { SoldProduct } from '@/types/SoldProduct';
 
 import { useColor } from '@/hooks/use-color';
 
-import { Card, CardDate, CardDescription, CardTitle } from '@/components/custom/containers/Card';
+import { Card, CardDate, CardDescription, CardTitle, CardPerson } from '@/components/custom/containers/Card';
 
 import SaleTable from '@/components/custom/sale/SaleTable';
 
@@ -47,12 +48,27 @@ export default function SaleCard({ sale }: SaleCardProps) {
   return (
     <Card>
       <CardTitle value={sale.title} />
-      <CardTitle value={sale.to} />
       <CardDescription value={sale.notes} />
+      <CardPerson value={sale.to} />
       <CardDate value={sale.date} />
       <View style={{ width: '100%' }}>
         <LazyContainer>
-          <SaleTable data={tableData as SaleTableRow[]} />
+          <FlatList
+            data={tableData}
+            keyExtractor={(item) => String(item.product_id + item.weight + item.unit_price)} // to fix
+            style={{ gap: 4 }}
+            renderItem={({ item }) => (
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 8, backgroundColor: color.cardBackground, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 }}>
+                <View>
+                  <MyText style={{ fontWeight: 'bold', color: color.text }}>{item.name}</MyText>
+                  <MyText style={{ color: color.textLighter }}>Quantità: {item.quantity}</MyText>
+                  <MyText style={{ color: color.textLighter }}>Prezzo unitario: {item.unit_price} €</MyText>
+                  <MyText style={{ color: color.textLighter }}>Peso: {item.weight} {item.uom}</MyText>
+                </View>
+                <MyText style={{ fontWeight: 'bold', color: color.text }}>{item.totalPrice} €</MyText>
+              </View>
+            )}
+          />
         </LazyContainer>
       </View>
       <CardTitle value={'Totale: ' + totalPrice + ' €'} />
