@@ -16,6 +16,7 @@ export default function Warehouse() {
     warehouse = '/(tabs)/warehouse',
     products = '/(tabs)/warehouse/products',
     newProduct = '/(tabs)/warehouse/products/newProduct',
+    stocks = '/(tabs)/warehouse/stocks',
     productions = '/(tabs)/warehouse/productions',
     newProduction = '/(tabs)/warehouse/productions/newProduction',
     reservations = '/(tabs)/warehouse/reservations',
@@ -69,6 +70,13 @@ export default function Warehouse() {
             text="Spese"
             iconName="logo-euro"
             onPress={() => handleButtonPress(Routes.expenses)}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <IconButton
+            text="Stocks"
+            iconName="clipboard"
+            onPress={() => handleButtonPress(Routes.stocks)}
           />
         </View>
       </ScrollView>

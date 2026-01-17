@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useColor } from '@/hooks/use-color';
 import { PieChart } from 'react-native-chart-kit';
 
 type SalesExpensesPieChartProps = {
@@ -8,8 +7,6 @@ type SalesExpensesPieChartProps = {
 };
 
 export default function SalesExpensesPieChart({ data }: SalesExpensesPieChartProps) {
-
-  const color = useColor();
 
   const size = 100
 

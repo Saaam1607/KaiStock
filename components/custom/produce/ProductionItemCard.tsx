@@ -48,16 +48,10 @@ export function ProductionItemCard({ product, removeProduct, quantity, setQuanti
 						<MyText style={{ color: color.textLighter }}>{product.price} €/{product.uom}</MyText>
 					</View>
 					<View style={{ }}>
+            <MyText style={{ color: color.textLighter }}>Numero di articoli</MyText>
 						<QuantityEditor
 								quantity={quantity}
-								setQuantity={quantity => {
-									// setSelectedProductionItems(selectedProductionItems.map(i => {
-									//   if (i.product_id === product.id) {
-									//     return { ...i, quantity };
-									//   }
-									//   return i;
-									// }));
-								}}
+								setQuantity={setQuantity}
 							/>
 					</View>
 				</View>

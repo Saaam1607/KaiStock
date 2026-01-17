@@ -112,7 +112,7 @@ export function Card({ children, isEditable, editAction, isDeletable, deleteActi
                   onPress={editAction}
                   style={[
                     styles.pressable,
-                    { backgroundColor: color.orange },
+                    { backgroundColor: color.edit.orange },
                   ]}
                 >
                   <Ionicons name="brush" size={20} />
@@ -123,7 +123,7 @@ export function Card({ children, isEditable, editAction, isDeletable, deleteActi
                   onPress={deleteAction}
                   style={[
                     styles.pressable,
-                    { backgroundColor: color.red },
+                    { backgroundColor: color.edit.red },
                   ]}
                 >
                   <Ionicons name="trash" size={20} color={color.text} />
@@ -174,14 +174,16 @@ const styles = StyleSheet.create({
   },
   cardButtons: {
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     height: '100%',
-    maxHeight: 200
+    // maxHeight: 200
+    paddingVertical: 10,
+    gap: 10,
   },
   pressable: {
-    width: 40,
-    height: 40,
-    borderRadius: 25,
+    width: 35,
+    height: 35,
+    borderRadius: 35,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',

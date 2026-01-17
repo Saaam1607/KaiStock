@@ -11,17 +11,21 @@ import { Product } from '@/types/Product';
 
 import { useColor } from '@/hooks/use-color';
 
-
 import { QuantityField } from '../QuantityField';
 
-type ProductCardProps = {
+import { getProductsInStock, getReservedProducts } from '@/components/api/productsApi';
+
+type StockCardProps = {
   product: Product;
   startEditingItem: (itemName: string) => void;
 };
 
-export function ProductCard({ product, startEditingItem }: ProductCardProps) {
+export function StockCard({ product, startEditingItem }: StockCardProps) {
 
   const color = useColor();
+
+  const productsInStock = getProductsInStock(product.id);
+  const reservedProducts = getReservedProducts(product.id);
 
   function handleEdit() {
     startEditingItem(product.id);
@@ -60,6 +64,30 @@ export function ProductCard({ product, startEditingItem }: ProductCardProps) {
             <MyText style={[styles.price, { color: color.purple }]}>{product.price.toFixed(2)}</MyText>
             <MyText style={[styles.price, { color: color.purple, fontSize: 15 }]}>€/{product.uom}</MyText>
           </View>
+
+          <View>
+            <MyText style={[styles.name, { color: color.textLighter }]}>Quantità</MyText>
+            <View style={{ flexDirection: 'column', gap: 5, paddingHorizontal: 20 }}>
+              <QuantityField
+                label="In Magazzino"
+                quantity={productsInStock}
+              />
+              <QuantityField
+                label="Prenotata"
+                quantity={reservedProducts}
+              />
+              {/* <QuantityField
+                label="Prenotato"
+                quantity={product.reserved_quantity}
+              />
+              <QuantityField
+                label="Disponibile"
+                quantity={product.total_quantity - product.reserved_quantity}
+                colored={true}
+              /> */}
+            </View>
+          </View>
+          
         </View>
       </View>
     </Card>

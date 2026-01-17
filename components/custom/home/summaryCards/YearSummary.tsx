@@ -33,8 +33,8 @@ export default function WeekSummary() {
   );
 
   const data = [
-    { amount: salesAmount, color: color.green },
-    { amount: expensesAmount, color: color.red },
+    { amount: salesAmount, color: color.graphs.green },
+    { amount: expensesAmount, color: color.graphs.red },
   ];
 
   return (

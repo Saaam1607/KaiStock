@@ -25,23 +25,28 @@ export function FormCheck({ label, labelOnRight = false, input, oldInput, onInpu
   return (
     <View style={[
       { flexDirection: 'row', gap: 10 },
-      labelOnRight && { flexDirection: 'row-reverse' }
+      labelOnRight && { flexDirection: 'row-reverse' },
+      { justifyContent: 'flex-end'},
+
     ]}>
       <MyText style={[styles.label, { color: color.textLighter }]}>{label}</MyText>
-      <Pressable
-        onPress={() => onInputChange(!input)}
-        style={[
-          styles.box,
-          {
-            borderColor: color.inputBorderColor,
-            backgroundColor: input ? color.green : 'transparent',
-          },
-        ]}
-      >
-        {input && (
-          <Ionicons name="checkmark" size={22} color="white" />
-        )}
-      </Pressable>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+        <Pressable
+          onPress={() => onInputChange(!input)}
+          style={[
+            styles.box,
+            {
+              borderColor: color.inputBorderColor,
+              backgroundColor: input ? color.green : 'transparent',
+            },
+          ]}
+        >
+          {input && (
+            <Ionicons name="checkmark" size={22} color="white" />
+          )}
+        </Pressable>
+      </View>
+      
     </View>   
   );
 }
@@ -57,6 +62,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 4,
   },
 });

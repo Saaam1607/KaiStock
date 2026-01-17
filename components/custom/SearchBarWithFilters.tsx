@@ -1,9 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from 'react';
-import { TouchableHighlight, View, Text } from 'react-native';
+import { Pressable, View, Text } from 'react-native';
 
 import { useColor } from '@/hooks/use-color';
-
 import { SearchBar } from './SearchBar';
 
 type SearchBarWithFiltersProps = {
@@ -12,11 +11,15 @@ type SearchBarWithFiltersProps = {
   setText: (value: string) => void;
   showFilter: boolean;
   setShowFilter: (value: boolean) => void;
-  filtersComponent?: React.ReactNode;
 };
 
-export function SearchBarWithFilters({ placeholder, text, setText, showFilter, setShowFilter, filtersComponent }: SearchBarWithFiltersProps) {
-  
+export function SearchBarWithFilters({
+  placeholder,
+  text,
+  setText,
+  showFilter,
+  setShowFilter,
+}: SearchBarWithFiltersProps) {
   const color = useColor();
 
   return (
@@ -26,7 +29,6 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
           flexDirection: 'row',
           alignItems: 'center',
           gap: 8,
-          width: '100%',
         }}
       >
         <SearchBar
@@ -35,11 +37,11 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
           setText={setText}
           style={{ flex: 1 }}
         />
-        <TouchableHighlight
-          onPress={() => setShowFilter(!showFilter)}
-          underlayColor="transparent"
+
+        <Pressable
+          onPress={() => setShowFilter(true)}
           style={{
-            backgroundColor: showFilter ? color.green : color.searchBackground,
+            backgroundColor: color.searchBackground,
             width: 50,
             height: 50,
             borderRadius: 50,
@@ -47,23 +49,9 @@ export function SearchBarWithFilters({ placeholder, text, setText, showFilter, s
             alignItems: 'center',
           }}
         >
-          <View>
-            <Ionicons
-              name="filter"
-              size={25}
-              color={color.icon}
-            />
-          </View>
-        </TouchableHighlight>
+          <Ionicons name="filter" size={25} color={color.icon} />
+        </Pressable>
       </View>
-
-      {/* Filters View */}
-      {showFilter && (
-        <View>
-          {filtersComponent}
-        </View>
-      )}
-      
     </View>
   );
 }

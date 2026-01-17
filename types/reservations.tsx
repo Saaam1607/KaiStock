@@ -6,8 +6,8 @@ export const reservations: Reservation[] = [
     notes: 'bla bla bla bla bla',
     to: "Babbo",
     body: [
-      { product_id: '1', quantity: 10 },
-      { product_id: '2', quantity: 20 },
+      { product_id: '3', quantity: 10 },
+      { product_id: '4', quantity: 20 },
     ],
     date: new Date(),
   },
@@ -16,8 +16,8 @@ export const reservations: Reservation[] = [
     notes: 'bla bla bla bla bla',
     to: "Cuggino",
     body: [
-      { product_id: '1', quantity: 10 },
-      { product_id: '5', quantity: 20 },
+      { product_id: '1', quantity: 5 },
+      { product_id: '5', quantity: 2 },
     ],
     date: new Date(),
   },
@@ -27,7 +27,7 @@ export const reservations: Reservation[] = [
     to: "Cenone Natale",
     body: [
       { product_id: '3', quantity: 10 },
-      { product_id: '6', quantity: 20 },
+      { product_id: '6', quantity: 1 },
     ],
     date: new Date(),
   },

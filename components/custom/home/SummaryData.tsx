@@ -39,7 +39,7 @@ export default function SummaryData({ title, numberOfSoldProducts, expensesAmoun
             <MyText style={{ color: color.text, fontSize: 14 }} >
               Spese:
             </MyText>
-            <MyText style={{ color: color.red, fontWeight: '800', fontSize: 18 }} >
+            <MyText style={{ color: color.graphs.red, fontWeight: '800', fontSize: 18 }} >
               {" "}{expensesAmount} €
             </MyText>
           </View>
@@ -47,7 +47,7 @@ export default function SummaryData({ title, numberOfSoldProducts, expensesAmoun
             <MyText style={{ color: color.text, fontSize: 14 }} >
               Entrate
             </MyText>
-            <MyText style={{ color: color.green, fontWeight: '800', fontSize: 18 }} >
+            <MyText style={{ color: color.graphs.green, fontWeight: '800', fontSize: 18 }} >
               {" "}{salesAmount} €
             </MyText>
           </View>

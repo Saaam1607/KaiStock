@@ -18,6 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { SectionButtons } from '@/components/custom/home/SectionButtons';
 
+
 export default function HomeScreen() {
 
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function HomeScreen() {
       <BodyContainer>
         
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-          <MyText style={{ fontSize: 25, color: color.text }} >
+          <MyText style={{ fontSize: 25, color: color.text, paddingHorizontal: 10 }} >
             {today.getDate()}/{today.getMonth() + 1}/{today.getFullYear()}
           </MyText>
           <Ionicons name="settings-sharp" size={30} color={color.icon} />

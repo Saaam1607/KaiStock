@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -15,21 +15,25 @@ import { PageContainer } from '@/components/custom/containers/PageContainer';
 import { ExpenseCard } from '@/components/custom/expense/ExpenseCard';
 import { ExpenseEditModal } from '@/components/custom/expense/ExpenseEditModal';
 import { SearchBarWithFilters } from '@/components/custom/SearchBarWithFilters';
-import { ExpensesFilters } from '@/components/custom/expense/ExpenseFilters';
+import { ExpensesOrdering } from '@/components/custom/expense/ExpensesOrdering';
 
 import { getAllExpenses, editExpense, deleteExpense } from '@/components/api/expensesApi';
 
 import { useSnackbar } from '@/components/SnackbarProvider';
 import { useAlert } from '@/components/providers/AlertProvider';
 
+import { BottomSheet } from '@/components/custom/BottomSheet';
+
 export default function Expenses() {
   
   const { showSnackbar } = useSnackbar();
   const { showAlert } = useAlert();
 
-  const [expenses, setExpenses] = useState<Expense[]>(getAllExpenses());
-  const [sortKey, setSortKey] = useState<'title' | 'date' | 'price'>('date');
+  const [expenses, setExpenses] = useState<Expense[]>(getAllExpenses());  
   const [expense, setExpense] = useState<Expense>(expenses.find(item => item.id === editingItemId) ?? initExpense);
+
+  const [sortKey, setSortKey] = useState<string>('date');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [itemEditModalVisible, setItemEditModalVisible] = useState(false);
@@ -37,12 +41,18 @@ export default function Expenses() {
   const [searchText, setSearchText] = useState('');
   const [showFilter, setShowFilter] = useState(false);
 
-  const expensesToDisplay = React.useMemo(() => {
-    const sortedExpenses: Expense[] = getSortedExpensesToDisplay();
-    return sortedExpenses.filter(item =>
-      item.title.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }, [expenses, searchText, sortKey]);
+  const [expensesToDisplay, setExpensesToDisplay] = useState<Expense[]>([]);
+
+  useEffect(() => {
+    if (!showFilter) {
+      setExpensesToDisplay(() => {
+        const sortedExpenses = getSortedExpensesToDisplay();
+        return sortedExpenses.filter(item =>
+          item.title.toLowerCase().includes(searchText.toLowerCase())
+        );
+      });
+    }
+  }, [expenses, searchText, showFilter]);
 
   useFocusEffect(
     useCallback(() => {
@@ -55,14 +65,21 @@ export default function Expenses() {
     let sortedExpenses = [...expenses];
     switch (sortKey) {
       case 'date':
-        return sortedExpenses.sort((a, b) => a.date.getTime() - b.date.getTime());
+        sortedExpenses.sort((a, b) => a.date.getTime() - b.date.getTime());
+        break;
       case 'title':
-        return sortedExpenses.sort((a: Expense, b: Expense) => a.title.localeCompare(b.title));
+        sortedExpenses.sort((a: Expense, b: Expense) => a.title.localeCompare(b.title));
+        break;
       case 'price':
-        return sortedExpenses.sort((a: Expense, b: Expense) => a.price - b.price);
+        sortedExpenses.sort((a: Expense, b: Expense) => a.price - b.price);
+        break;
       default:
-        return sortedExpenses;
+        break;
     }
+    if (sortOrder === 'desc') {
+      sortedExpenses.reverse();
+    }
+    return sortedExpenses;
   }
 
   function startEditingItem(itemId: string) {
@@ -135,7 +152,6 @@ export default function Expenses() {
           setText={setSearchText}
           showFilter={showFilter}
           setShowFilter={setShowFilter}
-          filtersComponent={<ExpensesFilters sortKey={sortKey} setSortKey={setSortKey} />}
         />
         <LazyContainer>
           <FlatList
@@ -151,8 +167,14 @@ export default function Expenses() {
             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           />
         </LazyContainer>
-
       </BodyContainer>
+
+      <BottomSheet
+        visible={showFilter}
+        onClose={() => setShowFilter(false)}
+        orderingComponent={<ExpensesOrdering sortKey={sortKey} setSortKey={setSortKey} sortOrder={sortOrder} setSortOrder={setSortOrder} />}
+        filteringComponent={null}
+      />
 
     </PageContainer>
   );

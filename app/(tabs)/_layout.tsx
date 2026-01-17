@@ -25,6 +25,7 @@ export default function TabsLayout() {
       <StatusBar style="light" />
       <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
         <MaterialTopTabs
+          initialRouteName="home"
           tabBarPosition='bottom'
           screenOptions={{
             tabBarIndicatorStyle: { backgroundColor: '#454545' },

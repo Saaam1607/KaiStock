@@ -41,6 +41,15 @@ export const Colors = {
     inputChangedBorderColor: '#beba96ff',
     cardItem: '#e0e0e0ff',
     cardItemDark: '#2f2f2fff',
+    graphs: {
+      red: '#ff6666ff',
+      green: '#66ff66ff',
+    },
+    edit: {
+      green: 'rgb(64, 167, 64)',
+      orange: 'rgb(221, 165, 54)',
+      red: 'rgb(160, 58, 58)',
+    }
   },
   dark: {
     // backGroundGradient: ['#222222', '#1E1E1E', '#181818'],
@@ -69,6 +78,15 @@ export const Colors = {
     inputChangedBorderColor: '#8a7b69ff',
     cardItem: '#313131ff',
     cardItemDark: '#242424ff',
+    graphs: {
+      red: 'rgb(160, 58, 58)',
+      green: 'rgb(64, 167, 64)',
+    },
+    edit: {
+      green: 'rgb(0, 0, 0)',
+      orange: 'rgb(147, 127, 88)',
+      red: 'rgb(114, 44, 44)',
+    }
   },
 };
 

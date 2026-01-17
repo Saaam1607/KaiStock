@@ -127,24 +127,22 @@ function addQuantity(delta = 1) {
 
   return (
     <View style={containerStyles.quantityButtons}>
-      <View style={[containerStyles.iconButtonView, { borderColor: color.inputBorderColor }]}>
-        <Pressable
-          style={containerStyles.iconButtonPressable}
-          onPressIn={startRemoving}
-          onPressOut={stopAll}
-          onTouchCancel={stopAll}
-        >
-          <Animated.View style={{ transform: [{ scale: minusScale }] }}>
-            <Ionicons
-              name="remove-sharp"
-              size={defaultIconSize}
-              color={color.red}
-            />
-          </Animated.View>
-        </Pressable>
-      </View>
+      <Pressable
+        style={[containerStyles.iconButtonView, containerStyles.iconButtonPressable, { borderColor: color.inputBorderColor }]}
+        onPressIn={startRemoving}
+        onPressOut={stopAll}
+        onTouchCancel={stopAll}
+      >
+        <Animated.View style={{ transform: [{ scale: minusScale }] }}>
+          <Ionicons
+            name="remove-sharp"
+            size={defaultIconSize}
+            color={color.red}
+          />
+        </Animated.View>
+      </Pressable>
 
-      <View style={containerStyles.quantity}>
+      <View style={[containerStyles.quantity, { borderColor: color.inputBorderColor, borderWidth: 1 }]}>
         <MyTextInput
           style={[
             styles.input,
@@ -161,22 +159,20 @@ function addQuantity(delta = 1) {
       />
       </View>
 
-      <View style={[containerStyles.iconButtonView, { borderColor: color.inputBorderColor }]}>
-        <Pressable
-          style={containerStyles.iconButtonPressable}
-          onPressIn={startAdding}
-          onPressOut={stopAll}
-          onTouchCancel={stopAll}
-        >
-          <Animated.View style={{ transform: [{ scale: plusScale }] }}>
-            <Ionicons
-              name="add-sharp"
-              size={defaultIconSize}
-              color={color.green}
-            />
-          </Animated.View>
-        </Pressable>
-      </View>
+      <Pressable
+        style={[containerStyles.iconButtonView, containerStyles.iconButtonPressable, { borderColor: color.inputBorderColor }]}
+        onPressIn={startAdding}
+        onPressOut={stopAll}
+        onTouchCancel={stopAll}
+      >
+        <Animated.View style={{ transform: [{ scale: plusScale }] }}>
+          <Ionicons
+            name="add-sharp"
+            size={defaultIconSize}
+            color={color.green}
+          />
+        </Animated.View>
+      </Pressable>
     </View>
   );
 }
@@ -185,6 +181,7 @@ const containerStyles = StyleSheet.create({
   quantityButtons: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 5,
     // justifyContent: 'space-between',
   },
   iconButtonView: {
@@ -201,6 +198,7 @@ const containerStyles = StyleSheet.create({
     // width: 60,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 8,
   }
 });
 

@@ -28,8 +28,6 @@ export default function WeekSummary() {
   const salesAmount = computeSalesAmount(sales);
   const expensesAmount = computeExpensesAmount(expenses);
 
-  const { width } = useWindowDimensions();
-  
   const numberOfSoldProducts = sales.reduce(
     (total, sale) =>
       total +
@@ -38,8 +36,8 @@ export default function WeekSummary() {
   );
 
   const data = [
-    { amount: salesAmount, color: color.green },
-    { amount: expensesAmount, color: color.red },
+    { amount: salesAmount, color: color.graphs.green },
+    { amount: expensesAmount, color: color.graphs.red },
   ];
 
   return (
