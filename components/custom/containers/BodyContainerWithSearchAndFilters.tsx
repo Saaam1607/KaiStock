@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { BodyContainer } from './BodyContainer';
 import { SearchBarWithFilters } from '../searching/SearchBarWithFilters';
 import { BottomSheet } from '../BottomSheet';
-import { ExpensesOrdering } from '../expense/ExpensesOrdering';
 
 type BodyContainerWithSearchAndFiltersProps<T> = {
   items: T[];

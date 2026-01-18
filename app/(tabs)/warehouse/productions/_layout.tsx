@@ -1,9 +1,6 @@
 import { useRouter } from 'expo-router';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HeaderBtn from '@/components/custom/header/HeaderBtn';
-import HeaderBtnWithText from '@/components/custom/header/HeaderBtnWithText';
-
 import Productions from './index';
 import NewProduction from './newProduction';
 import Header from '@/components/custom/header/Header';

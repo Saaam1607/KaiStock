@@ -22,7 +22,6 @@ import { useCrudActions } from "@/hooks/useCrudActions";
 
 import { ExpensesOrdering } from "@/components/custom/expense/ExpensesOrdering";
 
-
 export default function Expenses() {
   
   const [expenses, setExpenses] = useState<Expense[]>(getAllExpenses());

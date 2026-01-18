@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { FlatList, Pressable, StyleSheet, View } from "react-native";
+import { FlatList, Pressable, View } from "react-native";
 import MyText from "../generic/MyText";
 
 import { useColor } from "@/hooks/use-color";
@@ -15,17 +15,14 @@ import { getAllProducts } from "@/components/api/productsApi";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-type ProductionAddProductModalProps = {
+type AddProductModalProps = {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
   onSave: (selectedId: string) => void;
 };
 
-export function ProductionAddProductModal({
-  modalVisible,
-  setModalVisible,
-  onSave,
-}: ProductionAddProductModalProps) {
+export default function AddProductModal({ modalVisible, setModalVisible, onSave }: AddProductModalProps) {
+  
   const color = useColor();
 
   const products = getAllProducts();
@@ -56,7 +53,7 @@ export function ProductionAddProductModal({
       modalTitle="Aggiungi articolo"
       onNotOk={() => setModalVisible(false)}
     >
-      <View style={styles.bodyContainer}>
+      <View style={{ gap: 20, flex: 1 }}>
         <SearchBar
           placeholder="Cerca prodotto..."
           text={searchText}
@@ -118,10 +115,3 @@ export function ProductionAddProductModal({
     </ItemModal>
   );
 }
-
-const styles = StyleSheet.create({
-  bodyContainer: {
-    gap: 20,
-    flex: 1,
-  },
-});

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import MyText from '../generic/MyText';
 
 import { LazyContainer } from '../containers/LazyContainer';
@@ -11,10 +11,9 @@ import { useColor } from '@/hooks/use-color';
 
 import { Card, CardDate, CardDescription, CardTitle, CardPerson } from '@/components/custom/containers/Card';
 
-import SaleTable from '@/components/custom/sale/SaleTable';
-
 import { getProductFromId } from '@/components/api/productsApi';
 
+import SimpleCard from '../cards/SimpleCard';
 
 type SaleTableRow = SoldProduct & {
   name: string;
@@ -23,11 +22,22 @@ type SaleTableRow = SoldProduct & {
 
 type SaleCardProps = {
   sale: Sale;
+  startEditingItem: (itemName: string) => void;
+  deleteItem?: (itemLabel: string, itemId: string) => void;
 };
 
-export default function SaleCard({ sale }: SaleCardProps) {
+export default function SaleCard({ sale, startEditingItem, deleteItem }: SaleCardProps) {
   
   const color = useColor();
+
+  function handleEdit() {
+    startEditingItem(sale.id);
+  }
+
+  function handleDelete() {
+    if (deleteItem) deleteItem(sale.title, sale.id);
+  }
+
   const [tableData, setTableData] = useState<SaleTableRow[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -46,7 +56,12 @@ export default function SaleCard({ sale }: SaleCardProps) {
   }, [tableData]);
 
   return (
-    <Card>
+    <Card
+      isEditable={true}
+      editAction={handleEdit}
+      isDeletable={true}
+      deleteAction={handleDelete}
+    >
       <CardTitle value={sale.title} />
       <CardDescription value={sale.notes} />
       <CardPerson value={sale.to} />
@@ -55,18 +70,20 @@ export default function SaleCard({ sale }: SaleCardProps) {
         <LazyContainer>
           <FlatList
             data={tableData}
-            keyExtractor={(item) => String(item.product_id + item.weight + item.unit_price)} // to fix
+            keyExtractor={(item) => item.id}
             style={{ gap: 4 }}
             renderItem={({ item }) => (
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 8, backgroundColor: color.cardBackground, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 }}>
-                <View>
-                  <MyText style={{ fontWeight: 'bold', color: color.text }}>{item.name}</MyText>
-                  <MyText style={{ color: color.textLighter }}>Quantità: {item.quantity}</MyText>
-                  <MyText style={{ color: color.textLighter }}>Prezzo unitario: {item.unit_price} €</MyText>
-                  <MyText style={{ color: color.textLighter }}>Peso: {item.weight} {item.uom}</MyText>
+              <SimpleCard>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <View>
+                    <MyText style={{ fontWeight: 'bold', color: color.text }}>{item.name}</MyText>
+                    <MyText style={{ color: color.textLighter }}>Peso: {item.weight} {item.uom}</MyText>
+                    <MyText style={{ color: color.textLighter }}>Prezzo unitario: {item.unit_price} €</MyText>
+                    <MyText style={{ color: color.textLighter }}>Quantità: {item.quantity}</MyText>
+                  </View>
+                  <MyText style={{ fontWeight: 'bold', color: color.text }}>{item.totalPrice} €</MyText>
                 </View>
-                <MyText style={{ fontWeight: 'bold', color: color.text }}>{item.totalPrice} €</MyText>
-              </View>
+              </SimpleCard>
             )}
           />
         </LazyContainer>

@@ -16,7 +16,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useColor } from '@/hooks/use-color';
 import { useAlert } from '@/components/providers/AlertProvider';
 
-type ProductionItemCardProps = {
+type QuantityWeightCardProps = {
   product: Product;
   itemId: string; 
 	remove: (id: string) => void;
@@ -25,9 +25,10 @@ type ProductionItemCardProps = {
 	setQuantity: (quantity: number) => void;
   weight: number;
   setWeight: (weight: number) => void;
+  children?: React.ReactNode
 };
 
-export function ProductionItemCard({ product, itemId, remove, clone, quantity, setQuantity, weight, setWeight }: ProductionItemCardProps) {
+export default function QuantityWeightCard({ product, itemId, remove, clone, quantity, setQuantity, weight, setWeight, children }: QuantityWeightCardProps) {
 
   const color = useColor();
   const { showAlert } = useAlert();
@@ -35,7 +36,7 @@ export function ProductionItemCard({ product, itemId, remove, clone, quantity, s
   function handleDelete() {
     showAlert({
       title: 'Conferma eliminazione',
-      message: `Sei sicuro di voler eliminare ${product.name} dalla produzione?`,
+      message: `Sei sicuro di voler rimuovere ${product.name}?`,
       okText: 'Elimina',
       notOkText: 'Annulla',
       onOk: () => remove(itemId),
@@ -89,6 +90,8 @@ export function ProductionItemCard({ product, itemId, remove, clone, quantity, s
               setQuantity={setQuantity}
             />
           </View>
+
+          {children}
           
         </View>
 

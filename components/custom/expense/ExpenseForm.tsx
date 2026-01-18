@@ -9,14 +9,14 @@ import { FormItemDate } from '../form/FromItemDate';
 
 import { useColor } from '@/hooks/use-color';
 
-type ProductFormProps = {
+type ExpenseFormProps = {
   item: Expense;
   setItem: (item: Expense) => void;
   showMandatoryBorders?: boolean;
   oldItem?: Expense | null;
 };
 
-export default function ProductForm({ item: expense, setItem: setExpense, showMandatoryBorders = false, oldItem: oldExpense }: ProductFormProps) {
+export default function ExpenseForm({ item: expense, setItem: setExpense, showMandatoryBorders = false, oldItem: oldExpense }: ExpenseFormProps) {
   
   const color = useColor();
 

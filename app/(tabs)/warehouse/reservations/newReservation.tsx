@@ -14,7 +14,8 @@ import { initReservation, Reservation } from '@/types/Reservation';
 
 import { MyAlert } from '@/components/custom/MyAlert';
 
-import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
+import AddProductModal from '@/components/custom/modals/AddProductModal';
+
 import { ReservationForm } from '@/components/custom/reservation/ReservationForm';
 
 import { useSnackbar } from '@/components/SnackbarProvider';
@@ -101,7 +102,7 @@ export default function NewReservation() {
     
       {/* Modal */}
       <ModalContainer visible={showAddProductModal}>
-        <ProductionAddProductModal
+        <AddProductModal
           modalVisible={showAddProductModal}
           setModalVisible={setShowAddProductModal}
           selectedIds={soldProductItems.map(item => item.product_id)}

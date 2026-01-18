@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { useNavigation } from 'expo-router';
+import { useNavigation } from "expo-router";
 
-import { BodyContainer } from '@/components/custom/containers/BodyContainer';
-import { ModalContainer } from '@/components/custom/containers/ModalContainer';
-import { PageContainer } from '@/components/custom/containers/PageContainer';
+import { BodyContainer } from "@/components/custom/containers/BodyContainer";
+import { ModalContainer } from "@/components/custom/containers/ModalContainer";
+import { PageContainer } from "@/components/custom/containers/PageContainer";
 
-import type { Production } from '@/types/Production';
-import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
+import type { Production } from "@/types/Production";
 
-import { initProduction } from '@/types/Production';
+import { initProduction } from "@/types/Production";
 
-import { MyAlert } from '@/components/custom/MyAlert';
+import { MyAlert } from "@/components/custom/MyAlert";
 
-import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
-import { ProductionForm } from '@/components/custom/produce/ProductionForm';
+import AddProductModal from "@/components/custom/modals/AddProductModal";
 
-import { useSnackbar } from '@/components/SnackbarProvider';
-import { Keyboard } from 'react-native';
-import { useProtectedAction } from '@/hooks/useProtectedAction';
-import { useNewItemHeader } from '@/hooks/useNewItemHeader';
+import { ProductionForm } from "@/components/custom/production/ProductionForm";
 
-import uuid from 'react-native-uuid';
+import { useSnackbar } from "@/components/SnackbarProvider";
+import { useNewItemHeader } from "@/hooks/useNewItemHeader";
+import { useProtectedAction } from "@/hooks/useProtectedAction";
+import { Keyboard } from "react-native";
+
+import uuid from "react-native-uuid";
+import { LazyContainer } from "@/components/custom/containers/LazyContainer";
 
 export default function NewProduction() {
-  
   const navigation = useNavigation();
-  
+
   const { showSnackbar } = useSnackbar();
 
   const [newProduction, setNewProduction] = useState<Production>(initProduction);
-  // const [productionItems, setProductionItems] = useState<ProductQuantityItem[]>([]);
 
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
@@ -41,12 +40,12 @@ export default function NewProduction() {
     Keyboard.dismiss();
     if (!checkProductionValidity()) {
       setShowMandatoryBorders(true);
-      showSnackbar('I campi evidenziati sono obbligatori');
+      showSnackbar("I campi evidenziati sono obbligatori");
     } else {
       setShowMandatoryBorders(false);
       setNewProduction(initProduction);
-      showSnackbar('Nuova produzione creata');
-      navigation.goBack()
+      showSnackbar("Nuova produzione creata");
+      navigation.goBack();
     }
   });
 
@@ -55,30 +54,32 @@ export default function NewProduction() {
       setShowDiscardChangesModal(true);
       return;
     }
-    navigation.goBack()
+    navigation.goBack();
   });
 
   useNewItemHeader({
     navigation,
-    title: 'Nuova produzione',
+    title: "Nuova produzione",
     onSave: handleSave,
     onBack: handleBack,
   });
 
-
   function handleItemAdd(selectedId: string) {
-    setNewProduction(prev => ({
-      ...prev,
-      body: [
-        ...prev.body,
-        {
-          id: uuid.v4().toString(),
-          product_id: selectedId,
-          quantity: 0,
-          weight: 0,
-        }
-      ]
-    }));
+    setNewProduction((prev) => {
+      return {
+        ...prev,
+        id: prev.id || uuid.v4().toString(),
+        body: [
+          ...prev.body,
+          {
+            id: uuid.v4().toString(),
+            product_id: selectedId,
+            quantity: 0,
+            weight: 0,
+          },
+        ],
+      };
+    });
   }
 
   function checkProductionValidity(): boolean {
@@ -88,15 +89,14 @@ export default function NewProduction() {
   function backAndReset() {
     setNewProduction(initProduction);
     setShowDiscardChangesModal(false);
-    navigation.goBack()
+    navigation.goBack();
   }
 
   return (
     <PageContainer>
 
-      {/* Modal */}
       <ModalContainer visible={showAddProductModal}>
-        <ProductionAddProductModal
+        <AddProductModal
           modalVisible={showAddProductModal}
           setModalVisible={setShowAddProductModal}
           onSave={handleItemAdd}
@@ -115,15 +115,15 @@ export default function NewProduction() {
         />
       </ModalContainer>
 
-      {/* Body */}
       <BodyContainer>
-        <ProductionForm
-          production={newProduction}
-          setProduction={setNewProduction}
-          setShowAddProductModal={setShowAddProductModal}
-        />
+        <LazyContainer>
+          <ProductionForm
+            item={newProduction}
+            setItem={setNewProduction}
+          />
+        </LazyContainer>
       </BodyContainer>
 
     </PageContainer>
-  )
+  );
 }

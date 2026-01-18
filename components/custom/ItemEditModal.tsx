@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 import { ModalContainer } from "./containers/ModalContainer";
 
 import { ItemModal } from "./ItemModal";
 
 type ItemEditModalProps<T> = {
-  item: T | null;
+  item: T;
   formComponent: React.ComponentType<{
     item: T,
-    setItem: React.Dispatch<React.SetStateAction<T | null>>,
+    setItem: React.Dispatch<React.SetStateAction<T>>,
     oldItem: T | null,
   }>;
   onSave: (item: T) => void;
@@ -19,8 +19,8 @@ type ItemEditModalProps<T> = {
 
 export function ItemEditModal<T>({ item, formComponent: FormComponent, onSave, onClose }: ItemEditModalProps<T>) {
   
-  const [editedItem, setEditedItem] = useState<T | null>(item);
-  const [oldItem, setOldItem] = useState<T | null>(item);
+  const [editedItem, setEditedItem] = useState<T>(item);
+  const [oldItem, setOldItem] = useState<T>(item);
 
   const [visible, setVisible] = useState(false);
 

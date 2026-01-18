@@ -1,76 +1,95 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
+
+import { useFocusEffect } from "@react-navigation/native";
 
 import { BodyContainer } from "@/components/custom/containers/BodyContainer";
 import { LazyContainer } from "@/components/custom/containers/LazyContainer";
 import { ModalContainer } from "@/components/custom/containers/ModalContainer";
 import { PageContainer } from "@/components/custom/containers/PageContainer";
 
-import { SearchBarWithFilters } from "@/components/custom/searching/SearchBarWithFilters";
+import { SaleForm } from "@/components/custom/sale/SaleForm";
+
+import { getSortedItemsToDisplay } from "@/components/custom/sale/salesSort";
+
 import { FlatList } from "react-native";
 
-import { getAllSales } from "@/components/api/salesApi";
+import { getAllSales, deleteSale, editSale } from "@/components/api/salesApi";
+
+import type { Sale } from "@/types/Sale";
 
 import SaleCard from "@/components/custom/sale/SaleCard";
+import { useCrudActions } from "@/hooks/useCrudActions";
+import { ItemEditModal } from "@/components/custom/ItemEditModal";
+import { BodyContainerWithSearchAndFilters } from "@/components/custom/containers/BodyContainerWithSearchAndFilters";
 
+import { SalesOrdering } from "@/components/custom/sale/SalesOrdering";
 
 export default function Sales() {
-  const sales = getAllSales();
 
-  const [searchText, setSearchText] = useState("");
-  const [showFilter, setShowFilter] = useState(false);
+  const [sales, setSales] = useState<Sale[]>(getAllSales());
+  const [salesToDisplay, setSalesToDisplay] = useState<Sale[]>(sales);
 
-  const [reservationsToDisplay, setSalesToDisplay] = useState(sales);
+  const [saleToEdit, setSaleToEdit] = useState<Sale | null>(null);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setSalesToDisplay(
-        sales.filter((item) =>
-          item.title.toLowerCase().includes(searchText.toLowerCase()),
-        ),
-      );
-    }, 250);
-  }, [searchText]);
+  const { updateItem, deleteItemWithConfirm } = useCrudActions<Sale>({
+    setItems: setSales,
+    updateApi: editSale,
+    deleteApi: deleteSale,
+    messages: {
+      updateSuccess: "Vendita modificata",
+      deleteSuccess: "Vendita eliminata",
+      error: "Si è verificato un errore",
+      deleteConfirm: (label) => `Sei sicuro di voler eliminare la vendita "${label}"?`,
+    },
+  });
 
-  // const { protectedAction: saveSale } = useProtectedAction(async () => {
-  //   Keyboard.dismiss();
-  //   if (!checkProducValidity()) {
-  //     setShowMandatoryBorders(true);
-  //     showSnackbar('I campi evidenziati sono obbligatori');
-  //   } else {
-  //     setShowMandatoryBorders(false);
-  //     setNewSale(initSale);
-  //     showSnackbar('Nuova vendita creata');
-  //     navigation.goBack()
-  //   }
-  // });
-
+  useFocusEffect(
+    useCallback(() => {
+      const all = getAllSales();
+      setSales([...all]);
+    }, []),
+  );
+      
   return (
     <PageContainer>
-      {/* Modal */}
-      <ModalContainer visible={false}>
-        <></>
-      </ModalContainer>
 
-      {/* Body */}
-      <BodyContainer>
-        <SearchBarWithFilters
-          placeholder="Cerca vendita..."
-          text={searchText}
-          setText={setSearchText}
-          showFilter={showFilter}
-          setShowFilter={setShowFilter}
+      {saleToEdit && (
+        <ItemEditModal<Sale>
+          item={saleToEdit}
+          formComponent={SaleForm}
+          onSave={(updatedSale) => {
+            updateItem(updatedSale);
+            setSaleToEdit(null);
+          }}
+          onClose={() => setSaleToEdit(null)}
         />
+      )}
+
+      <BodyContainerWithSearchAndFilters<Sale>
+        items={sales}
+        setItemsToDisplay={setSalesToDisplay}
+        getSortedItems={getSortedItemsToDisplay}
+        searchingField="title"
+        orderingComponent={SalesOrdering}
+      >
         <LazyContainer>
           <FlatList
-            data={reservationsToDisplay}
+            data={salesToDisplay}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <SaleCard sale={item} />}
+            renderItem={({ item }) => (
+              <SaleCard
+                sale={item}
+                startEditingItem={() => setSaleToEdit(item)}
+                deleteItem={deleteItemWithConfirm}
+              />
+            )}
             contentContainerStyle={{
               gap: 10,
             }}
           />
         </LazyContainer>
-      </BodyContainer>
+      </BodyContainerWithSearchAndFilters>
+
     </PageContainer>
   );
 }

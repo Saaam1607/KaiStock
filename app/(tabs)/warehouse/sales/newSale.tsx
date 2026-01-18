@@ -1,39 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { useNavigation } from 'expo-router';
+import { useNavigation } from "expo-router";
 
-import { Keyboard } from 'react-native';
+import { Keyboard } from "react-native";
 
-import { BodyContainer } from '@/components/custom/containers/BodyContainer';
-import { ModalContainer } from '@/components/custom/containers/ModalContainer';
-import { PageContainer } from '@/components/custom/containers/PageContainer';
+import { BodyContainer } from "@/components/custom/containers/BodyContainer";
+import { ModalContainer } from "@/components/custom/containers/ModalContainer";
+import { PageContainer } from "@/components/custom/containers/PageContainer";
 
-import type { Product } from '@/types/Product';
-import type { SoldProduct } from '@/types/SoldProduct';
 
-import { initSale, Sale } from '@/types/Sale';
+import { initSale, Sale } from "@/types/Sale";
 
-import { MyAlert } from '@/components/custom/MyAlert';
+import { MyAlert } from "@/components/custom/MyAlert";
 
-// import { ProductionAddProductModal } from '@/components/custom/produce/ProductionAddProductModal';
-import { AddSoldItemModal } from '@/components/custom/sale/AddSoldItemModal';
-import { SaleForm } from '@/components/custom/sale/SaleForm';
+import { SaleForm } from "@/components/custom/sale/SaleForm";
 
-import { useSnackbar } from '@/components/SnackbarProvider';
+import { useSnackbar } from "@/components/SnackbarProvider";
 
-import { getProductFromId } from '@/components/api/productsApi';
+import { getProductFromId } from "@/components/api/productsApi";
 
-import { useProtectedAction } from '@/hooks/useProtectedAction';
-import { useNewItemHeader } from '@/hooks/useNewItemHeader';
+import { useNewItemHeader } from "@/hooks/useNewItemHeader";
+import { useProtectedAction } from "@/hooks/useProtectedAction";
+
+import { LazyContainer } from "@/components/custom/containers/LazyContainer";
+import AddProductModal from "@/components/custom/modals/AddProductModal";
+import uuid from "react-native-uuid";
 
 export default function NewSale() {
-  
   const navigation = useNavigation();
-  
+
   const { showSnackbar } = useSnackbar();
 
   const [newSale, setNewSale] = useState<Sale>(initSale);
-  const [soldProductItems, setSoldProductItems] = useState<SoldProduct[]>([]);
 
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
@@ -42,95 +40,72 @@ export default function NewSale() {
 
   const { protectedAction: handleSave } = useProtectedAction(async () => {
     Keyboard.dismiss();
-    if (!checkProducValidity()) {
+    if (!checkSaleValidity()) {
       setShowMandatoryBorders(true);
-      showSnackbar('I campi evidenziati sono obbligatori');
+      showSnackbar("I campi evidenziati sono obbligatori");
     } else {
       setShowMandatoryBorders(false);
       setNewSale(initSale);
-      showSnackbar('Nuova vendita creata');
-      navigation.goBack()
+      showSnackbar("Nuova vendita creata");
+      navigation.goBack();
     }
   });
 
   const { protectedAction: handleBack } = useProtectedAction(async () => {
-    if (newSale !== initSale || soldProductItems.length > 0) {
+    if (newSale !== initSale) {
       setShowDiscardChangesModal(true);
       return;
     }
-    navigation.goBack()
+    navigation.goBack();
   });
 
   useNewItemHeader({
     navigation,
-    title: 'Nuova vendita',
+    title: "Nuova vendita",
     onSave: handleSave,
     onBack: handleBack,
   });
 
-  function handleItemAdd(selectedIds: string[]) {
-    showSnackbar('Articoli aggiunti');
-    
-    selectedIds.map(id => {
-      if (!soldProductItems.find(item => item.product_id === id)) {
-        const product = getProductFromId(id);
-        if (product) {
-          setSoldProductItems(prev => [...prev, { product_id: id, quantity: 0, unit_price: product.price, uom: product.uom, weight: 0 }]);
-        }
-      }
-    });
+  function handleItemAdd(selectedId: string) {
+    const product = getProductFromId(selectedId);
+    if (!product) return;
 
-    soldProductItems.map(item => {
-      if (!selectedIds.includes(item.product_id)) {
-        setSoldProductItems(prev => prev.filter(i => i.product_id !== item.product_id));
-      }
+    setNewSale((prev) => {
+      return {
+        ...prev,
+        id: prev.id || uuid.v4().toString(),
+        body: [
+          ...prev.body,
+          {
+            id: uuid.v4().toString(),
+            product_id: selectedId,
+            quantity: 0,
+            weight: 0,
+            unit_price: product.price,
+            uom: product.uom,
+          },
+        ],
+      };
     });
+  }
+
+  function checkSaleValidity(): boolean {
+    if (newSale.to === "") return false;
+    return true;
   }
 
   function backAndReset() {
     setNewSale(initSale);
-    setSoldProductItems([]);
     setShowDiscardChangesModal(false);
-    navigation.goBack()
-  }
-
-  function checkProducValidity(): boolean {
-    if (newSale.to === '') return false;
-    return true;
-  }
-
-  function handleBodyItemSubmit(product: Product, weight: number, quantity: number) {
-
-    const newSoldProduct: SoldProduct = {
-      product_id: product.id,
-      quantity,
-      unit_price: product.price,
-      uom: product.uom,
-      weight,
-    };
-
-    const existingSoldProductItem = soldProductItems.find(item => item.product_id === product.id && item.weight === weight);
-    if (existingSoldProductItem) {  
-      const updatedQuantity = existingSoldProductItem.quantity + quantity;
-      setSoldProductItems(prev => prev.map(item => item.product_id === product.id && item.weight === weight ? { ...item, quantity: updatedQuantity } : item));
-      showSnackbar(`${product.name} da ${weight} aggiornato`);
-      return;
-    }
-
-    setSoldProductItems(prev => [...prev, newSoldProduct]);
-    setShowAddProductModal(false);
+    navigation.goBack();
   }
 
   return (
     <PageContainer>
-    
-      {/* Modal */}
       <ModalContainer visible={showAddProductModal}>
-        <AddSoldItemModal
+        <AddProductModal
           modalVisible={showAddProductModal}
           setModalVisible={setShowAddProductModal}
-          handleSubmit={handleBodyItemSubmit}
-          selectedIds={soldProductItems.map(item => item.product_id)}
           onSave={handleItemAdd}
         />
       </ModalContainer>
@@ -147,18 +122,15 @@ export default function NewSale() {
         />
       </ModalContainer>
 
-      {/* Body */}
       <BodyContainer>
-        <SaleForm
-          sale={newSale}
-          setSale={setNewSale}
-          soldProductItems={soldProductItems}
-          setSoldProductItems={setSoldProductItems}
-          setShowAddProductModal={setShowAddProductModal}
-          showMandatoryBorders={showMandatoryBorders}
-        />
+        <LazyContainer>
+          <SaleForm
+            item={newSale}
+            setItem={setNewSale}
+            showMandatoryBorders={showMandatoryBorders}
+          />
+        </LazyContainer>
       </BodyContainer>
-    
     </PageContainer>
-  )
+  );
 }

@@ -25,9 +25,7 @@ export function FormCheck({ label, labelOnRight = false, input, oldInput, onInpu
   return (
     <View style={[
       { flexDirection: 'row', gap: 10 },
-      labelOnRight && { flexDirection: 'row-reverse' },
-      { justifyContent: 'flex-end'},
-
+      labelOnRight && { flexDirection: 'row-reverse', justifyContent: 'flex-end' },
     ]}>
       <MyText style={[styles.label, { color: color.textLighter }]}>{label}</MyText>
       <View style={{ justifyContent: 'center', alignItems: 'center' }} >
