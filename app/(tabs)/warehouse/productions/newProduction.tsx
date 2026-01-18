@@ -21,6 +21,8 @@ import { Keyboard } from 'react-native';
 import { useProtectedAction } from '@/hooks/useProtectedAction';
 import { useNewItemHeader } from '@/hooks/useNewItemHeader';
 
+import uuid from 'react-native-uuid';
+
 export default function NewProduction() {
   
   const navigation = useNavigation();
@@ -28,7 +30,7 @@ export default function NewProduction() {
   const { showSnackbar } = useSnackbar();
 
   const [newProduction, setNewProduction] = useState<Production>(initProduction);
-  const [productionItems, setProductionItems] = useState<ProductQuantityItem[]>([]);
+  // const [productionItems, setProductionItems] = useState<ProductQuantityItem[]>([]);
 
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
@@ -43,14 +45,13 @@ export default function NewProduction() {
     } else {
       setShowMandatoryBorders(false);
       setNewProduction(initProduction);
-      setProductionItems([]);
       showSnackbar('Nuova produzione creata');
       navigation.goBack()
     }
   });
 
   const { protectedAction: handleBack } = useProtectedAction(async () => {
-    if (newProduction !== initProduction || productionItems.length > 0) {
+    if (newProduction !== initProduction) {
       setShowDiscardChangesModal(true);
       return;
     }
@@ -64,20 +65,20 @@ export default function NewProduction() {
     onBack: handleBack,
   });
 
-  function handleItemAdd(selectedIds: string[]) {
-    showSnackbar('Articoli aggiunti');
-    
-    selectedIds.map(id => {
-      if (!productionItems.find(item => item.product_id === id)) {
-        setProductionItems(prev => [...prev, { product_id: id, quantity: 0 }]);
-      }
-    });
 
-    productionItems.map(item => {
-      if (!selectedIds.includes(item.product_id)) {
-        setProductionItems(prev => prev.filter(i => i.product_id !== item.product_id));
-      }
-    });
+  function handleItemAdd(selectedId: string) {
+    setNewProduction(prev => ({
+      ...prev,
+      body: [
+        ...prev.body,
+        {
+          id: uuid.v4().toString(),
+          product_id: selectedId,
+          quantity: 0,
+          weight: 0,
+        }
+      ]
+    }));
   }
 
   function checkProductionValidity(): boolean {
@@ -86,7 +87,6 @@ export default function NewProduction() {
 
   function backAndReset() {
     setNewProduction(initProduction);
-    setProductionItems([]);
     setShowDiscardChangesModal(false);
     navigation.goBack()
   }
@@ -99,7 +99,6 @@ export default function NewProduction() {
         <ProductionAddProductModal
           modalVisible={showAddProductModal}
           setModalVisible={setShowAddProductModal}
-          selectedIds={productionItems.map(item => item.product_id)}
           onSave={handleItemAdd}
         />
       </ModalContainer>
@@ -121,8 +120,6 @@ export default function NewProduction() {
         <ProductionForm
           production={newProduction}
           setProduction={setNewProduction}
-          productionItems={productionItems}
-          setProductionItems={setProductionItems}
           setShowAddProductModal={setShowAddProductModal}
         />
       </BodyContainer>

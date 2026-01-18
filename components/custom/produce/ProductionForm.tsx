@@ -1,55 +1,90 @@
-import React from 'react';
+import React from "react";
 
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import MyText from '../generic/MyText';
+import { Pressable, StyleSheet, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import MyText from "../generic/MyText";
 
-import { ProductionItemCard } from './ProductionItemCard';
+import { ProductionItemCard } from "./ProductionItemCard";
 
-import type { Production } from '@/types/Production';
-import type { ProductQuantityItem } from '@/types/ProductQuantityItem';
+import type { Production } from "@/types/Production";
 
-import { getProductFromId } from '@/components/api/productsApi';
+import { getProductFromId } from "@/components/api/productsApi";
 
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { useColor } from "@/hooks/use-color";
 
-import { useColor } from '@/hooks/use-color';
+import { FormItem } from "../form/FormItem";
+import { FormItemGeneric } from "../form/FormItemGeneric";
+import { FormItemDate } from "../form/FromItemDate";
 
-import { FormItem } from '../form/FormItem';
-import { FormItemGeneric } from '../form/FormItemGeneric';
-import { FormItemDate } from '../form/FromItemDate';
+import uuid from 'react-native-uuid';
 
 type ProductionFormProps = {
   production: Production;
-  setProduction: (product: Production) => void;
-  productionItems: ProductQuantityItem[];
-  setProductionItems: (items: ProductQuantityItem[]) => void;
+  setProduction: React.Dispatch<React.SetStateAction<Production>>;
   setShowAddProductModal: (show: boolean) => void;
 };
 
-export function ProductionForm({ production, setProduction, productionItems, setProductionItems, setShowAddProductModal }: ProductionFormProps) {
-  
+export function ProductionForm({
+  production,
+  setProduction,
+  setShowAddProductModal,
+}: ProductionFormProps) {
   const color = useColor();
 
-  function removeSelectedProductionItem(product_id: string) {
-    // setSelectedProductsIds(selectedProductsIds.filter(item => item !== product_id));
-    setProductionItems(productionItems.filter(item => item.product_id !== product_id));
+  function removeProductionItem(id: string) {
+    setProduction({
+      ...production,
+      body: production.body.filter((item) => item.id !== id),
+    });
+  }
+
+  function handleItemClone(id: string) {
+
+    const index = production.body.findIndex(item => item.id === id);
+    if (index === -1) return;
+
+    const item = production.body[index];
+
+    const clonedItem = {
+      ...item,
+      id: uuid.v4().toString(),
+    };
+
+    const newBody = [...production.body];
+    newBody.splice(index + 1, 0, clonedItem);
+
+    setProduction({
+      ...production,
+      body: newBody,
+    });
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.form} contentContainerStyle={styles.formContent}>
-        
+      <KeyboardAwareScrollView
+        style={styles.form}
+        contentContainerStyle={styles.formContent}
+        enableOnAndroid={true}
+        extraScrollHeight={200}
+        keyboardShouldPersistTaps="handled"
+        enableAutomaticScroll={true}
+      >
         <FormItem
           label="Titolo"
           input={production.title}
-          onInputChange={text => setProduction({ ...production, title: text })}
+          onInputChange={(text) =>
+            setProduction({ ...production, title: text })
+          }
         />
 
         <FormItem
           label="Note"
           input={production.notes}
-          onInputChange={text => setProduction({ ...production, notes: text })}
+          onInputChange={(text) =>
+            setProduction({ ...production, notes: text })
+          }
           inputStyle={{ height: 60 }}
           multiLine
         />
@@ -57,70 +92,78 @@ export function ProductionForm({ production, setProduction, productionItems, set
         <FormItemDate
           label="Data"
           input={production.date}
-          onInputChange={text => setProduction({ ...production, date: text })}
+          onInputChange={(text) => setProduction({ ...production, date: text })}
         />
 
         <FormItemGeneric label="Prodotti">
           <View style={styles.list}>
-            {productionItems.map(item => {
-              
+            {production.body.map((item) => {
               const product = getProductFromId(item.product_id);
               if (!product) return null;
 
               return (
                 <ProductionItemCard
-                  key={product.id}
+                  key={item.id}
                   product={product}
-                  removeProduct={removeSelectedProductionItem}
+                  itemId={item.id}
+                  remove={removeProductionItem}
+                  clone={handleItemClone}
                   quantity={item.quantity}
-                  setQuantity={quantity => {
-                    setProductionItems(productionItems.map(i => {
-                      if (i.product_id === product.id) {
-                        return { ...i, quantity };
-                      }
-                      return i;
+                  setQuantity={(quantity) => {
+                    setProduction(prev => ({
+                      ...prev,
+                      body: prev.body.map(i =>
+                        i.id === item.id ? { ...i, quantity } : i
+                      ),
+                    }));
+                  }}
+                  weight={item.weight}
+                  setWeight={(weight) => {
+                    setProduction(prev => ({
+                      ...prev,
+                      body: prev.body.map(i =>
+                        i.id === item.id ? { ...i, weight } : i
+                      ),
                     }));
                   }}
                 />
-              )
-
+              );
             })}
           </View>
         </FormItemGeneric>
 
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ alignItems: "center" }}>
           <Pressable
             onPress={() => setShowAddProductModal(true)}
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: "row",
+              alignItems: "center",
               gap: 8,
-              backgroundColor: 'rgb(46, 126, 90)',
+              backgroundColor: "rgb(46, 126, 90)",
               borderWidth: 1,
               borderRadius: 50,
               paddingHorizontal: 10,
               paddingVertical: 6,
               width: 225,
               height: 50,
-              justifyContent: 'center',
+              justifyContent: "center",
             }}
           >
             <Ionicons name="add-circle" size={25} color={color.text} />
             <MyText style={{ color: color.text }}>Aggiungi Prodotto</MyText>
           </Pressable>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
-
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    overflow: 'hidden',
+    overflow: "hidden",
+    flex: 1,
   },
-  form: {
-  },
+  form: {},
   formContent: {
     gap: 10,
   },
@@ -128,13 +171,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   label: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   input: {
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 6,
-    flexDirection: 'row',    
+    flexDirection: "row",
   },
 });

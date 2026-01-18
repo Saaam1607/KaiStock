@@ -18,18 +18,16 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 type ProductionAddProductModalProps = {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
-  selectedIds: string[];
-  onSave: (selectedIds: string[]) => void;
+  onSave: (selectedId: string) => void;
 };
 
-export function ProductionAddProductModal({ modalVisible, setModalVisible, selectedIds, onSave }: ProductionAddProductModalProps) {
+export function ProductionAddProductModal({ modalVisible, setModalVisible, onSave }: ProductionAddProductModalProps) {
   
   const color = useColor();
   
   const products = getAllProducts();
 
   const [productsToDisplay, setProductsToDisplay] = useState<Product[]>(products);
-  const [tmpSelectedIds, setTmpSelectedIds] = useState<string[]>(selectedIds);
 
   const [searchText, setSearchText] = useState('');
 
@@ -39,43 +37,17 @@ export function ProductionAddProductModal({ modalVisible, setModalVisible, selec
     }, 250);
   }, [searchText]);
 
-  function selectId(id: string) {
-    setTmpSelectedIds(prev => [...prev, id]);
-  }
-
-  function unselectId(id: string) {
-    setTmpSelectedIds(prev => prev.filter(item => item !== id));
-  }
-
   function managePress(id: string) {
-    if (tmpSelectedIds.includes(id)) {
-      unselectId(id);
-    } else {
-      selectId(id);
-    }
-  }
-
-  function isIdSelected(id: string) {
-    return tmpSelectedIds.includes(id);
-  }
-
-  const handleSave = () => {
-    onSave(tmpSelectedIds);
+    onSave(id);
     setModalVisible(false);
-  };
+  }
 
   return (
     <ItemModal
       modalVisible={modalVisible}
       modalTitle="Aggiungi articolo"
-      okText="Aggiungi"
-      notOkText="Annulla"
-      onOk={handleSave}
-      onNotOk={() => setModalVisible(false)}
     >
-      <View
-        style={styles.bodyContainer}
-      >
+      <View style={styles.bodyContainer} >
 
         <SearchBar
           placeholder="Cerca prodotto..."
@@ -87,6 +59,7 @@ export function ProductionAddProductModal({ modalVisible, setModalVisible, selec
           <FlatList
             data={productsToDisplay}
             keyExtractor={(item) => item.id}
+            contentContainerStyle={{ gap: 5 }}
             renderItem={({ item }) => (
               <Pressable
                 style={{
@@ -94,7 +67,7 @@ export function ProductionAddProductModal({ modalVisible, setModalVisible, selec
                   borderRadius: 50,
                   borderWidth: 1,
                   backgroundColor: color.cardBackground,
-                  borderColor: isIdSelected(item.id) ? color.orange : color.cardBackground,
+                  borderColor: color.cardBackground,
                   minHeight: 80,
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -126,9 +99,6 @@ export function ProductionAddProductModal({ modalVisible, setModalVisible, selec
 
               </Pressable>
             )}
-            contentContainerStyle={{
-              gap: 5
-            }}
           />
         </View>
         

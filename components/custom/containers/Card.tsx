@@ -92,11 +92,15 @@ type DeletableProps =
   | { isDeletable: true, deleteAction: () => void }
   | { isDeletable?: false, deleteAction?: never };
 
+type DuplicableProps =
+  | { isDuplicable: true, duplicateAction: () => void }
+  | { isDuplicable?: false, duplicateAction?: never };
+
 type CardProps = {
   children: React.ReactNode
-} & EditableProps & DeletableProps;
+} & EditableProps & DuplicableProps & DeletableProps;
 
-export function Card({ children, isEditable, editAction, isDeletable, deleteAction }: CardProps) {
+export function Card({ children, isEditable, editAction, isDuplicable, duplicateAction, isDeletable, deleteAction }: CardProps) {
   const color = useColor();
   return (
     <View style={[styles.shadowWrapper, { backgroundColor: color.cardBackground }]}>
@@ -116,6 +120,17 @@ export function Card({ children, isEditable, editAction, isDeletable, deleteActi
                   ]}
                 >
                   <Ionicons name="brush" size={20} />
+                </Pressable>
+              )}
+              {isDuplicable && (
+                <Pressable
+                  onPress={duplicateAction}
+                  style={[
+                    styles.pressable,
+                    { backgroundColor: color.edit.blue },
+                  ]}
+                >
+                  <Ionicons name="duplicate-sharp" size={20} color={color.text} />
                 </Pressable>
               )}
               {isDeletable && (

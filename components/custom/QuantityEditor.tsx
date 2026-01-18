@@ -35,7 +35,7 @@ export function QuantityEditor({
   const plusScale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    setQuantity(quantity);
+    setQuantity(tmpQuantityText === '' ? 0 : parseInt(tmpQuantityText, 10));
   }, [tmpQuantityText]);
 
 

@@ -41,12 +41,12 @@ export function StockCard({ product, startEditingItem }: StockCardProps) {
       isDeletable={true}
       deleteAction={handleDelete}
     >
-      <View
+      {/* <View
         style={[
           styles.cardStripe,
           { backgroundColor: product.total_quantity > product.reserved_quantity ? color.green : color.peach },
         ]}
-      />
+      /> */}
 
       <View style={styles.cardContent}>
 

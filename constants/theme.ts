@@ -46,6 +46,7 @@ export const Colors = {
       green: '#66ff66ff',
     },
     edit: {
+      blue: 'rgb(59, 97, 134)',
       green: 'rgb(64, 167, 64)',
       orange: 'rgb(221, 165, 54)',
       red: 'rgb(160, 58, 58)',
@@ -83,6 +84,7 @@ export const Colors = {
       green: 'rgb(64, 167, 64)',
     },
     edit: {
+      blue: 'rgb(59, 97, 134)',
       green: 'rgb(0, 0, 0)',
       orange: 'rgb(147, 127, 88)',
       red: 'rgb(114, 44, 44)',
