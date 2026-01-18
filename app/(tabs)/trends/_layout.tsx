@@ -8,7 +8,7 @@ import Header from '@/components/custom/header/Header';
 
 const Stack = createNativeStackNavigator();
 
-export default function ExpensesLayout() {
+export default function TrendsLayout() {
 
   return (
     <Stack.Navigator>

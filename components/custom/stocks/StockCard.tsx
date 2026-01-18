@@ -17,29 +17,17 @@ import { getProductsInStock, getReservedProducts } from '@/components/api/produc
 
 type StockCardProps = {
   product: Product;
-  startEditingItem: (itemName: string) => void;
 };
 
-export function StockCard({ product, startEditingItem }: StockCardProps) {
+export function StockCard({ product }: StockCardProps) {
 
   const color = useColor();
 
   const productsInStock = getProductsInStock(product.id);
   const reservedProducts = getReservedProducts(product.id);
 
-  function handleEdit() {
-    startEditingItem(product.id);
-  }
-
-  function handleDelete() {
-  }
-
   return (
     <Card
-      isEditable={true}
-      editAction={handleEdit}
-      isDeletable={true}
-      deleteAction={handleDelete}
     >
       {/* <View
         style={[
@@ -76,15 +64,6 @@ export function StockCard({ product, startEditingItem }: StockCardProps) {
                 label="Prenotata"
                 quantity={reservedProducts}
               />
-              {/* <QuantityField
-                label="Prenotato"
-                quantity={product.reserved_quantity}
-              />
-              <QuantityField
-                label="Disponibile"
-                quantity={product.total_quantity - product.reserved_quantity}
-                colored={true}
-              /> */}
             </View>
           </View>
           

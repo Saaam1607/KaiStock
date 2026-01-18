@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import MyText from '../generic/MyText';
 
 import type { Expense } from '@/types/Expense';
@@ -10,20 +10,20 @@ import { FormItemDate } from '../form/FromItemDate';
 import { useColor } from '@/hooks/use-color';
 
 type ProductFormProps = {
-  expense: Expense;
-  setExpense: (expense: Expense) => void;
+  item: Expense;
+  setItem: (item: Expense) => void;
   showMandatoryBorders?: boolean;
-  oldExpense?: Expense | null;
+  oldItem?: Expense | null;
 };
 
-export default function ProductForm({ expense, setExpense, showMandatoryBorders = false, oldExpense }: ProductFormProps) {
+export default function ProductForm({ item: expense, setItem: setExpense, showMandatoryBorders = false, oldItem: oldExpense }: ProductFormProps) {
   
   const color = useColor();
 
   const [priceText, setPriceText] = useState(expense.price.toString());
 
   return (
-    <View style={styles.form}>
+    <View style={{ width: '100%', gap: 10, marginTop: 10 }}>
       
       <FormItem
         label={"Nome *"}
@@ -69,11 +69,3 @@ export default function ProductForm({ expense, setExpense, showMandatoryBorders 
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  form: {
-    width: '100%',
-    gap: 10,
-    marginTop: 10,
-  },
-});

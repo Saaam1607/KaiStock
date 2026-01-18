@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
+import { useColor } from "@/hooks/use-color";
 
-import { useColor } from '@/hooks/use-color';
+import { ItemModal } from "../ItemModal";
 
-import { ItemModal } from '../ItemModal';
+import { AddSoldItemStepper } from "./AddSoldItemStepper";
 
-import { SearchBar } from '../SearchBar';
-import { Stepper } from '../Stepper';
-import { AddSoldItemStepper } from './AddSoldItemStepper';
+import type { Product } from "@/types/Product";
 
-import type { Product } from '@/types/Product';
-
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 type AddSoldItemModalProps = {
   modalVisible: boolean;
@@ -22,11 +18,14 @@ type AddSoldItemModalProps = {
   onSave: (selectedIds: string[]) => void;
 };
 
-export function AddSoldItemModal({ modalVisible, setModalVisible, handleSubmit, selectedIds, onSave }: AddSoldItemModalProps) {
-  
+export function AddSoldItemModal({
+  modalVisible,
+  setModalVisible,
+  handleSubmit,
+  selectedIds,
+  onSave,
+}: AddSoldItemModalProps) {
   const color = useColor();
-
-
 
   return (
     <ItemModal
@@ -37,12 +36,8 @@ export function AddSoldItemModal({ modalVisible, setModalVisible, handleSubmit, 
       // onOk={handleSave}
       onNotOk={() => setModalVisible(false)}
     >
-      <View
-        style={styles.bodyContainer}
-      >
-        <AddSoldItemStepper
-          handleSubmit={handleSubmit}
-        />
+      <View style={styles.bodyContainer}>
+        <AddSoldItemStepper handleSubmit={handleSubmit} />
       </View>
     </ItemModal>
   );
@@ -52,5 +47,5 @@ const styles = StyleSheet.create({
   bodyContainer: {
     gap: 20,
     flex: 1,
-  }
+  },
 });

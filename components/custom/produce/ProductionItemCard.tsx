@@ -14,7 +14,7 @@ import type { Product } from '@/types/Product';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { useColor } from '@/hooks/use-color';
-
+import { useAlert } from '@/components/providers/AlertProvider';
 
 type ProductionItemCardProps = {
   product: Product;
@@ -30,11 +30,23 @@ type ProductionItemCardProps = {
 export function ProductionItemCard({ product, itemId, remove, clone, quantity, setQuantity, weight, setWeight }: ProductionItemCardProps) {
 
   const color = useColor();
+  const { showAlert } = useAlert();
+
+  function handleDelete() {
+    showAlert({
+      title: 'Conferma eliminazione',
+      message: `Sei sicuro di voler eliminare ${product.name} dalla produzione?`,
+      okText: 'Elimina',
+      notOkText: 'Annulla',
+      onOk: () => remove(itemId),
+      onNotOk: () => {},
+    });
+  }
 
   return (
     <Card
       isDeletable={true}
-      deleteAction={() => remove(itemId)}
+      deleteAction={handleDelete}
       isDuplicable={true}
       duplicateAction={() => clone(itemId)}
     >
@@ -59,13 +71,6 @@ export function ProductionItemCard({ product, itemId, remove, clone, quantity, s
             <MyText style={{ color: color.textLighter }}>{product.price} €/{product.uom}</MyText>
           </View>
           <View>
-            <MyText style={{ color: color.textLighter }}>Numero di articoli</MyText>
-            <QuantityEditor
-              quantity={quantity}
-              setQuantity={setQuantity}
-            />
-          </View>
-          <View>
             <MyText style={{ color: color.textLighter }}>Peso</MyText>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
               <WeightEditor
@@ -74,8 +79,15 @@ export function ProductionItemCard({ product, itemId, remove, clone, quantity, s
               />
               <MyText style={{ color: color.textLighter }}>{product.uom}</MyText>
             </View>
-
           </View>
+          <View>
+            <MyText style={{ color: color.textLighter }}>Numero di articoli</MyText>
+            <QuantityEditor
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
+          </View>
+          
         </View>
 
       </View>

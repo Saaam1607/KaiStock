@@ -19,6 +19,7 @@ import { FormItemGeneric } from "../form/FormItemGeneric";
 import { FormItemDate } from "../form/FromItemDate";
 
 import uuid from 'react-native-uuid';
+import { ProductQuantityItem } from "@/types/ProductQuantityItem";
 
 type ProductionFormProps = {
   production: Production;
@@ -61,6 +62,24 @@ export function ProductionForm({
     });
   }
 
+  function handleQuantityChange(item: ProductQuantityItem, quantity: number) {
+    setProduction(prev => ({
+      ...prev,
+      body: prev.body.map(i =>
+        i.id === item.id ? { ...i, quantity } : i
+      ),
+    }));
+  }
+
+  function handleWeightChange(item: ProductQuantityItem, weight: number) {
+    setProduction(prev => ({
+      ...prev,
+      body: prev.body.map(i =>
+        i.id === item.id ? { ...i, weight } : i
+      ),
+    }));
+  }
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -74,17 +93,13 @@ export function ProductionForm({
         <FormItem
           label="Titolo"
           input={production.title}
-          onInputChange={(text) =>
-            setProduction({ ...production, title: text })
-          }
+          onInputChange={(text) => setProduction({ ...production, title: text })}
         />
 
         <FormItem
           label="Note"
           input={production.notes}
-          onInputChange={(text) =>
-            setProduction({ ...production, notes: text })
-          }
+          onInputChange={(text) => setProduction({ ...production, notes: text })}
           inputStyle={{ height: 60 }}
           multiLine
         />
@@ -109,48 +124,35 @@ export function ProductionForm({
                   remove={removeProductionItem}
                   clone={handleItemClone}
                   quantity={item.quantity}
-                  setQuantity={(quantity) => {
-                    setProduction(prev => ({
-                      ...prev,
-                      body: prev.body.map(i =>
-                        i.id === item.id ? { ...i, quantity } : i
-                      ),
-                    }));
-                  }}
+                  setQuantity={(quantity) => { handleQuantityChange(item, quantity) }}
                   weight={item.weight}
-                  setWeight={(weight) => {
-                    setProduction(prev => ({
-                      ...prev,
-                      body: prev.body.map(i =>
-                        i.id === item.id ? { ...i, weight } : i
-                      ),
-                    }));
-                  }}
+                  setWeight={(weight) => { handleWeightChange(item, weight) }}
                 />
               );
             })}
           </View>
         </FormItemGeneric>
 
-        <View style={{ alignItems: "center" }}>
+        <View style={{ alignItems: "flex-end" }}>
           <Pressable
             onPress={() => setShowAddProductModal(true)}
             style={{
               flexDirection: "row",
               alignItems: "center",
               gap: 8,
-              backgroundColor: "rgb(46, 126, 90)",
-              borderWidth: 1,
+              backgroundColor: "rgb(52, 86, 56)",
+              // borderWidth: 1,
+              // borderColor: color.text,
               borderRadius: 50,
-              paddingHorizontal: 10,
+              paddingHorizontal: 20,
               paddingVertical: 6,
-              width: 225,
+              width: 300,
               height: 50,
-              justifyContent: "center",
+              justifyContent: "space-between",
             }}
           >
-            <Ionicons name="add-circle" size={25} color={color.text} />
             <MyText style={{ color: color.text }}>Aggiungi Prodotto</MyText>
+            <Ionicons name="add-circle" size={30} color={color.text} />
           </Pressable>
         </View>
       </KeyboardAwareScrollView>

@@ -76,7 +76,6 @@ export default function NewExpense() {
   return (
     <PageContainer>
 
-      {/* Modal */}
       <ModalContainer visible={showDiscardChangesModal}>
         <MyAlert
           alertVisible={showDiscardChangesModal}
@@ -89,18 +88,15 @@ export default function NewExpense() {
         />
       </ModalContainer>
 
-      {/* Body */}
       <BodyContainer>
         <LazyContainer>
           <ExpenseForm
-            expense={newExpense}
-            setExpense={setNewExpense}
+            item={newExpense}
+            setItem={setNewExpense}
             showMandatoryBorders={showMandatoryBorders}
           />
         </LazyContainer>
       </BodyContainer>
-
-      {/* Notifications */}
 
     </PageContainer>
   )

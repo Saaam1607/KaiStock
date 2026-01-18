@@ -75,8 +75,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'purple',
-    borderWidth: 3,
   },
   modalView: {
     width: '90%',

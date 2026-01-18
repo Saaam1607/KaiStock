@@ -1,47 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import { FlatList, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import MyText from '../generic/MyText';
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
+import MyText from "../generic/MyText";
 
-import { useColor } from '@/hooks/use-color';
+import { useColor } from "@/hooks/use-color";
 
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-import { Button } from '../Button';
-import { SearchBar } from '../SearchBar';
-import { Stepper } from '../Stepper';
+import { Button } from "../Button";
+import { SearchBar } from "../searching/SearchBar";
+import { Stepper } from "../Stepper";
 
-import type { Product } from '@/types/Product';
+import type { Product } from "@/types/Product";
 
-import { getAllProducts } from '@/components/api/productsApi';
+import { getAllProducts } from "@/components/api/productsApi";
 
-import { CardDescription, CardTitle } from '../containers/Card';
-import { FormItem } from '../form/FormItem';
+import { CardDescription, CardTitle } from "../containers/Card";
+import { FormItem } from "../form/FormItem";
 
 type AddSoldItemStepperProps = {
-  handleSubmit: (product: Product, weight: number, quantity: number) => void
+  handleSubmit: (product: Product, weight: number, quantity: number) => void;
 };
 
 export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
-
   const color = useColor();
   const products = getAllProducts();
-  const [productsToDisplay, setProductsToDisplay] = useState<Product[]>(products);
-  
+  const [productsToDisplay, setProductsToDisplay] =
+    useState<Product[]>(products);
+
   const [step, setStep] = useState<number>(0);
 
-  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
-  const [weightText, setWeightText] = useState('0');
-  const [quantityText, setQuantityText] = useState('0');
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(
+    undefined,
+  );
+  const [weightText, setWeightText] = useState("0");
+  const [quantityText, setQuantityText] = useState("0");
 
   const [pricePerItem, setPricePerItem] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const [searchText, setSearchText] = useState('');
-      
+  const [searchText, setSearchText] = useState("");
+
   useEffect(() => {
     setTimeout(() => {
-      setProductsToDisplay(products.filter(item => item.name.toLowerCase().includes(searchText.toLowerCase())));
+      setProductsToDisplay(
+        products.filter((item) =>
+          item.name.toLowerCase().includes(searchText.toLowerCase()),
+        ),
+      );
     }, 250);
   }, [searchText]);
 
@@ -67,7 +79,7 @@ export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
   }
 
   function getProduct(product_id: string): Product | undefined {
-    return products.find(item => item.id === product_id);
+    return products.find((item) => item.id === product_id);
   }
 
   function handleProductSelect(id: string) {
@@ -77,7 +89,7 @@ export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
   }
 
   function hadleItemSubmit() {
-    if (selectedProduct && quantityText !== '0' && weightText !== '0') {
+    if (selectedProduct && quantityText !== "0" && weightText !== "0") {
       handleSubmit(selectedProduct, Number(weightText), Number(quantityText));
     }
   }
@@ -102,53 +114,62 @@ export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
                 backgroundColor: color.cardBackground,
                 borderColor: color.cardBackground,
                 minHeight: 80,
-                alignItems: 'center',
-                justifyContent: 'center',
+                alignItems: "center",
+                justifyContent: "center",
               }}
               onPress={() => handleProductSelect(item.id)}
             >
-              <View style={{ flexDirection: 'row', gap: 10 }}>
-                <View style={{ justifyContent: 'center'}}>
-                  <View style={{
-                    backgroundColor: color.cardImageBackground,
-                    width: 60,
-                    height: 60,
-                    borderRadius: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                    <Ionicons name={"images"} size={20} color={color.cardImage} />
+              <View style={{ flexDirection: "row", gap: 10 }}>
+                <View style={{ justifyContent: "center" }}>
+                  <View
+                    style={{
+                      backgroundColor: color.cardImageBackground,
+                      width: 60,
+                      height: 60,
+                      borderRadius: 40,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Ionicons
+                      name={"images"}
+                      size={20}
+                      color={color.cardImage}
+                    />
                   </View>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <MyText style={{ fontWeight: 'bold', color: color.text }}>
+                  <MyText style={{ fontWeight: "bold", color: color.text }}>
                     {item.name}
                   </MyText>
                   <MyText style={{ fontSize: 12, color: color.textLighter }}>
                     {item.description}
-                  </MyText>  
+                  </MyText>
                 </View>
               </View>
-
             </Pressable>
           )}
           contentContainerStyle={{
-            gap: 5
+            gap: 5,
           }}
         />
       </View>
     </>,
     <>
-      <View style={{ gap: 10, flexDirection: 'column', flex: 1 }}>
+      <View style={{ gap: 10, flexDirection: "column", flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
           {selectedProduct && (
             <View style={{ gap: 10 }}>
-              <CardTitle value={selectedProduct.name}/>
-              <CardDescription value={selectedProduct.price.toString() + " €/" + selectedProduct.uom}/>
+              <CardTitle value={selectedProduct.name} />
+              <CardDescription
+                value={
+                  selectedProduct.price.toString() + " €/" + selectedProduct.uom
+                }
+              />
               <FormItem
                 label={`Peso (${selectedProduct.uom})`}
                 input={weightText}
-                onInputChange={text => {
+                onInputChange={(text) => {
                   if (/^[0-9]*\.?[0-9]*$/.test(text)) {
                     setWeightText(text);
                   }
@@ -158,7 +179,7 @@ export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
               <FormItem
                 label={`Numero di articoli`}
                 input={quantityText}
-                onInputChange={text => {
+                onInputChange={(text) => {
                   if (/^[0-9]*\.?[0-9]*$/.test(text)) {
                     setQuantityText(text);
                   }
@@ -176,27 +197,16 @@ export function AddSoldItemStepper({ handleSubmit }: AddSoldItemStepperProps) {
             </View>
           )}
         </ScrollView>
-        <View style={{ width: '100%', alignItems: 'center', }}>
-          <Button
-            text="Completa"
-            onPress={hadleItemSubmit}
-          />
-        </View> 
+        <View style={{ width: "100%", alignItems: "center" }}>
+          <Button text="Completa" onPress={hadleItemSubmit} />
+        </View>
       </View>
     </>,
   ];
 
   const maxStep = content.length - 1;
 
-  return (
-    <Stepper
-      content={content}
-      step={step}
-      setStep={setStep}
-    >
-    </Stepper> 
-  );
+  return <Stepper content={content} step={step} setStep={setStep}></Stepper>;
 }
 
-const styles = StyleSheet.create({
-});
+const styles = StyleSheet.create({});
