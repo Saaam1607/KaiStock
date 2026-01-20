@@ -90,8 +90,8 @@ export default function NewProduct() {
       {/* Body */}
       <BodyContainer>
         <ProductForm
-          product={newProduct}
-          setProduct={setNewProduct}
+          item={newProduct}
+          setItem={setNewProduct}
           showMandatoryBorders={showMandatoryBorders}
         />
       </BodyContainer>

@@ -46,3 +46,13 @@ export function getReservedProducts(id: string) {
   }
   return reservedAmount;
 }
+
+export async function editProduct(product: Product) {
+  const index = products.findIndex((item) => item.id === product.id);
+  products[index] = product;
+}
+
+export async function deleteProduct(id: string) {
+  const index = products.findIndex((item) => item.id === id);
+  products.splice(index, 1);
+}

@@ -17,9 +17,10 @@ import { QuantityField } from '../QuantityField';
 type ProductCardProps = {
   product: Product;
   startEditingItem: (itemName: string) => void;
+  deleteItem?: (itemId: string, itemLabel: string) => void;
 };
 
-export function ProductCard({ product, startEditingItem }: ProductCardProps) {
+export function ProductCard({ product, startEditingItem, deleteItem }: ProductCardProps) {
 
   const color = useColor();
 
@@ -28,6 +29,7 @@ export function ProductCard({ product, startEditingItem }: ProductCardProps) {
   }
 
   function handleDelete() {
+    if (deleteItem) deleteItem(product.id, product.name);
   }
 
   return (
@@ -40,7 +42,7 @@ export function ProductCard({ product, startEditingItem }: ProductCardProps) {
       <View
         style={[
           styles.cardStripe,
-          { backgroundColor: product.total_quantity > product.reserved_quantity ? color.green : color.peach },
+          // { backgroundColor: product.total_quantity > product.reserved_quantity ? color.green : color.peach },
         ]}
       />
 

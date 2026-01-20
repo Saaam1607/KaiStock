@@ -23,7 +23,7 @@ type SaleTableRow = SoldProduct & {
 type SaleCardProps = {
   sale: Sale;
   startEditingItem: (itemName: string) => void;
-  deleteItem?: (itemLabel: string, itemId: string) => void;
+  deleteItem?: (itemId: string, itemLabel: string) => void;
 };
 
 export default function SaleCard({ sale, startEditingItem, deleteItem }: SaleCardProps) {
@@ -35,7 +35,7 @@ export default function SaleCard({ sale, startEditingItem, deleteItem }: SaleCar
   }
 
   function handleDelete() {
-    if (deleteItem) deleteItem(sale.title, sale.id);
+    if (deleteItem) deleteItem(sale.id, sale.title);
   }
 
   const [tableData, setTableData] = useState<SaleTableRow[]>([]);

@@ -16,7 +16,7 @@ import SimpleCard from '../cards/SimpleCard';
 type ProductionCardProps = {
   production: Production;
   startEditingItem: (itemName: string) => void;
-  deleteItem?: (itemLabel: string, itemId: string) => void;
+  deleteItem?: (itemId: string, itemLabel: string) => void;
 };
 
 export default function ProductionCard({ production, startEditingItem, deleteItem }: ProductionCardProps) {
@@ -28,7 +28,7 @@ export default function ProductionCard({ production, startEditingItem, deleteIte
   }
 
   function handleDelete() {
-    if (deleteItem) deleteItem(production.title, production.id);
+    if (deleteItem) deleteItem(production.id, production.title);
   }
 
   return (
@@ -44,12 +44,13 @@ export default function ProductionCard({ production, startEditingItem, deleteIte
       <CardList
         label="Prodotti"
         data={production.body as ProductQuantityItem[]}
-        keyField="product_id"
+        keyField="id"
         renderItem={({ item }) => {
-          const product = getProductFromId(item.product_id);
+          const product = getProductFromId(item.id);
           return (
             <SimpleCard>
               <MyText style={{ fontWeight: 'bold', color: color.text }}>{product?.name}</MyText>
+              <MyText style={{ color: color.textLighter }}>Peso: {item.weight} {product?.uom}</MyText>
               <MyText style={{ color: color.textLighter }}>Quantità: {item.quantity}</MyText>
             </SimpleCard>
           );

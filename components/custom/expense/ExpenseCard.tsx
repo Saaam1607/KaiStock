@@ -7,7 +7,7 @@ import { Card, CardDate, CardDescription, CardTitle } from '../containers/Card';
 type ExpenseCardProps = {
   expense: Expense;
   startEditingItem: (itemName: string) => void;
-  deleteItem?: (itemLabel: string, itemId: string) => void;
+  deleteItem?: (itemId: string, itemLabel: string) => void;
 };
 
 export function ExpenseCard({ expense, startEditingItem, deleteItem }: ExpenseCardProps) {
@@ -17,7 +17,7 @@ export function ExpenseCard({ expense, startEditingItem, deleteItem }: ExpenseCa
   }
 
   function handleDelete() {
-    if (deleteItem) deleteItem(expense.title, expense.id);
+    if (deleteItem) deleteItem(expense.id, expense.title);
   }
 
   return (

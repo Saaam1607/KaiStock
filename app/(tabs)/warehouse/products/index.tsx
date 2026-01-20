@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
+
+import { useFocusEffect } from "@react-navigation/native";
 
 import { FlatList } from "react-native";
 
@@ -14,88 +16,81 @@ import { ProductCard } from "@/components/custom/product/ProductCard";
 import { ProductEditModal } from "@/components/custom/product/ProductEditModal";
 import { SearchBarWithFilters } from "@/components/custom/searching/SearchBarWithFilters";
 
-import { getAllProducts } from "@/components/api/productsApi";
+import { getAllProducts, editProduct, deleteProduct } from "@/components/api/productsApi";
+import { useCrudActions } from "@/hooks/useCrudActions";
+import { ItemEditModal } from "@/components/custom/ItemEditModal";
 
-import { useSnackbar } from "@/components/SnackbarProvider";
+import ProductForm from "@/components/custom/product/ProductForm";
+import { BodyContainerWithSearchAndFilters } from "@/components/custom/containers/BodyContainerWithSearchAndFilters";
+import { getSortedItemsToDisplay } from "@/components/custom/product/productsSort";
+import { ProductsOrdering } from "@/components/custom/product/ProductsOrdering";
 
 export default function Products() {
-  const { showSnackbar } = useSnackbar();
 
-  const [editingItemId, setEditingItemId] = useState<string | null>(null);
-  const [itemEditModalVisible, setItemEditModalVisible] = useState(false);
+  const [products, setProducts] = useState<Product[]>(getAllProducts());
+  const [productsToDisplay, setProductsToDisplay] = useState<Product[]>(products);
 
-  const products = getAllProducts();
+  const [productToEdit, setProductToEdit] = useState<Product | null>(null);
+  
+  const { updateItem, deleteItemWithConfirm } = useCrudActions<Product>({
+    setItems: setProducts,
+    updateApi: editProduct,
+    deleteApi: deleteProduct,
+    messages: {
+      updateSuccess: "Prodotto modificato",
+      deleteSuccess: "Prodotto eliminato",
+      error: "Si è verificato un errore",
+      deleteConfirm: (label) => `Sei sicuro di voler eliminare il prodotto "${label}"?`,
+    },
+  });
 
-  const [product, setProduct] = useState<Product>(
-    products.find((item) => item.id === editingItemId) ?? initProduct,
+  useFocusEffect(
+    useCallback(() => {
+      const all = getAllProducts();
+      setProducts([...all]);
+    }, []),
   );
-
-  const [productsToDisplay, setProductsToDisplay] =
-    useState<Product[]>(products);
-  const [searchText, setSearchText] = useState("");
-  const [showFilter, setShowFilter] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setProductsToDisplay(
-        products.filter((item) =>
-          item.name.toLowerCase().includes(searchText.toLowerCase()),
-        ),
-      );
-    }, 250);
-  }, [searchText]);
-
-  function startEditingItem(itemId: string) {
-    setProduct(
-      productsToDisplay.find((item) => item.id === itemId) ?? initProduct,
-    );
-    setEditingItemId(itemId);
-    setItemEditModalVisible(true);
-  }
-
-  function stopEditing() {
-    setEditingItemId(null);
-  }
 
   return (
     <PageContainer>
-      {/* Editing Modal */}
-      <ModalContainer visible={itemEditModalVisible && product !== null}>
-        <ProductEditModal
-          modalVisible={itemEditModalVisible}
-          setModalVisible={setItemEditModalVisible}
-          product={product}
-          onSave={(updatedProduct: Product) => {
-            showSnackbar("Articolo modificato");
-          }}
-          onDiscard={() => {
-            stopEditing();
-          }}
-        />
-      </ModalContainer>
 
-      {/* Body */}
-      <BodyContainer>
-        <SearchBarWithFilters
-          placeholder="Cerca articolo..."
-          text={searchText}
-          setText={setSearchText}
-          showFilter={showFilter}
-          setShowFilter={setShowFilter}
+      {productToEdit && (
+        <ItemEditModal<Product>
+          item={productToEdit}
+          formComponent={ProductForm}
+          onSave={(updatedSale) => {
+            updateItem(updatedSale);
+            setProductToEdit(null);
+          }}
+          onClose={() => setProductToEdit(null)}
         />
+      )}
+
+      <BodyContainerWithSearchAndFilters<Product>
+        items={products}
+        setItemsToDisplay={setProductsToDisplay}
+        getSortedItems={getSortedItemsToDisplay}
+        searchingField="name"
+        orderingComponent={ProductsOrdering}
+      >
         <LazyContainer>
           <FlatList
             data={productsToDisplay}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <ProductCard product={item} startEditingItem={startEditingItem} />
+              <ProductCard
+                product={item}
+                startEditingItem={() => setProductToEdit(item)}
+                deleteItem={deleteItemWithConfirm}
+              />
             )}
             contentContainerStyle={{
               gap: 10,
             }}
           />
         </LazyContainer>
-      </BodyContainer>
+      </BodyContainerWithSearchAndFilters>
+
     </PageContainer>
   );
 }

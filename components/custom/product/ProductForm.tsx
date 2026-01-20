@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import MyText from '../generic/MyText';
 
 import type { Product } from '@/types/Product';
@@ -10,34 +10,34 @@ import { FormItem } from '../form/FormItem';
 import { useColor } from '@/hooks/use-color';
 
 type ProductFormProps = {
-  product: Product;
-  setProduct: (product: Product) => void;
+  item: Product;
+  setItem: React.Dispatch<React.SetStateAction<Product>>;
   showMandatoryBorders?: boolean;
   oldProduct?: Product | null;
 };
 
-export default function ProductForm({ product, setProduct, showMandatoryBorders = false, oldProduct }: ProductFormProps) {
+export default function ProductForm({ item, setItem, showMandatoryBorders = false, oldProduct }: ProductFormProps) {
   
   const color = useColor();
 
-  const [priceText, setPriceText] = useState(product.price.toString());
+  const [priceText, setPriceText] = useState(item.price.toString());
 
   return (
-    <View style={styles.form}>
+    <View style={{ width: "100%", gap: 10, marginTop: 10 }}>
       
       <FormItem
         label={"Nome *"}
-        input={product.name}
+        input={item.name}
         oldInput={oldProduct?.name}
-        onInputChange={text => setProduct({ ...product, name: text })}
-        showMandatoryBorders={showMandatoryBorders && product.name === ''}
+        onInputChange={text => setItem({ ...item, name: text })}
+        showMandatoryBorders={showMandatoryBorders && item.name === ''}
       />
 
       <FormItem
         label="Descrizione"
-        input={product.description}
+        input={item.description}
         oldInput={oldProduct?.description}
-        onInputChange={text => setProduct({ ...product, description: text })}
+        onInputChange={text => setItem({ ...item, description: text })}
         inputStyle={{ height: 60 }}
         multiLine
       />
@@ -49,8 +49,8 @@ export default function ProductForm({ product, setProduct, showMandatoryBorders 
         onInputChange={text => {
           if (/^[0-9]*\.?[0-9]*$/.test(text)) { // consenti solo numeri e punto
             setPriceText(text);
-            setProduct({
-              ...product,
+            setItem({
+              ...item,
               price: text === '' ? 0 : Number(text),
             });
           }
@@ -60,9 +60,9 @@ export default function ProductForm({ product, setProduct, showMandatoryBorders 
 
       <FormItem
         label="Unità di misura"
-        input={product.uom}
+        input={item.uom}
         oldInput={oldProduct?.uom}
-        onInputChange={text => setProduct({ ...product, uom: text })}
+        onInputChange={text => setItem({ ...item, uom: text })}
       />
 
       <MyText style={{ color: color.textLighter, marginTop: 20, fontSize: 12 }}>* Campo Obbligatorio </MyText>
@@ -70,11 +70,3 @@ export default function ProductForm({ product, setProduct, showMandatoryBorders 
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  form: {
-    width: '100%',
-    gap: 10,
-    marginTop: 10,
-  },
-});
