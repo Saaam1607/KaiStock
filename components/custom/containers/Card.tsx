@@ -6,6 +6,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { useColor } from '@/hooks/use-color';
 
+import MyCheck from '../generic/MyCheck';
+
 export function CardTitle({ value }: { value: string }) {
   const color = useColor();
   return (
@@ -36,6 +38,16 @@ export function CardToPerson({ value }: { value: string }) {
     <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
       <Ionicons name="person" size={20} color={color.text} />
       <MyText style={[{ fontWeight: 'bold' }, { color: color.text }]}>{value}</MyText>
+    </View>
+  );
+}
+
+export function CardCheck({ value, label }: { value: boolean, label: string }) {
+  const color = useColor();
+  return (
+    <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
+      <MyCheck input={value} onInputChange={() => {}} />
+      <MyText style={[{ }, { color: color.textLighter }]}>{label}</MyText>
     </View>
   );
 }
@@ -103,13 +115,14 @@ type CardProps = {
 export function Card({ children, isEditable, editAction, isDuplicable, duplicateAction, isDeletable, deleteAction }: CardProps) {
   const color = useColor();
   return (
-    <View style={[styles.shadowWrapper, { backgroundColor: color.cardBackground }]}>
+    <View style={[styles.shadowWrapper, { backgroundColor: color.cardBackground, borderColor: color.cardBorder, borderWidth: 1 }]}>
       <View style={styles.card}>
+        
         <View style={{ flex: 1, gap: 5 }}>
           {children}
         </View>
+        
         {(isEditable || isDeletable) && (
-          <View style={styles.cardButtonsOuter}>
             <View style={styles.cardButtons}>
               {isEditable && (
                 <Pressable
@@ -119,7 +132,7 @@ export function Card({ children, isEditable, editAction, isDuplicable, duplicate
                     { backgroundColor: color.edit.orange },
                   ]}
                 >
-                  <Ionicons name="brush" size={20} />
+                  <Ionicons name="brush" size={25} color={color.edit.orangeIcon} />
                 </Pressable>
               )}
               {isDuplicable && (
@@ -130,7 +143,7 @@ export function Card({ children, isEditable, editAction, isDuplicable, duplicate
                     { backgroundColor: color.edit.blue },
                   ]}
                 >
-                  <Ionicons name="duplicate-sharp" size={20} color={color.text} />
+                  <Ionicons name="duplicate-sharp" size={25} color={color.text} />
                 </Pressable>
               )}
               {isDeletable && (
@@ -141,12 +154,12 @@ export function Card({ children, isEditable, editAction, isDuplicable, duplicate
                     { backgroundColor: color.edit.red },
                   ]}
                 >
-                  <Ionicons name="trash" size={20} color={color.text} />
+                  <Ionicons name="trash" size={25} color={color.text} />
                 </Pressable>
               )}
             </View>
-          </View>
         )}
+
       </View>
     </View>
   );
@@ -179,26 +192,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 12,
   },
-  cardButtonsOuter: {
-    position: 'absolute',
-    right: 5,
-    top: 0,
-    bottom: 0,
-    display: 'flex',
-    alignItems: 'center',
-  },
   cardButtons: {
     flexDirection: 'column',
-    // justifyContent: 'space-around',
-    height: '100%',
-    // maxHeight: 200
-    paddingVertical: 10,
-    gap: 10,
+    gap: 20,
   },
   pressable: {
-    width: 35,
-    height: 35,
-    borderRadius: 35,
+    width: 50,
+    height: 50,
+    borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',

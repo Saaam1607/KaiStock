@@ -12,7 +12,17 @@ export default function SimpleCard({ children }: SimpleCardProps) {
   const color = useColor();
 
   return (
-    <View style={{ flexDirection: 'column', justifyContent: 'space-between', padding: 8, backgroundColor: color.cardBackground, borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10 }}>
+    <View style={{
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      padding: 8,
+      backgroundColor: color.innerCardBackground,
+      borderRadius: 20,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderWidth: 1,
+      borderColor: color.cardBorder
+    }}>
       {children}
     </View>
   );

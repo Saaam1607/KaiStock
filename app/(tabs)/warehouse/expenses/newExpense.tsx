@@ -41,6 +41,7 @@ export default function NewExpense() {
       showSnackbar('I campi evidenziati sono obbligatori');
     } else {
       setShowMandatoryBorders(false);
+      createExpense(newExpense);
       setNewExpense(initExpense);
       showSnackbar('Nuova spesa creata');
       navigation.goBack()

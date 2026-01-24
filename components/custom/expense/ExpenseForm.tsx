@@ -5,6 +5,7 @@ import MyText from '../generic/MyText';
 import type { Expense } from '@/types/Expense';
 
 import { FormItem } from '../form/FormItem';
+import { FormPrice } from '../form/FormPrice';
 import { FormItemDate } from '../form/FromItemDate';
 
 import { useColor } from '@/hooks/use-color';
@@ -19,8 +20,6 @@ type ExpenseFormProps = {
 export default function ExpenseForm({ item: expense, setItem: setExpense, showMandatoryBorders = false, oldItem: oldExpense }: ExpenseFormProps) {
   
   const color = useColor();
-
-  const [priceText, setPriceText] = useState(expense.price.toString());
 
   return (
     <View style={{ width: '100%', gap: 10, marginTop: 10 }}>
@@ -48,20 +47,11 @@ export default function ExpenseForm({ item: expense, setItem: setExpense, showMa
         onInputChange={text => setExpense({ ...expense, date: text })}
       />
 
-      <FormItem
-        label="Prezzo"
-        input={priceText}
-        oldInput={oldExpense?.price?.toString()}
-        onInputChange={text => {
-          if (/^[0-9]*\.?[0-9]*$/.test(text)) { // consenti solo numeri e punto
-            setPriceText(text);
-            setExpense({
-              ...expense,
-              price: text === '' ? 0 : Number(text),
-            });
-          }
-        }}
-        keyboardType="decimal-pad"
+      <FormPrice
+        price={expense.price}
+        setPrice={price => setExpense({ ...expense, price })}
+        onInputChange={price => setExpense({ ...expense, price })}
+        oldPrice={oldExpense?.price}
       />
 
       <MyText style={{ color: color.textLighter, marginTop: 20, fontSize: 12 }}>* Campo Obbligatorio </MyText>

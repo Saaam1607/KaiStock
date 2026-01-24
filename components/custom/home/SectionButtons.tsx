@@ -26,9 +26,9 @@ export function SectionButtons({ buttons }: SectionButtonsProps) {
             paddingHorizontal: 16,
             paddingVertical: 8,
             borderRadius: 999,
-            backgroundColor: button.isSelected ? 'rgba(14, 19, 18, 0.5)' : 'transparent',
+            backgroundColor: button.isSelected ? color.cardBackground : 'transparent',
             borderWidth: 1,
-            borderColor: 'rgb(78, 96, 100)',
+            borderColor: color.cardBorder,
           }}
         >
           <MyText

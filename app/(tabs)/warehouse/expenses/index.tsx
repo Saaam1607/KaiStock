@@ -51,15 +51,18 @@ export default function Expenses() {
 
   return (
     <PageContainer>
-      <ItemEditModal<Expense>
-        item={expenseToEdit}
-        formComponent={ExpenseForm}
-        onSave={(updatedExpense) => {
-          updateItem(updatedExpense);
-          setExpenseToEdit(null);
-        }}
-        onClose={() => setExpenseToEdit(null)}
-      />
+      
+      {expenseToEdit && (
+        <ItemEditModal<Expense>
+          item={expenseToEdit}
+          formComponent={ExpenseForm}
+          onSave={(updatedExpense) => {
+            updateItem(updatedExpense);
+            setExpenseToEdit(null);
+          }}
+          onClose={() => setExpenseToEdit(null)}
+        />
+      )}
 
       <BodyContainerWithSearchAndFilters<Expense>
         items={expenses}

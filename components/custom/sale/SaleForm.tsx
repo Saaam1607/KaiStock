@@ -142,6 +142,14 @@ export function SaleForm({ item, setItem, showMandatoryBorders = false, oldItem 
           label={`Prezzo totale (€)`}
           input={totalPrice.toString()}
         />
+
+
+        
+        <FormItem
+          label={`Sconto (€)`}
+          input={item.deltaDiscount.toString()}
+          onInputChange={text => setItem({ ...item, deltaDiscount: parseFloat(text) })}
+        />
         <FormItemGeneric label="Articoli">
           <View style={styles.list}>
             {item.body.map(item => {

@@ -5,4 +5,6 @@ export type SoldProduct = {
   unit_price: number;
   uom: string;
   weight: number;
+  paid: boolean;
+  delivered: boolean;
 }

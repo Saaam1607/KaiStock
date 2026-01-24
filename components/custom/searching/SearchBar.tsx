@@ -19,7 +19,7 @@ export function SearchBar({ placeholder, text, setText, style }: SearchBarProps)
   const color = useColor();
   
   return (
-    <View style={[styles.container, {backgroundColor: color.searchBackground}, style]}>
+    <View style={[styles.container, {backgroundColor: color.searchBackground, borderColor: color.cardBorder}, style]}>
       <Ionicons name="search" size={25} color={color.icon} />
       <MyTextInput
         style={[styles.input, { color: color.text }]}
@@ -44,10 +44,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 50,
+    borderRadius: 20,
     height: 50,
     paddingHorizontal: 10,
     gap: 10,
+    borderWidth: 1,
   },
   input: {
     flex: 1,

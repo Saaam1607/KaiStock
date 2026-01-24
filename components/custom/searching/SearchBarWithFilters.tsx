@@ -42,9 +42,11 @@ export function SearchBarWithFilters({
           onPress={() => setShowFilter(true)}
           style={{
             backgroundColor: color.searchBackground,
+            borderWidth: 1,
+            borderColor: color.cardBorder,
             width: 50,
             height: 50,
-            borderRadius: 50,
+            borderRadius: 20,
             justifyContent: 'center',
             alignItems: 'center',
           }}

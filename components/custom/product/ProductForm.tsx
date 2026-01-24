@@ -6,6 +6,7 @@ import MyText from '../generic/MyText';
 import type { Product } from '@/types/Product';
 
 import { FormItem } from '../form/FormItem';
+import { FormPrice } from '../form/FormPrice';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -19,8 +20,6 @@ type ProductFormProps = {
 export default function ProductForm({ item, setItem, showMandatoryBorders = false, oldProduct }: ProductFormProps) {
   
   const color = useColor();
-
-  const [priceText, setPriceText] = useState(item.price.toString());
 
   return (
     <View style={{ width: "100%", gap: 10, marginTop: 10 }}>
@@ -42,20 +41,10 @@ export default function ProductForm({ item, setItem, showMandatoryBorders = fals
         multiLine
       />
 
-      <FormItem
-        label="Prezzo"
-        input={priceText}
-        oldInput={oldProduct?.price?.toString()}
-        onInputChange={text => {
-          if (/^[0-9]*\.?[0-9]*$/.test(text)) { // consenti solo numeri e punto
-            setPriceText(text);
-            setItem({
-              ...item,
-              price: text === '' ? 0 : Number(text),
-            });
-          }
-        }}
-        keyboardType="decimal-pad"
+      <FormPrice
+        price={item.price}
+        setPrice={price => setItem({ ...item, price: price })}
+        oldPrice={oldProduct?.price}
       />
 
       <FormItem

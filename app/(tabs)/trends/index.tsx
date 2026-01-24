@@ -34,37 +34,27 @@ export default function Trends() {
   return (
     <PageContainer>
       <ScrollView contentContainerStyle={{ gap: 20, padding: 20 }}>
-        <View style={styles.buttonContainer}>
+        <View style={{ flexDirection: 'row', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
           <IconButton
             text={"Andamento Guadagno Lordo"}
             iconName={"cash-outline"}
             onPress={() => handleButtonPress(Routes.earningsTrend)}
+            backgroundImage={require('@/assets/images/trends.jpg')}
           />
           <IconButton
             text={"Andamento Guadagno Netto"}
             iconName={"cash-outline"}
             onPress={() => handleButtonPress(Routes.netEarningsTrend)}
+            backgroundImage={require('@/assets/images/trends.jpg')}
           />
-        </View>
-        <View style={styles.buttonContainer}>
           <IconButton
             text={"Andamento Spese"}
             iconName={"logo-euro"}
             onPress={() => handleButtonPress(Routes.expensesTrend)}
+            backgroundImage={require('@/assets/images/trends.jpg')}
           />
         </View>
       </ScrollView>
     </PageContainer>
   );
 }
-
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 20,
-    justifyContent: 'center',
-  },
-});

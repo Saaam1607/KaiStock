@@ -20,6 +20,8 @@ function randomSale(id: number, year: number, month: number): Sale {
     unit_price: randomInt(0.5, 5),
     uom: 'kg',
     weight: randomInt(0.5, 5),
+    paid: Math.random() < 0.5,
+    delivered: Math.random() < 0.5
   }));
 
   return {

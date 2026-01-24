@@ -60,7 +60,7 @@ export function ProductionItemCard({ product, itemId, remove, clone, quantity, s
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-          <Ionicons name={"images"} size={30} color={color.cardImage} />
+          <Ionicons name={"image-outline"} size={30} color={color.cardImage} />
         </View>
 
         <View style={{ flexDirection: 'column', gap: 10, flex: 1 }}>

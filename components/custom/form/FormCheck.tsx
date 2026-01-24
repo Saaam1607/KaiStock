@@ -5,6 +5,7 @@ import MyText from '../generic/MyText';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import MyCheck from '../generic/MyCheck';
 
 import { useColor } from '@/hooks/use-color';
 
@@ -29,20 +30,7 @@ export function FormCheck({ label, labelOnRight = false, input, oldInput, onInpu
     ]}>
       <MyText style={[styles.label, { color: color.textLighter }]}>{label}</MyText>
       <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-        <Pressable
-          onPress={() => onInputChange(!input)}
-          style={[
-            styles.box,
-            {
-              borderColor: color.inputBorderColor,
-              backgroundColor: input ? color.green : 'transparent',
-            },
-          ]}
-        >
-          {input && (
-            <Ionicons name="checkmark" size={22} color="white" />
-          )}
-        </Pressable>
+        <MyCheck input={input} onInputChange={onInputChange} />
       </View>
       
     </View>   

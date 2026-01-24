@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PageContainer } from '@/components/custom/containers/PageContainer';
-import IconButton from '@/components/custom/IconTextButton';
+import IconTextButton from '@/components/custom/IconTextButton';
 
 export default function Warehouse() {
 
@@ -39,58 +39,45 @@ export default function Warehouse() {
   return (
     <PageContainer>
       <ScrollView contentContainerStyle={{ gap: 20, padding: 20 }}>
-        <View style={styles.buttonContainer}>
-          <IconButton
+        <View style={{ flexDirection: 'row', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <IconTextButton
             text="Articoli"
-            iconName="book"
+            iconName="book-outline"
             onPress={() => handleButtonPress(Routes.products)}
+            backgroundImage={require('@/assets/images/food-product.jpg')}
           />
-          <IconButton
+          <IconTextButton
             text="Produzione"
-            iconName="construct-sharp"
+            iconName="construct-outline"
             onPress={() => handleButtonPress(Routes.productions)}
+            backgroundImage={require('@/assets/images/manufacturing.jpg')}
           />
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <IconButton
+          <IconTextButton
             text="Prenota"
-            iconName="bag-sharp"
+            iconName="bag-outline"
             onPress={() => handleButtonPress(Routes.reservations)}
+            backgroundImage={require('@/assets/images/reservations.jpg')}
           />
-          <IconButton
+          <IconTextButton
             text="Vendite"
-            iconName="bag-check-sharp"
+            iconName="bag-check-outline"
             onPress={() => handleButtonPress(Routes.sales)}
+            backgroundImage={require('@/assets/images/sales.jpg')}
           />
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <IconButton
+          <IconTextButton
             text="Spese"
             iconName="logo-euro"
             onPress={() => handleButtonPress(Routes.expenses)}
+            backgroundImage={require('@/assets/images/expenses.jpg')}
           />
-        </View>
-        <View style={styles.buttonContainer}>
-          <IconButton
+          <IconTextButton
             text="Stocks"
-            iconName="clipboard"
+            iconName="clipboard-outline"
             onPress={() => handleButtonPress(Routes.stocks)}
+            backgroundImage={require('@/assets/images/stocks.jpg')}
           />
         </View>
       </ScrollView>
     </PageContainer>
   );
 }
-
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 20,
-    justifyContent: 'center',
-  },
-});

@@ -29,8 +29,8 @@ export default function UnpaidSales() {
               justifyContent: 'space-between',
               paddingHorizontal: 25,
               paddingVertical: 8,
-              borderRadius: 40,
-              backgroundColor: 'rgba(0, 0, 0, 0.25)',
+              borderRadius: 20,
+              backgroundColor: color.cardBackground,
             }}
             key={sale.id}
           >

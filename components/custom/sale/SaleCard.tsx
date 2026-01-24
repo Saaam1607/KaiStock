@@ -9,7 +9,7 @@ import type { SoldProduct } from '@/types/SoldProduct';
 
 import { useColor } from '@/hooks/use-color';
 
-import { Card, CardDate, CardDescription, CardTitle, CardPerson } from '@/components/custom/containers/Card';
+import { Card, CardDate, CardDescription, CardTitle, CardPerson, CardCheck } from '@/components/custom/containers/Card';
 
 import { getProductFromId } from '@/components/api/productsApi';
 
@@ -80,6 +80,8 @@ export default function SaleCard({ sale, startEditingItem, deleteItem }: SaleCar
                     <MyText style={{ color: color.textLighter }}>Peso: {item.weight} {item.uom}</MyText>
                     <MyText style={{ color: color.textLighter }}>Prezzo unitario: {item.unit_price} €</MyText>
                     <MyText style={{ color: color.textLighter }}>Quantità: {item.quantity}</MyText>
+                    <CardCheck value={item.paid} label={'Pagato'} />
+                    <CardCheck value={item.delivered} label={'Consegnato'} />
                   </View>
                   <MyText style={{ fontWeight: 'bold', color: color.text }}>{item.totalPrice} €</MyText>
                 </View>

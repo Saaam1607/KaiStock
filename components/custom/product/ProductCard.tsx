@@ -49,7 +49,7 @@ export function ProductCard({ product, startEditingItem, deleteItem }: ProductCa
       <View style={styles.cardContent}>
 
         <View style={[styles.cardImage, { backgroundColor: color.cardImageBackground }]}>
-          <Ionicons name="images" size={40} color={color.cardImage} />
+          <Ionicons name="image-outline" size={40} color={color.cardImage} />
         </View>
 
         <View style={styles.cardData}>
@@ -82,12 +82,12 @@ const styles = StyleSheet.create({
   cardContent: {
     flexDirection: 'row',
     zIndex: 1,
-    gap: 10,
+    gap: 20,
   },
   cardImage: {
     width: 90,
     height: 90,
-    borderRadius: 90,
+    borderRadius: 15,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
